@@ -1,0 +1,14 @@
+install:
+	latex report_sem9.tex
+	bibtex report_sem9.aux
+	latex report_sem9.tex
+	latex report_sem9.tex
+	dvipdf report_sem9.dvi
+
+clean:
+	rm *log
+	rm *dvi
+	rm *aux
+	rm *blg
+	rm *bbl     
+     

@@ -1,0 +1,200 @@
+@inproceedings{DBLP:conf/nips/MikolovSCCD13,
+  author    = {Tomas Mikolov and
+               Ilya Sutskever and
+               Kai Chen and
+               Gregory S. Corrado and
+               Jeffrey Dean},
+  title     = {Distributed Representations of Words and Phrases and their Compositionality},
+  booktitle = {Advances in Neural Information Processing Systems 26: 27th Annual
+               Conference on Neural Information Processing Systems 2013. Proceedings
+               of a meeting held December 5-8, 2013, Lake Tahoe, Nevada, United States.},
+  pages     = {3111--3119},
+  year      = {2013},
+  annote={
+The recently introduced continuous Skip-gram model is an efficient method for learning high-quality distributed vector representations that capture a large number of precise syntactic and semantic word relationships. In this paper the authors present several extensions that improve both the quality of the vectors and the training speed. By subsampling of the frequent words we obtain significant speedup and also learn more regular word representations. We also describe a simple alternative to the hierarchical softmax called negative sampling. An inherent limitation of word representations is their indifference to word order and their inability to represent idiomatic phrases. For example, the meanings of “Canada” and “Air” cannot be easily combined to obtain “Air Canada”. Motivated by this example, they present a simple method for finding phrases in text, and show that learning good vector representations for millions of phrases is possible. A very interesting result of this work is that the word vectors can be somewhat meaningfully combined using just simple vector addition. Another approach for learning representations of phrases presented in this paper is to simply represent the phrases with a single token. Combination of these two approaches gives a powerful yet simple way how to represent longer pieces of text, while having minimal computational complexity. 
+}
+}
+@article{journals/corr/abs-1301-3781,
+  added-at = {2013-02-18T00:00:00.000+0100},
+  author = {Mikolov, Tomas and Chen, Kai and Corrado, Greg and Dean, Jeffrey},
+  biburl = {http://www.bibsonomy.org/bibtex/29665b85e8756834ac29fcbd2c6ad0837/dblp},
+  journal = {CoRR},
+  title = {Efficient Estimation of Word Representations in Vector Space},
+  volume = {abs/1301.3781},
+  year = 2013,
+  annote={
+  They propose two novel model architectures for computing continuous vector representations of words from very large data sets. The quality of these representations is measured in a word similarity task, and the results are compared to the previously best performing techniques based on different types of neural networks. They observe large improvements in accuracy at much lower computational cost, i.e. it takes less than a day to learn high quality word vectors from a 1.6 billion words data set. Furthermore, they show that these vectors provide state-of-the-art performance on our test set for measuring syntactic and semantic word similarities.The main goal of this paper is to introduce techniques that can be used for learning high-quality word vectors from huge data sets with billions of words, and with millions of words in the vocabulary. The first proposed architecture is similar to the feedforward NNLM, where the non-linear hidden layer is removed and the projection layer is shared for all words (not just the projection matrix); thus, all words get projected into the same position (their vectors are averaged). They call this architecture a bag-of-words model as the order of words in the history does not influence the projection.\\
+ The second architecture is similar to CBOW, but instead of predicting the current word based on the context, it tries to maximize classification of a word based on another word in the same sentence.
+  }
+}
+
+@inproceedings{conf/emnlp/ZouSCM13,
+  added-at = {2013-11-10T00:00:00.000+0100},
+  author = {Zou, Will Y. and Socher, Richard and Cer, Daniel M. and Manning, Christopher D.},
+  biburl = {http://www.bibsonomy.org/bibtex/2cc802134e6685d56415a43d566380425/dblp},
+  booktitle = {EMNLP},
+  pages = {1393-1398},
+  publisher = {ACL},
+  title = {Bilingual Word Embeddings for Phrase-Based Machine Translation.},
+  year = 2013,
+  annote={
+  They introduce bilingual word embeddings: semantic embeddings associated across two languages in the context of neural language models. They propose a method to learn bilingual embeddings from a large unlabeled corpus, while utilizing MT word alignments to constrain translational equivalence. The new embeddings significantly out-perform baselines in word semantic similarity. A single semantic
+similarity feature induced with bilingual embeddings adds near half a BLEU point to the results of NIST08 Chinese-English machine translation task.  It utilizes counts of Machine Translated alignments derived from Berkeley aligner to initialize monolingual embeddings of another language. They have used the same formulation as \emph{Collobert et al.}(2008) to learn embeddings except that they have used global context information as in \emph{Huang et al.}(2012)\\
+Their objective function captures information of both monolingual embedding and also on translation matrices, also called alignment matrices. They have trained on 100K-vocabulary word embeddings.
+With 500,000 iterations it took 19 days of training on 8-core machine. For phrase similarity in 2 languages, they have averaged out the word embedding vectors corresponding to each word in both phrases and then taken cosine similarity to quantize amount of semantic similarity.
+  }
+}
+@inproceedings{conf/acl/AbendRR10,
+  added-at = {2011-01-18T00:00:00.000+0100},
+  author = {Abend, Omri and Reichart, Roi and Rappoport, Ari},
+  biburl = {http://www.bibsonomy.org/bibtex/25832e654804b93c9f5af8e54f9c27864/dblp},
+  booktitle = {ACL},
+  editor = {Hajic, Jan and Carberry, Sandra and Clark, Stephen},
+  ee = {http://www.aclweb.org/anthology/P10-1132},
+  interhash = {8c3f9627339d72cb36eff1cc8772c0bc},
+  intrahash = {5832e654804b93c9f5af8e54f9c27864},
+  isbn = {978-1-932432-67-1},
+  keywords = {dblp},
+  pages = {1298-1307},
+  publisher = {The Association for Computer Linguistics},
+  timestamp = {2011-01-18T00:00:00.000+0100},
+  title = {Improved Unsupervised POS Induction through Prototype Discovery.},
+  url = {http://dblp.uni-trier.de/db/conf/acl/acl2010.html#AbendRR10},
+  year = 2010,
+  annote={
+In this work, the authors present a novel fully unsupervised algorithm for POS induction from plain text. This is inspired by cognitive notion of prototypes. Prototype theory is a mode of graded categorization in cognitive science, where some members of a category are more central than others.\\
+This algorithm first identifies landmark cluster of words, which are essentially the prototypes, and then maps rest of the words to these clusters. The work is evaluated on English and German where authors utilize morphological and distributional representations computed in fully unsupervised manner.\\
+Central members define the category. The algorithm is as follows:\\
+1) First cluster words based on fine morphological representation.\\
+2) Cluster most frequent words, define landmark clusters.\\
+3) Maps the rest of the words to these clusters.\\
+For distributional representation, left and right context is taken into account and then scores are defined on this basis.\\
+For clustering, they use average-link clustering. The comparison is done with a tagged corpus. The measures used to evaluate the model are mapping-based measures(many-to-one and one-to-one) and information theoretic measure(these are based on the observation that a good clustering reduces the uncertainty of the gold tag given the induced cluster, and vice-versa).\\
+The authors say that punctuation marks are very frequent in corpora and are easy to cluster. As a result, including them in the evaluation greatly inflates the scores. For English the model was trained on 39832 sentences from section 2-21 of PTB-WSJ AND ON 500K sentences from NYT section of NANC newswire corpus. There are 45 clusters in this annotation scheme, 34 of which are not punctuation.\\
+They used k=14 and k=34 for running the algorithm.
+
+\newpage
+}
+}
+@inproceedings{Lamar:2010:SCU:1858842.1858882,
+ author = {Lamar, Michael and Maron, Yariv and Johnson, Mark and Bienenstock, Elie},
+ title = {SVD and Clustering for Unsupervised POS Tagging},
+ booktitle = {Proceedings of the ACL 2010 Conference Short Papers},
+ series = {ACLShort '10},
+ year = {2010},
+ location = {Uppsala, Sweden},
+ pages = {215--219},
+ numpages = {5},
+ url = {http://dl.acm.org/citation.cfm?id=1858842.1858882},
+ acmid = {1858882},
+ publisher = {Association for Computational Linguistics},
+ address = {Stroudsburg, PA, USA},
+ annote={
+\textbf{Abstract}\\
+They revisit the algorithm of Schutze(1995) for unsupervised part-of-speech tagging. The algorithm uses reduced-rank singular value decomposition followed by clustering to extract latent features from context distributions. As implemented here, it achieves state-of-the-art tagging accuracy at considerably less cost than more recent methods. It can also produce a range of finer-grained taggings, with potential applications to various tasks.\\\\
+\textbf{Method}\\
+The new SVD-based approach also termed as "two-step SVD" or"SVD2" has four important characteristics. First, it achieves state-of-the-art tagging accuracy. Second, it requires drastically less computational effort than the best currently available models. Third, it demonstrates that state-of-the-art accuracy can be realized without disambiguation, i.e., without attempting to assign different tags to different tokens of the same type. Finally, with no significant increase in computational cost, SVD2 can create much finer-grained labellings than typically produced by other algorithms.\\
+The authors construct a left and a right context matrix to take into account the successor and predecessor of a given token. They take top 1000 most frequent words in the matrices. SVD2 is used to create descriptors and then k-means clustering is used to create groups.\\\\
+\textbf{Data and Results}\\
+Full Wall Street Journal part of the Penn Treebank(1,173,766 tokens) was used and capitalization was ignored. Evaluation was done against the POS-tag annotations of the 45-tag PTB tagset and against Smith and Eisner coarse version of the PTB tagset. Three evaluation criteria of Gao and Johnson(2008): M-to-1, 1-to-1 and VI were used.\\
+The performance of SVD2 compares favorably to the HMM models. With $k_2=45$, SVD scores 0.659 in accuracy on PTB45.
+\newpage
+}
+}
+ 
+@INPROCEEDINGS{Turian10wordrepresentations:,
+    author = {Joseph Turian and Département D’informatique Et and Recherche Opérationnelle (diro and Université De Montréal and Lev Ratinov and Yoshua Bengio},
+    title = {Word representations: A simple and general method for semi-supervised learning},
+    booktitle = {In ACL},
+    year = {2010},
+    pages = {384--394},
+    annote={
+In this work, authors have tried to improve existing systems for NER and Chunking by inserting unsupervised word representations as extra word features into them. They have evaluated Brown clusters, Collobert and Weston (2008) embeddings, and HLBL embeddings(Mnih \& Hinton, 2009). They have also tried with various combinations of word representations.\\
+The goal of the work is to learn word features. They have classified word representations into Distributional, Cluster-based and  Distributed.\\
+Distributional word representations are based upon a co-occurrence matrix $F$ of size $W\times C$, where $W$ is the vocabulary size, each row $F_w$ is the initial representation of word $w$, and each column $F_c$ is some context. Here, context types can be left window, right window, or size of window and frequency count can be raw, binary, or tf-idf. LSA and LDA are based on this model of word representation.\\
+Clustering-based word representations induce a clustering over words. \\Brown algorithm, which is a hierarchical clustering algorithm, clusters words to maximize information of bigrams. In hierarchical clustering, we can choose the word class at several levels in the hierarchy, which can compensate for poor clusters of a small number of words.\\
+A distributed representation is dense, low-dimensional, and real-valued. Distributed word representations are called word embeddings.
+Each dimension of the embedding corresponds to a latent feature of the word. These are typically induced using neural language models.
+Collobert and Weston (2008) and HLBL embeddings are based on this model.\\
+The authors have used unsupervised data for inducing word representations. They have classified word representations as a mathematical object associated with each word, often a vector.\\
+They have followed conditions in the CoNLL-2000 shared task for chunking (Sang \& Buchholz, 2000) for chunking. They have used CRFsuite by Naoaki Okazaki. The data for chunking is from Penn Treebank, and is newswire from Wall Street Journal in 1989. For NER, they have used regularized average perceptron model. The standard evaluation benchmark for NER is the CoNLL03 shared task dataset drawn from the Reuters newswire.\\
+The authors compare to the state-of-the-art methods of Ando and Zhang (2005), Suzuki and Isozaki (2008), and for NER—Lin and Wu (2009).\\
+Brown clusters perform best for both NER and chunking. Also mixture of two models give quite good result as expected. C\&W embeddings outperform the HLBL embeddings.
+\newpage
+}
+}
+
+@INPROCEEDINGS{Huang12improvingword,
+    author = {Eric H. Huang and Richard Socher and Christopher D. Manning and Andrew Y. Ng},
+    title = {Improving word representations via global context and multiple word prototypes},
+    booktitle = {In Proc. of the Annual Meeting of the Association for Computational Linguistics (ACL},
+    year = {2012},
+    annote={
+\textbf{Abstract}\\
+Unsupervised word representations are very useful in NLP tasks both as inputs to learning algorithms and as extra word features in NLP
+systems. However, most of these models are built with only local context and one representation per word. This is problematic because
+words are often polysemous and global context can also provide useful information for learning word meanings. The authors present a new neural network architecture which 1) learns word embeddings that better capture the semantics of words by incorporating both local and global document context, and 2) accounts for homonymy and polysemy by learning multiple embeddings per word. The authors introduce a new dataset with human judgments on pairs of words in sentential context, and evaluate our model on it, showing that their model outperforms competitive baselines and other neural language models.\\\\
+\textbf{Data and Results}\\
+the authors evaluate their model on the standard WordSim-353 dataset that includes human similarity judgments on pairs of words, showing that combining both local and global context outperforms using only local or global context alone, and is competitive with state-of-the-art methods.\\
+By utilizing global context, this model outperforms C\&W’s vectors and certain baselines on this dataset. With multiple representations per word, the authors show that the multi-prototype approach can improve over the single-prototype version without using context. Moreover, using AvgSimC4 which takes contexts into account, the multi-prototype model obtains the best performance.
+}
+}
+
+@article{DBLP:journals/corr/abs-1003-1141,
+  author    = {Peter D. Turney and
+               Patrick Pantel},
+  title     = {From Frequency to Meaning: Vector Space Models of Semantics},
+  journal   = {CoRR},
+  volume    = {abs/1003.1141},
+  year      = {2010},
+  annote={
+\textbf{Abstract}\\
+Computers understand very little of the meaning of human language. This profoundly limits our ability to give instructions to computers, the ability of computers to explain their actions to us, and the ability of computers to analyse and process text. Vector space models (VSMs) of semantics are beginning to address these limits. This paper surveys the use of VSMs for semantic processing of text. The authors organize the literature on VSMs according to the structure of the matrix in a VSM. There are currently three broad classes of VSMs, based on term-document, word-context, and pair-pattern matrices, yielding three classes of applications. The authors survey a broad range of applications in these three categories and we take a detailed look at a specific open source project in each category. The goal in this survey is to show the breadth of applications of VSMs for semantics, to provide a new perspective on VSMs for those who are already familiar with the area, and to provide pointers into the literature for those who are less familiar with the field.
+\newpage
+}
+}
+@article{DBLP:journals/corr/abs-1103-0398,
+  author    = {Ronan Collobert and
+               Jason Weston and
+               L{\'e}on Bottou and
+               Michael Karlen and
+               Koray Kavukcuoglu and
+               Pavel P. Kuksa},
+  title     = {Natural Language Processing (almost) from Scratch},
+  journal   = {CoRR},
+  volume    = {abs/1103.0398},
+  year      = {2011},
+  annote={
+\textbf{Abstract}\\
+This paper proposes a unified neural network architecture and learning algorithm that can be applied to various natural language processing tasks including: part-of-speech tagging, chunking, named entity recognition, and semantic role labeling, achieving or exceeding state-of-the-art performance in each on four benchmark tasks. Our goal was to design a flexible architecture that can
+learn representations useful for the tasks, thus avoiding excessive task-specific feature engineering (and therefore disregarding a lot of prior knowledge). Instead of exploiting man-made input features carefully optimized for each task, the system learns
+internal representations on the basis of vast amounts of mostly unlabeled training data. This work is then used as a basis for building a freely available tagging system with excellent performance while requiring minimal computational resources.
+}
+}
+
+@Inbook{W14-1618,
+author="Levy, Omer
+and Goldberg, Yoav",
+chapter="Linguistic Regularities in Sparse and Explicit Word Representations",
+title="Proceedings of the Eighteenth Conference on Computational Natural Language Learning",
+year="2014",
+publisher="Association for Computational Linguistics",
+pages="171--180",
+location="Ann Arbor, Michigan",
+url="http://aclweb.org/anthology/W14-1618",
+annote={
+\textbf{Abstract}\\
+Recent work has shown that neural-embedded word representations capture many relational similarities, which can be recovered by means of vector arithmetic in the embedded space. We show that Mikolov et al.’s method of first adding and subtracting word vectors, and then searching for a word similar to the result, is equivalent to searching for a word that maximizes a linear combination of three pairwise word similarities. Based on this observation, we suggest an improved method of recovering relational similarities, improving the state-of-the-art results on two recent word-analogy datasets.
+Moreover, we demonstrate that analogy recovery is not restricted to neural word embeddings, and that a similar amount of relational similarities can be recovered from traditional distributional word representations.\\
+The movement of the input
+vector of wI is determined by the prediction error of all vectors in the vocabulary; the larger the prediction error, the more significant effects a word will exert on the movement.
+This may be the explanation of why this model may obtain “king” - “queen” = “man” - “woman”. Imagine the word “king” being dragged around by different forces from the words it intimately co-occurs with; it may end up at a stabilized position determined by its most frequently co-occurring words. Because we see these word pairs so many times, these top-frequent neighbors will dominate the movements of the target word.\\
+They chose to use use the popular positive pointwise mutual information(PPMI) metric:\\
+$ S_{ij}=PPMI(w_i,c_j) $\\
+$ PPMI(w,c)=0 $  $ PMI(w,c)<0 $\\
+$ = PMI(w,c) $  otherwise\\
+$ PMI(w,c)=\log{\frac{P(w,c)}{P(w)P(c)}} = \log{\frac{freq(w,c)|corpus|}{freq(w)freq(c)}}$\\
+where $|corpus|$ is the number of items in the corpus, $freq(w, c)$ is the number of times word $w$ appeared in context $c$ in the corpus, and $freq(w)$, $freq(c)$ are the corpus frequencies of the word and the context respectively.
+}
+}
+}
