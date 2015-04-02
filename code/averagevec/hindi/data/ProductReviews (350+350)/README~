@@ -1,0 +1,44 @@
+Readme File for the Hindi Product Reviews version 1.0
+
+Purpose:
+--------
+The Hindi Product Reviews version 1.0, copyright IIIT Hyderabad, has been developed for the purpose of
+facilitating Natural Language Processing applications.
+
+
+Contents:
+---------
+This Compressed file contains
+1. README
+2. Positive.txt
+3. Negative.txt
+
+
+Information:
+------------
+PositiveReviews.txt and NegativeReviews.txt contain one review per line. These Reviews are translated from English
+and translation is validated manually.
+
+Please CITE the following papers:
+1. Hindi Subjective Lexicon : A Lexical Resource for Hindi Polarity Classification
+    by Akshat Bakliwal, Piyush Arora and Vasudeva Varma
+    at LREC 2012, Istanbul, Turkey
+2. Hindi Subjective Lexicon Generation using WordNet Graph Traversal
+   by Akshat Bakliwal, Piyush Arora and Vasudeva Varma
+   at CICLing 2012, New Delhi, India.
+3. Biographies, bollywood, boomboxes and blenders: Domain adaptation for sentiment classiﬁcation.
+   by J. Blitzer, M. Dredze, and F. Pereira.
+   at ACL, 2007.
+
+
+
+DEVELOPED AT:
+-------------
+Search and Information Extraction Lab (SIEL),
+Language Technology Research Center (LTRC),
+IIIT Hyderabad,
+Gachibowli, Hyderabad. 500032.
+
+Send bug-reports, etc to:
+akshat.bakliwal[at]research.iiit.ac.in,   
+piyush.arora[at]research.iiit.ac.in
