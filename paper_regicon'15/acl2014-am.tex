@@ -1,0 +1,181 @@
+\def\DevnagVersion{2.15}====START BIB:
+
+[I can't find some papers - e.g. Liu etal 2012]
+
+@article{johnson-zhang-14_word-order-for-text-categorization-w-CNN,
+  title={Effective Use of Word Order for Text Categorization with Convolutional Neural Networks},
+  author={Johnson, Rie and Zhang, Tong},
+  journal={arXiv preprint arXiv:1412.1058},
+  year={2014},
+}
+
+@article{mikolov-le-Q-13_exploiting-lg-similarity-for-translation,
+  title={Exploiting similarities among languages for machine translation},
+  author={Mikolov, Tomas and Le, Quoc V and Sutskever, Ilya},
+  journal={arXiv preprint arXiv:1309.4168},
+  year={2013},
+  annote = {
+}}
+
+@article{pennington-socher-14_glove-global-vectors-for-word-representation,
+  title={Glove: Global vectors for word representation},
+  author={Pennington, Jeffrey and Socher, Richard and Manning, Christopher D},
+  journal={Proceedings of the Empiricial Methods in Natural Language Processing (EMNLP 2014)},
+  volume={12},
+  year={2014},
+}
+
+@article{landauer-laham-foltz-03_automated-scoring-of-essays-LSA,
+  title={Automated scoring and annotation of essays with the Intelligent Essay Assessor},
+  author={Landauer, Thomas K and Laham, Darrell and Foltz, Peter W},
+  journal={Automated essay scoring: A cross-disciplinary perspective},
+  pages={87--112},
+  year={2003},
+  annote = {
+}}
+
+@inproceedings{huang-socher-manning-ngA-12acl-word-meaning-global-context-multi-VSM,
+author = {Eric H. Huang and Richard Socher and Christopher D. Manning and Andrew Y. Ng},
+title = {{Improving Word Representations via Global Context and Multiple Word Prototypes}},
+booktitle = {Annual Meeting of the Association for Computational Linguistics
+(ACL)},
+year = 2012,
+annote = {
+}}
+
+@inproceedings{turian-ratinov-bengio-10_word-representations-semi-supervised,
+  title={Word representations: a simple and general method for semi-supervised learning},
+  author={Turian, Joseph and Ratinov, Lev and Bengio, Yoshua},
+  booktitle={Proceedings of the 48th Annual Meeting of the Association for Computational Linguistics},
+  pages={384--394},
+  year={2010},
+}
+
+@Article{ landauer-dumais-97-psycRev_platos-problem-LSA,
+  author =      { Thomas K. Landauer and Susan T. Dumais },
+  title =       { A solution to Plato's problem: The latent semantic analysis theory of the acquisition, induction, and representation of knowledge },
+  journal =     { Psychological Review },
+  year =          1997,
+  month =
+  volume =        104,
+  number =        2,
+  pages =       { 211-240 },
+  institution = { University of Colorado at Boulder / Bellcore },
+  annote =      {
+}}
+
+@book{matilal-90_word-and-world,
+  title={The word and the world: India's contribution to the study of language},
+  author={Matilal, Bimal Krishna},
+  year={1990},
+  publisher={Oxford University Press, USA},
+  annote = {
+}}
+
+===END BIB
+
+\documentclass[11pt]{article}
+\usepackage{acl2014}
+\usepackage{times}
+\usepackage{url}
+\usepackage{latexsym}
+\usepackage{devanagari}
+\usepackage{graphicx,subfigure}
+\usepackage{float}
+\usepackage{pdfpages}
+
+%\setlength\titlebox{5cm}
+
+\title{Word vector models for Hindi: An evaluation with Sentiment Analysis}
+
+\author{Pranjal Singh \\
+  Dept. of Computer Science \& Engg. \\
+  IIT Kanpur \\
+  {\tt spranjal@iitk.ac.in} \\\And
+  Amitabha Mukerjee \\
+  Dept. of Computer Science \& Engg. \\
+  IIT Kanpur \\
+  {\tt amit@cse.iitk.ac.in} \\}
+
+\date{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+
+In recent years, distributional compositional semantics or word vector models
+have been proposed to capture both the syntactic and semantic similarity
+between words.  Since these can be obtained ni an unsupervised manner, they
+are of interest for under-resourced languages such as Hindi.  We test the
+efficacy of such an approach for Hindi, first by a subjective overview which
+shows that a reasonable measure of word similarity seems to be captured in
+the model.  We then apply it to the standard problem of sentiment analysis,
+for which several small database exist in Hindi.  This requires some
+mechanism for dealing modelling larger strings given the vectors for its
+words, and several methods - additive, multiplicative, or tensor neural
+models, have been proposed.  Here we find that the simplest - an additive
+average, results in an accuracy of 91.1\% for an existing product review
+dataset and and 89.9\% for a Hindi movie review dataset; both numbers are
+nearly 10\% higher than earlier state of the art.  The results suggest that
+at the very least, it would be important to explore further with such methods
+for other applications.
+ 
+\end{abstract}
+
+
+\section{Introduction}
+
+Over a period of nearly a millenium, there was an extensive debate between
+Indian grammarians on whether sentence meaning accrues by combining word
+meanings, or whether words gain their meanings based on the context they
+appear in~\cite{matilal-90_word-and-world}.  The former position, that
+meaning is {\em compositional}, has been associated with the fregean
+enterprise of semantics, whereas recent models, building on large corpora of
+text (and associated multimedia) a large degree of success has accrued to
+models that attempt to model word meaning based on their linguistic context
+(e.g. ~\cite{landauer-dumais-97-psycRev_platos-problem-LSA).  The latter line
+has resulted in strong improvements in several NLP tasks using word
+vectors~\cite{Collobert et al.(2008), turian-ratinov-bengio-10_word-representations-semi-supervised,Mikolov:13,
+socher-perelygin-13-emnlp_recursive-deep-models-on-sentiment-treebank}. 
+The advantage of these approaches is that they can capture both the syntactic
+and the semantic similarity between words in terms of their projections onto
+a high-dimensional vector space; further, it seems that one can tune the
+privileging of syntax over semantics by using local as opposed to large contexts~\cite{huang-socher-manning-ngA-12acl-word-meaning-global-context-multi-VSM}. 
+
+For resource-poor languages, these approaches have the added lure
+that many of these methods can work directly with large raw text corpora,
+and avoid contentious issues such as decicing on a POS-tagset, or expensive
+human annotated resources such as treebanks.  For Indian languages therefore,
+it would be natural to seek to apply such methods.  At the same time, it must
+be noted that many approaches combine POS-tags and even parse tree structures
+into the models for higher accuracies in specific tasks. 
+
+Vector models for individual words are obtained via distributional learning, the
+mechanisms for which varies from document-term
+matrix factorization~\cite{landauer-dumais-97-psycRev_platos-problem-LSA},
+various forms of deep learning~\cite{Collobert et al.(2008),
+turian-ratinov-bengio-10_word-representations-semi-supervised,socher-perelygin-13-emnlp_recursive-deep-models-on-sentiment-treebank}, 
+optimizing models to explain co-occurrence constraints
+~\cite{Mikolov:13,pennington-socher-14_glove-global-vectors-for-word-representation},
+etc.   Once the word vectors have been assigned, similarity between words can
+be captured via cosine distances. 
+
+One difficulty with this approach is that how words should be
+combined into larger phrases is not clear.  In past work,
+inverse-similarity weighted averaging appears
+to work to some extent even for complex tasks such as essay grading~\cite{landauer-laham-foltz-03_automated-scoring-of-essays-LSA},
+but multiplicative models (based on a reducing the tensor products of the
+vectors) appears to correlate better with human
+judgements~\cite{Mitchell:08,socher-perelygin-13-emnlp_recursive-deep-models-on-sentiment-treebank}.
+Another complexity in composition is that composing words across phrasal
+boundaries are less meaningful than composing them within a phrase - this has
+led to models that evaluate the nodes of a parse tree, so that only coherent
+phrases are
+evaluated~\cite{socher-perelygin-13-emnlp_recursive-deep-models-on-sentiment-treebank}. 
+
+\subsection{Sentiment Analysis}
+
+In order to evaluate the efficacy of the model, we apply it to the task of
+sentiment analysis.
+Here the problem is that of identifying the polarity of sentences such as 
+\begin{itemize}
