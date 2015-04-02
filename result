@@ -1,0 +1,67 @@
+random forest: 280 trees
+
+84.14
+
+svm: linear (300 context;min count=20)
+
+87.05
+
+Naive Bayes
+
+75.95
+
+merged with Wiki trained(200 dim wiki trained)-svm
+
+87.56
+
+Logistic Regression with l1 penalty
+86.90
+
+k-nn:20
+76.76
+---------------------------------------------------------------------
+
+Hindi
+
+
+78.0% 50-fold cross validation (350+350 product review;context = 5 downsampling = 1e-5 word_count=1)
+
+79.62% 20-fold cross validation (iitb movie review;context = 5 downsampling = 1e-5 word_count=1,feature=300) better than paper : a fall-back strategy
+
+
+Merged word vectors with tf-idf
+------------------
+89.52% 20-fold cross validation (iitb movie review;context = 6 downsampling = 1e-3 word_count=1,feature=500) better than paper : a fall-back strategy
+
+90.86% 20-fold cross validation (350+350 product review;context = 6 downsampling = 1e-3 word_count=1)
+
+
+with stop words removed(vectorizer = TfidfVectorizer(tokenizer=tokenize,use_idf=True,max_df=0.3,min_df=0.0001,strip_accents='unicode'))
+------------------------
+
+89.97% 20-fold cross validation (iitb movie review;context = 6 downsampling = 1e-3 word_count=1,feature=500) better than paper : a fall-back strategy
+91.14% 20-fold cross validation (350+350 product review;context = 6 downsampling = 1e-3 word_count=1)
+
+-----
+
+
+tf-idf+BOW results
+------------------------------------------------------------
+with pos+neg together idf includes tf-idf features
+89.71 : IIIT
+85.90 : IITB
+
+with separate idf_scores includes tf-idf features
+93.71: IIIT
+90.13: IITB 600 features
+
+
+wihtout tf-idf features: pure weighted pos+neg separate average
+92.86: IIIT
+88.17: IITB  600 features
+---------------------------------------------------------------
+
+parsed amazon dataset
+
+Weighted Average Word Vectors
+88.54: MP3  1000 features context=5
