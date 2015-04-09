@@ -1,0 +1,114 @@
+\chapter{Results}
+\section{Results}
+\begin {table}[h!]
+\centering
+\begin{tabular}{ | c | c | }
+\hline
+\textbf{Features} & \textbf{Accuracy} \\ \hline
+Dredze et al.(2008) & 85.90\\ \hline
+Max Entropy & 83.79\\ \hline
+WordVector Averaging (Our Method) & \textbf{89.23}\\ \hline
+\end{tabular}
+\caption {Results on Amazon Electronics Review Dataset}
+\end{table}
+
+\begin {table}[h!]
+\centering
+\begin{tabular}{ | c | c | }
+\hline
+\textbf{Features} & \textbf{Accuracy} \\ \hline
+Maas et al.(2011) & 88.89\\ \hline
+Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
+WordVector Averaging+Wiki (Our Method) & 87.56\\ \hline
+\end{tabular}
+\caption {Results on IMDB Movie Review Dataset}
+\end{table}
+
+Table 2 represents the results using three different techniques for feature set construction.
+%We see that there is a slight improvement in accuracy on both datasets once we remove stop-words.
+\begin {table}[h!]
+\centering
+\begin{tabular}{ | c | c | c | }
+\hline
+\textbf{Features} & \textbf{Accuracy(1)} & \textbf{Accuracy(2)} \\ \hline
+WordVector Averaging & 78.0 & 79.62\\ \hline
+WordVector+tf-idf & 90.73 & 89.52\\ \hline
+WordVector+tf-idf without stop words & \textbf{91.14} & \textbf{89.97}\\ \hline
+\end{tabular}
+\caption {Accuracies for Product Review and Movie Review Datasets.}
+\end{table}
+
+Table 3 and 4 compares our best method with various other methods which have performed well using techniques such as \emph{tf-idf}, subjective lexicon, etc.
+
+\begin {table}[h!]
+\centering
+\begin{tabular}{ | c | c | c | }
+\hline
+\textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
+Word Vector with SVM (Our method) & tf-idf with word vector & \textbf{91.14}\\ \hline
+Subjective Lexicon (Bakliwal et al.(2012)) & Simple Scoring & 79.03\\ \hline
+Hindi-SWN Baseline (Arora et al.(2013)) & Adjective and Adverb presence & 69.30\\ \hline
+\end{tabular}
+\caption {Comparison of Approaches: Product Review Dataset}
+\end{table}
+
+
+\begin {table}[h!]
+\centering
+\begin{tabular}{ | c | c | c | }
+\hline
+\textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
+WordVector Averaging & word vector & 78.0\\ \hline
+Word Vector with SVM (Our method) & tf-idf; word vector & \textbf{89.97}\\ \hline
+In language using SVM (Joshi et al.(2010)) & tf-idf & 78.14\\ \hline
+MT Based using SVM (Joshi et al.(2010)) & tf-idf & 65.96\\ \hline
+Improved Hindi-SWN  (Bakliwal et al.(2012)) & Adj. and Adv. presence & 79.0\\ \hline
+\end{tabular}
+\caption {Comparison of Approaches: Movie Review Dataset}
+\end{table}
+
+Table 5 shows the top few similar words for certain words from the corpus with cosine similarity as a distance metric. 
+The words which have higher cosine similarity tend to be semantically and syntactically related.
+\begin {table}[H]
+\small
+\begin{tabular}{ | l | l | l | }
+\hline
+\textbf{{\dn aQCA}} & \textbf{{\dn{KrAb}}} & \textbf{{\dn ByAnk}} \\ \hline
+{\dn b\7{h}t} & {\dn EnrAsAjnk} & {\dn By\306wkr}\\ \hline
+{\dn \7{s}pr} & {\dn kM)or} & {\dn BFqZ}\\ \hline
+{\dn k\?vl} & {\dn nA\7{)}k} & {\dn ByAvh}\\ \hline
+{\dn itnA} & {\dn bdtr} & {\dn avsAd}\\ \hline
+\end{tabular}
+\caption {Some sentiment words and their neighbors}
+\end{table}
+
+	\section{Inference}
+		In this work we present an early experiment on the possibilities of distributional semantic models (word vectors) for low-resource, highly inflected languages such as Hindi.  What is interesting is that our word vector averaging method along with tf-idf results in improvements of accuracy compared to existing state-of-the art methods for sentiment analysis in Hindi (from 80.2\% to 89.9\%).
+Distributional semantics approaches remain relatively under-explored for Indian languages, and our results suggest that there may be substantial benefits to exploring these approaches for Indian languages.  While this work has focussed on sentiment classification, it may also improve a range of tasks from verbal analogy tests to ontology learning, as has been reported for other languages.
+In our future work, we seek to explore various compositional models - a) weighted average - where weights are determined based on cosine distances in vector space;  b) multiplicational models. Another aspect we are considering is to incorporate multiple word vectors for the same surface token in cases of polysemy - this would directly be useful for word sense disambiguation.  Identifying morphological variants would be another direction to explore for better accuracy. With regard to sentiment analysis, the idea of aspect-based models (or part-based sentiment analysis), which looks into constituents in a document and classify their sentiment polarity separately, remains to be explored in Hindi. Another point to note is that we are re-computing the word vectors
+for the two review corpora, which are extremely small.  We may expect better performance  with a larger sentiment corpus.
+%?? perhaps ASPECT requires parsing? 
+
+We also observe that pruning high-frequency stop words improves the accuracy by around 0.45\%. This is most likely  because such words tend to occur in most of the documents and don't contribute to sentiment.  Similarly, words with very low frequency are noisy and can be pruned. For example, the word {\dn EPSm} occurs in 139/252 documents in Movie Review Dataset(55.16\%) and has little effect on sentiment.
+Similarly words such as {\dn Es\388wAT\0} occur in 2/252 documents in Movie Review Dataset(0.79\%). These words don't provide much information.\\ 
+
+Before concludiong, we return to the unexpectedly high improvement in accuracy achieved. One possibility we considered is that when the skip-grams are learned from the entire review corpus, it incorporates some knowledge of the test data.  But this seems unlikely since the difference in including this vs not including it, is not too significant.  The best explanation may be that the earlier methods, which were all in some sense based on a sentiWordnet, and at that one that was initially translated from English, were essentially very weak.  This is also clear in an analysis from
+~\cite{Bakliwal:12}, which shows intern-annotator agreement on sentiment words are very poor (70\%) - i.e. about 30\% of these words have poor human agreement. Compared to this, the word vector model  
+provides considerable power, especially as amplified by the tf-idf process. Thus, this also seems to underline the claim that distributional semantics is a topic worth exploring for Indian languages. 
+
+	\section{Improvements}
+		This recommendation system has been built more as a \emph{proof of concept} than a competitive tool. A lot of things may enhance the performance the results of the recommendation and to make it even more accurate. Some of them have been discussed below.
+
+ \begin{itemize}
+ 	\item Million Song Dataset: The global dictionary of songs has been restricted to 1,000,000 and recommendations are made from this dataset only. Adding more songs, will improve the quality of recommendations.
+ 	\item User History: There is a certain amount of loss while fetching the user history and cleaning it up. It corrupts the determined ``mood'' of the user. Using a cleaner method and a reliable source of history should be able to tackle this matter.
+ 	\item Users: Currently, the set of users being used for collaborative filtering is not only limited but also very random and does not encompass the different moods and interests of music listeners.
+ 	\item MFCC: There are several other parameters as obtained from the MFCC analysis of a song. These included appropriately in the computation would significantly bring out better results.
+ 	\item Feedback: If a user skips a certain song, the recommendation engine should learn not to present her with the song anytime soon again. The weights for each parameters can be dynamically changed as per the user feedback using machine learning techniques.
+ \end{itemize} 
+	
+	\section{Summary}
+\begin{itemize}
+	\item Mood: This plays a very significant role in the process of recommendation and has not been very widely tapped. The type of songs a user has been listening to tells a great deal about her current mood and proves to be prominent factor in determining the songs she might want to hear next.
+	\item Popularity: This parameter has been gaining importance as new artists come up with various types of songs, which are hard to categorize and thus to be recommended. Including popularity gives a way to recommend any trending song even if it does not match the user's preferences.
+\end{itemize}

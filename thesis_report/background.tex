@@ -1,0 +1,67 @@
+\chapter{Background}
+	The algorithms and data structures used in this thesis have been introduced and discussed below.
+	\section{Word-Vectors by using Skip-Gram}
+	\label{sec:skipgram}
+Mikolov et al. (2013b) proposed two neural network models for building word
+vectors from large unlabelled corpora; Continuous Bag of Words(CBOW) and
+Skip-Gram.  In the 
+CBOW model, the context is the input, and one tries to learn a vector
+for the central word; in Skip grams, the 
+input is the target word and one tries to guess the set of
+contexts.  The Skip gram was found to 
+perform better on smaller corpora, and
+here we have focused on this model for building our word vectors. 
+The model uses each current word as an input to a log-linear
+classifier with continuous projection layer, and predict words within a
+certain range before and after the current word. The objective is to maximize
+the probability of the context given a word within a language model:
+
+\begin{center} $p(c|w;\theta)=\frac{\exp^{v_c.v_w}}{\sum_{c' \in C}\exp^{v_c.v_w}}$ \end{center}
+where $v_c$ and $v_w$ $\in$ $R^d$ are vector representations for context $c$ and word $w$ respectively. $C$ is the set of all available contexts. The parameters $\theta$ are $v_ci$, $v_wi$ for $w \in V$, $c \in C$, $i \in 1,....,d$ (a total of $|C| \times |V| \times d$ parameters).\\
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=70mm, height=70mm]{skipgram.eps}
+\caption{Skip Gram Model(Figure from Rong (2014)) \label{fig:skipgram}}
+\end{figure}
+
+%\subsection{tf-idf}
+%Let $D=d_1, d_2, d_3....d_N$ be $N$ documents under study and $T=t_1, t_2, t_3,....t_M$ be the $M$ unique terms in these documents, then each document can be represented as a $M$-dimensional vector:\\
+%$t_d=\{tf_1,tf_2,tf_3,...tf_M\}$\\
+%$tf-idf$ weights discounts the frequency of terms based on their importance to a particular document in the entire document set collection under consideration. This is done as follows:
+%\begin{center}
+%$tfidf(d,t)=tf(d,t) \times \log(\frac{|D|}{df(t)})$ 
+%\end{center}
+%Here $df(t)$ is the number of documents in which term $t$ appears.
+
+\subsection{Vector Averaging for phrases}
+	\label{sec:vectoraveraging}
+As an output of the word vector learning, we now have a $n$-dimensional
+vector representation for each word in the Hindi corpus.  Now we need to
+assign features for sentences and paragraphs taken from the sentiment dataset
+(training and test).  Mikolov et al. (2013b) and Levy et al. (2014) show that
+many relational similarities can be recovered by means of vector arithmetic
+in the embedded space.  Thus, additive models are useful, though
+others have claimed that multiplicative models correlate better with human
+judgments~\cite{Mitchell:08,Socher:13}.  In this work, we have retained teh
+simplicity of vector averaging to model larger chunks of  discourse.
+This models the sentence/document in the same high dimensional space.
+
+A preprocessing step involved removing some words that appear at very high or
+very low frequencies in the corpus.  
+Our model was trained on the Hindi Wikipedia dump to create vector
+representations for words. The previous two vectors were concatenated to
+create another feature set for training purpose.  
+%?? SIZE of wikipedia corpus, number of independent words etc. 
+
+\underline{\emph{Algorithm}}
+\begin{enumerate}
+%\setlength{\itemsep}{0.5pt}
+\item Input the Hindi text corpus
+\item Train skip-gram model to obtain word vector representation
+\item Given a sentiment training set, obtain average vector data for each sentence/document
+\item Obtain tf-idf vector for each sentence/document in the corpus
+\item Concatenate vectors of step 3 and step 4 to obtain a feature set for a training instance
+\item Train linear SVM with $m$-fold cross validation to create a classifier
+(here $m$=20)
+\end{enumerate}
