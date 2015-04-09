@@ -1,0 +1,123 @@
+% prelude.tex
+%   - titlepage
+%   - dedication (optional)
+%   - approval sheet
+%   - course certificate
+%   - table of contents, list of tables and list of figures
+%   - nomenclature
+%   - abstract
+%============================================================================
+
+
+\clearpage\pagenumbering{roman}  % This makes the page numbers Roman (i, ii, etc)
+
+
+
+% TITLE PAGE
+%   - define \title{} \author{} \date{}
+\title{Functional SMT solving: A new interface for programmers}
+\author{Siddharth Agarwal}
+\date{June, 2012}
+
+%  - Roll number, required for title page, approval sheet, and
+%    certificate of course work 
+\rollnum{Y7027429} 
+
+%   - The default degree is ``Doctor of Philosophy''
+%     (unless the document style msthesis is specified
+%      and then the default degree is ``Master of Science'')
+%     Degree can be changed using the command \iitbdegree{}
+\iitbdegree{Master of Technology}
+
+%   - The default report type is preliminary report.
+%      * for a PhD thesis, specify \thesis
+\thesis
+%      * for a M.Tech./M.Phil./M.Des./M.S. dissertation, specify \dissertation
+%\dissertation
+%      * for a DIIT/B.Tech./M.Sc.project report, specify \project
+%\project
+%      * for any other type, use  \reporttype{}
+%\reporttype{ReportType}
+
+%   - The default department is ``Unknown Department''
+%     The department can be changed using the command \department{}
+\department{Computer Science \& Engineering}
+
+%    - Set the guide's name
+\setguide{Prof Amey Karkare}
+\setguidedept{Department of Computer Science \& Engineering}
+
+%   - once the above are defined, use \maketitle to generate the titlepage
+\maketitle
+
+%--------------------------------------------------------------------%
+% CERTIFICATE
+%     The first page after the title page.
+\makecertificate
+
+%--------------------------------------------------------------------%
+% COPYRIGHT PAGE
+%   - To include a copyright page use \copyrightpage
+% \copyrightpage
+
+%--------------------------------------------------------------------%
+% ABSTRACT
+\begin{abstract}
+Satisfiability Modulo Theories (SMT) solvers are powerful tools that can quickly solve
+complex constraints involving booleans, integers, first-order logic
+predicates, lists, and other data types. They have a vast number of potential
+applications, from constraint solving to program analysis and verification.
+However, they are so complex to use that their power is inaccessible to all
+but experts in the field.
+
+We present an attempt to make using SMT solvers simpler by integrating the Z3 solver
+into a host language, Racket. Our system defines a programmer's interface in
+Racket that makes it easy to harness the power of Z3 to discover solutions to
+logical constraints. The interface, although in Racket, retains the
+structure and brevity of the SMT-LIB format. We demonstrate this using a range
+of examples, from simple constraint solving to verifying recursive functions, all in
+a few lines of code.
+\end{abstract}
+
+%--------------------------------------------------------------------%
+% DEDICATION
+%   Dedications, if any.
+\begin{dedication}
+To my grandfather
+\end{dedication}
+
+% Acknowledgements
+\begin{acknowledgments}
+
+This project would have never have even been started had it not been for my
+thesis advisor Dr Amey Karkare's help and guidance. Right from the time we
+were looking for ideas to when we finally had a concrete proposal in hand, his
+support has been invaluable. He entertained all my crazy ideas, found which
+ones had merit, and helped me build on them. I wouldn't have been able to do
+this without him.
+
+I'd like to thank my parents and the others in my life for being patient with
+me, especially towards the final stretch of thesis completion when I wasn't at
+my best socially.
+
+The Racket community, at \texttt{\#racket} on Freenode IRC, helped me
+understand some of the Racket syntax model's intricacies. That helped me avoid
+dead ends both early on and towards the end.
+
+Special thanks to Leonardo de Moura at Microsoft Research for taking the time
+out to answer a few questions about Z3.
+
+\end{acknowledgments}
+
+%--------------------------------------------------------------------%
+% CONTENTS, TABLES, FIGURES
+\tableofcontents
+\listoftables
+
+\cleardoublepage
+\phantomsection \label{listoffig}
+\addcontentsline{toc}{chapter}{List of Figures}
+\listof{program}{List of Figures}
+%\listoffigures
+
+\cleardoublepage\pagenumbering{arabic} % Make the page numbers Arabic (1, 2, etc)

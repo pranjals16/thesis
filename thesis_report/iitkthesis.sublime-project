@@ -1,0 +1,13 @@
+{
+	"folders":
+	[
+		{
+      "path": ".",
+      "file_exclude_patterns": ["*.aux", "*.log", "*.out", "*.snm",
+                                "*.toc", "*.nav", "*.bbl", "*.blg",
+                                "*.pdf", "*.lof", "*.lot", "*.synctex.gz",
+                                "*.sublime-workspace", "*.lop", "*.run.xml",
+                                "*-blx.bib"]
+		}
+	]
+}

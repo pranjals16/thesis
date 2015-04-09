@@ -1,0 +1,29 @@
+*** Mar 12, 2008
+* changed \degree to \iitbdegree, as \degree is used in some packages
+  (for eg, \degree C for temperature).
+  Reported by Vinay Bavdekar and Swanand Khare
+
+
+*** Mar 11, 2008
+* Added \addppcourse for pass-fail (PP/NP) courses, e.g. HS 699
+  (Communication and Presentation Skills)
+  Thanks Mr Anil Nair for pointing it.
+
+*** Feb 19, 2008
+* prelude.tex: fixed problem with empty page after nomenclature.
+  Thanks  Ms Vrinda Joshi for pointing it out.
+
+*** Sept 18, 2007
+* Support for external guide added. Thanks Mr Anil Nair for adding
+  the code to support this.
+* newtheorem environments moved to thesis.tex, instead of class file
+  so that those who do not want them can delete them.
+
+*** June 26, 2007
+* "List of Figures" and "List of Tables" are added to Contents table.
+* Option of one-side printing added. It is default. For two-side
+  printing "twoside" option has to be passed along with "openright"
+  option to the class.
+
+*** June 25, 2007
+* Initial release

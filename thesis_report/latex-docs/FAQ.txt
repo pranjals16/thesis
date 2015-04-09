@@ -1,0 +1,31 @@
+IITB THESIS FORMAT FAQ
+----------------------
+This FAQ has just started, and is under construction. (25/June/2007)
+
+
+
+Q: If I want two-sided printing then what changes I have to make?
+A: The default margins are setup to print in oneside.
+   For two-sided printing, with Chapter starting on odd-numbered
+   pages, use:
+    \documentclass[openright,twoside]{iitbthesis}
+
+Q: I do not want any blank page between Chapters.
+A: Use the option "openany" in the documentclass, i.e.
+      \documentclass[openany]{iitbthesis}
+   However, this is default in one-sided printing, and is not
+   advisable for two-sided printing. 
+
+Q: How do I change between single and double spacing?
+A: For single spacing use the command \singlespace, for doublespacing
+   use the command \doublespace.  The default is to print in
+   double-spacing. In such cases, the \singlespace is typically
+   required in abstract, figures and tables, For e.g.
+     \begin{abstract}
+       \singlespace     % Change to single-spacing.
+
+       \input{abstract} % Include the abstract.tex, or write the
+                        % abstact here itself
+
+       \doublespace     % Restore double-spacing.
+     \end{abstract}

@@ -1,0 +1,17 @@
+*~
+*.aux
+*.log
+*.out
+*.snm
+*.toc
+*.nav
+*.bbl
+*.blg
+*.pdf
+*.lof
+*.lot
+*.lop
+*-blx.bib
+*.run.xml
+*.synctex.gz
+*.sublime-workspace
