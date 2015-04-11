@@ -19,11 +19,14 @@ from KaggleWord2VecUtility import KaggleWord2VecUtility
 from nltk import word_tokenize
 from sklearn import cross_validation
 from sklearn import naive_bayes
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+from sklearn.cluster import KMeans
 
 # ****** Define functions to create average word vectors
 #
@@ -55,11 +58,11 @@ def makeFeatureVec(words, model,num_features,index2word_set,X,counter,feature_na
 			temp = np.zeros((num_features+new_feature,),dtype="float32")
 			if(word in idf_scores[int(counter)]):
 			#if word in feature_names:
-			#	temp[0:500]=np.multiply(model[word],idf_scores[feature_names.index(word)])
-				temp[0:500]=np.multiply(model[word],idf_scores[int(counter)][word])
+			#	temp[0:num_features]=np.multiply(model[word],idf_scores[feature_names.index(word)])
+				temp[0:num_features]=np.multiply(model[word],idf_scores[int(counter)][word])
 			else:
-				temp[0:500]=model[word]
-			temp[500:]=X[int(counter)]
+				temp[0:num_features]=model[word]
+			temp[num_features:]=X[int(counter)]
 			#print X[counter][word]
 			featureVec = np.add(featureVec,temp)
 			nwords = nwords + 1.
@@ -97,21 +100,20 @@ if __name__ == '__main__':
 	train = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', 'iiit.tsv'), header=0, delimiter="\t", quoting=3 )
 	print "Read %d labeled train reviews\n" % (train["review"].size)
 
-	num_features = 500    # Word vector dimensionality
+	num_features = 600    # Word vector dimensionality
 	min_word_count = 1   # Minimum word count
 	num_workers = 8       # Number of threads to run in parallel
 	context =6          # Context window size
-	downsampling = 1e-3   # Downsample setting for frequent words
+	downsampling = 1e-4   # Downsample setting for frequent words
 	sentences = word2vec.Text8Corpus('data/hindi_review_product.txt')
 	print "Training Word2Vec model..."
-	model = word2vec.Word2Vec(sentences, workers=num_workers, \
-	size=num_features, min_count = min_word_count, \
-	window = context, sample = downsampling, seed=1)
+	logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
+	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count,	window = context, sample = downsampling, seed=1,sg=1)
+	logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
 	model.init_sims(replace=True)
 
 	model_name = "300features_40minwords_10context"
 	model.save(model_name)
-
 	f=open('data/hindi_review_product.txt')
 	corpus=[]
 	for line in f:
@@ -129,7 +131,7 @@ if __name__ == '__main__':
 	for word in temp:
 		feature_names.append(word.encode('utf-8'))
 	
-	vectorizer = TfidfVectorizer(tokenizer=tokenize,use_idf=True,max_df=0.3,min_df=0.001,strip_accents='unicode')
+	vectorizer = TfidfVectorizer(tokenizer=tokenize,use_idf=True,max_df=0.8)
 	X=vectorizer.fit_transform(decoded).toarray()
 
 	temp= vectorizer.get_feature_names()
@@ -142,10 +144,21 @@ if __name__ == '__main__':
 	#idf_scores=tfidf.idf_
 	print "Creating average feature vecs for training reviews"
 	trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,X,feature_names,idf_scores)
-
+	print trainDataVecs.shape
+	trainDataVecs_new= SelectKBest(f_classif, k=800).fit_transform(trainDataVecs, train["sentiment"])
+	print trainDataVecs_new.shape
+	NUM_TOPICS = 3
+	X=trainDataVecs_new
+	y=train["sentiment"]
+	kmeans = KMeans(n_clusters=2).fit(X)
+	colors = ["b", "g", "r", "m", "c"]
+	for i in range(X.shape[0]):
+		plt.scatter(X[i][0], X[i][1], c=colors[y[i]], s=10)    
+	plt.show()
+	
 	######################              SVM				####################
 	print "Fitting a SVM classifier to labeled training data..."
-	clf = svm.LinearSVC()
-	clf.fit(trainDataVecs, train["sentiment"])
-	scores= cross_validation.cross_val_score(clf, trainDataVecs,train["sentiment"], cv=20)
+	clf = svm.LinearSVC(C=0.9)
+	clf.fit(trainDataVecs_new, train["sentiment"])
+	scores= cross_validation.cross_val_score(clf, trainDataVecs_new,train["sentiment"], cv=40)
 	print("Accuracy: %0.4f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))

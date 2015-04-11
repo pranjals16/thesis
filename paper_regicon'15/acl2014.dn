@@ -47,8 +47,7 @@ it may be worthwhile to explore such methods further for Indian languages.
 
 
 \section{Introduction}
-Over a period of nearly a millenium, there was an extensive debate between
-Indian grammarians on whether sentence meaning accrues by combining word
+Over a period of nearly a millenium, Indian grammarians have been trying to find whether sentence meaning accrues by combining word
 meanings, or whether words gain their meanings based on the context they
 appear in~\cite{Matilal:90}.  The former position, that
 meaning is {\em compositional}, has been associated with the fregean
@@ -343,6 +342,18 @@ We also created \emph{tf-idf} vectors for each document. This can be seen as a v
 \begin{tabular}{ | p{5.5cm} | l | }
 \hline
 \textbf{Features} & \textbf{Accuracy} \\ \hline
+Dredze et al.(2008) & 85.90\\ \hline
+Max Entropy & 83.79\\ \hline
+WordVector Averaging (Our Method) & \textbf{89.23}\\ \hline
+\end{tabular}
+\caption {Results on Amazon Electronics Review Dataset}
+\end{table}
+
+\begin {table}[H]
+\small
+\begin{tabular}{ | p{5.5cm} | l | }
+\hline
+\textbf{Features} & \textbf{Accuracy} \\ \hline
 Maas et al.(2011) & 88.89\\ \hline
 Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
 WordVector Averaging+Wiki (Our Method) & 87.56\\ \hline
@@ -350,7 +361,7 @@ WordVector Averaging+Wiki (Our Method) & 87.56\\ \hline
 \caption {Results on IMDB Movie Review Dataset}
 \end{table}
 
-Table 2 represents the results using three different techniques for feature set construction. There has been a large improvement in accuracy when we include \emph{tf-idf} features along with word vectors. 
+Table 2 represents the results using three different techniques for feature set construction.
 %We see that there is a slight improvement in accuracy on both datasets once we remove stop-words.
 \begin {table}[H]
 \small

@@ -1,0 +1,472 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.21)  7 APR 2015 17:38
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**acl2014.tex
+(./acl2014.tex
+LaTeX2e <2011/06/27>
+Babel <3.9h> and hyphenation patterns for 78 languages loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (./acl2014.sty
+Conference Style for ACL 2014 -- released October 2, 2013
+\titlebox=\skip43
+) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/velthuis/devanagari.sty
+Package: devanagari 2009/02/09 v2.15 LaTeX macros for Velthuis Devanagari
+\dev@chnum=\count87
+\itdim=\dimen103
+\anudep=\dimen104
+\anuwid=\dimen105
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count88
+))
+\Gin@req@height=\dimen106
+\Gin@req@width=\dimen107
+)
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip44
+\subfigcapskip=\skip45
+\subfigcaptopadj=\dimen108
+\subfigbottomskip=\skip46
+\subfigcapmargin=\dimen109
+\subfiglabelskip=\skip47
+\c@subfigure=\count89
+\c@lofdepth=\count90
+\c@subtable=\count91
+\c@lotdepth=\count92
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip48
+\subfig@bottom=\skip49
+)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count93
+\float@exts=\toks15
+\float@box=\box26
+\@float@everytoks=\toks16
+\@floatcapt=\box27
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+Package: pdfpages 2013/08/25 v0.4v Insert pages of external PDF documents (AM)
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count94
+\calc@Bcount=\count95
+\calc@Adimen=\dimen110
+\calc@Bdimen=\dimen111
+\calc@Askip=\skip50
+\calc@Bskip=\skip51
+LaTeX Info: Redefining \setlength on input line 76.
+LaTeX Info: Redefining \addtolength on input line 77.
+\calc@Ccount=\count96
+\calc@Cskip=\skip52
+)
+(/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2013/10/06 v2.0d eso-pic (RN)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+))
+(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pppdftex.def
+File: pppdftex.def 2013/08/25 v0.4v Pdfpages driver for pdfTeX (AM)
+)
+\AM@pagebox=\box28
+\AM@toc@title=\toks17
+\c@AM@survey=\count97
+\AM@templatesizebox=\box29
+) (./acl2014.aux
+
+LaTeX Warning: Label `fig:5K_hindi_zoom' multiply defined.
+
+)
+\openout1 = `acl2014.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/dn/m/n on input line 28.
+LaTeX Font Info:    Try loading font information for U+dn on input line 28.
+ (/usr/share/texlive/texmf-dist/tex/latex/velthuis/udn.fd
+File: Udn.fd 2004/08/03 v2.14
+)
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 28.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count98
+\scratchdimen=\dimen112
+\scratchbox=\box30
+\nofMPsegments=\count99
+\nofMParguments=\count100
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count101
+\MPscratchDim=\dimen113
+\MPnumerator=\count102
+\makeMPintoPDFobject=\count103
+\everyMPtoPDFconversion=\toks19
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\AtBeginShipoutBox=\box31
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 29.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 29.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 29.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 29.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+
+]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 98.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 105.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 105.
+
+
+LaTeX Warning: Citation `baroni-bernardi-14_frege-in-space-distributional-seman
+tics' on page 2 undefined on input line 119.
+
+
+Underfull \hbox (badness 2828) in paragraph at lines 155--165
+\OT1/ptm/m/n/10.95 Sentiment anal-y-sis is a well-known re-search
+ []
+
+
+Underfull \hbox (badness 4967) in paragraph at lines 155--165
+\OT1/ptm/m/n/10.95 used dis-tributed bag-of-words model, which
+ []
+
+
+Underfull \hbox (badness 1565) in paragraph at lines 155--165
+\OT1/ptm/m/n/10.95 fo-cus on build-ing ex-ten-sive fea-ture sets (e.g.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--165
+
+ []
+
+
+Underfull \hbox (badness 1067) in paragraph at lines 185--199
+\OT1/ptm/m/n/10.95 on-tol-ogy to antonyms and syn-onyms to iden-
+ []
+
+
+Underfull \hbox (badness 1852) in paragraph at lines 185--199
+\OT1/ptm/m/n/10.95 log-i-cal an-a-lyzer for Hindi), and fo-cus-ing on
+ []
+
+
+Underfull \hbox (badness 2443) in paragraph at lines 185--199
+\OT1/ptm/m/n/10.95 achieves 80.2% ac-cu-racy on clas-si-fi-ca-tion of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 185--199
+
+ []
+
+[2]
+Underfull \hbox (badness 1953) in paragraph at lines 201--214
+\OT1/ptm/m/n/10.95 large un-la-belled cor-pora; Con-tin-u-ous Bag of
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 215.
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--217
+
+ []
+
+<skipgram.jpg, id=15, 258.9675pt x 305.943pt>
+File: skipgram.jpg Graphic file (type jpg)
+ <use skipgram.jpg>
+Package pdftex.def Info: skipgram.jpg used on input line 220.
+(pdftex.def)             Requested size: 199.17638pt x 199.16869pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
+[]\OT1/ptm/m/n/10.95 Obtain tf-idf vec-tor for each sen-
+ []
+
+[3 <./skipgram.jpg>] <tsne.pdf, id=26, 3570.83058pt x 3393.7089pt>
+File: tsne.pdf Graphic file (type pdf)
+
+<use tsne.pdf>
+Package pdftex.def Info: tsne.pdf used on input line 280.
+(pdftex.def)             Requested size: 227.62204pt x 216.30077pt.
+
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 280--281
+ [][] 
+ []
+
+<5K_hindi_zoom1.jpg, id=27, 616.704pt x 410.7345pt>
+File: 5K_hindi_zoom1.jpg Graphic file (type jpg)
+ <use 5K_hindi_zoom1.jpg>
+Package pdftex.def Info: 5K_hindi_zoom1.jpg used on input line 316.
+(pdftex.def)             Requested size: 182.09485pt x 121.27843pt.
+
+<5K_hindi_zoom2.jpg, id=28, 616.704pt x 410.7345pt>
+File: 5K_hindi_zoom2.jpg Graphic file (type jpg)
+ <use 5K_hindi_zoom2.jpg>
+Package pdftex.def Info: 5K_hindi_zoom2.jpg used on input line 320.
+(pdftex.def)             Requested size: 182.09485pt x 121.27843pt.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 331.
+
+Underfull \hbox (badness 3449) in paragraph at lines 332--334
+\OT1/ptm/m/n/10.95 In this ex-per-i-ment, we first gen-er-ated 300-
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 342.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 342.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 344.
+[4 <./tsne.pdf> <./5K_hindi_zoom1.jpg> <./5K_hindi_zoom2.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 373--373
+[]\OT1/ptm/m/n/9 WordVector+tf-idf
+ []
+
+
+Underfull \hbox (badness 1057) in paragraph at lines 375--375
+[]\OT1/ptm/m/n/10.95 Table 3: Ac-cu-ra-cies for Prod-uct Re-view and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 386--386
+[]\OT1/ptm/m/n/9 Subjective Lex-i-con
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 387--387
+[]\OT1/ptm/m/n/9 Hindi-SWN Base-line
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 387--387
+[]\OT1/ptm/m/n/9 Adjective and
+ []
+
+
+Overfull \hbox (1.35379pt too wide) in paragraph at lines 382--389
+[][] 
+ []
+
+
+Underfull \hbox (badness 4739) in paragraph at lines 402--402
+[]\OT1/ptm/m/n/9 Improved Hindi-SWN
+ []
+
+
+Underfull \hbox (badness 1412) in paragraph at lines 436--443
+\OT1/ptm/m/n/10.95 stop words im-proves the ac-cu-racy by around
+ []
+
+[5]
+Underfull \hbox (badness 1215) in paragraph at lines 481--485
+[]\OT1/ptm/m/n/10 Aditya Joshi, AR Bal-a-mu-rali, and Push-pak Bhat-
+ []
+
+
+Underfull \hbox (badness 2005) in paragraph at lines 531--535
+[]\OT1/ptm/m/n/10 Jeffrey Pen-ning-ton, Richard Socher, and Christo-
+ []
+
+
+Underfull \hbox (badness 1655) in paragraph at lines 575--579
+\OT1/ptm/m/n/10 Karlen, Ko-ray Kavukcuoglu, and Pavel Kuksa.
+ []
+
+[6] (./acl2014.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 3437 strings out of 493304
+ 48184 string characters out of 6139871
+ 127585 words of memory out of 5000000
+ 6808 multiletter control sequences out of 15000+600000
+ 28816 words of font info for 63 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 38i,11n,39p,912b,361s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/velthuis/dvng10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/velthuis/dvng9.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/velthuis/dvngb9.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/ti
+mes/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on acl2014.pdf (6 pages, 469407 bytes).
+PDF statistics:
+ 107 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+

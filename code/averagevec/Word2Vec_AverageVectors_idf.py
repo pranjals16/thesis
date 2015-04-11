@@ -89,7 +89,6 @@ if __name__ == '__main__':
 	tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 	# ****** Split the labeled and unlabeled training sets into clean sentences
 	#
-	'''
 	sentences = []  # Initialize an empty list of sentences
 
 	print "Parsing sentences from training set"
@@ -105,16 +104,14 @@ if __name__ == '__main__':
 	# creates nice output messages
 	logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',\
 	   level=logging.INFO)
-	'''
 	# Set values for various parameters
-	num_features = 300    # Word vector dimensionality
+	num_features = 500    # Word vector dimensionality
 	min_word_count = 20   # Minimum word count
 	num_workers = 8       # Number of threads to run in parallel
 	context = 10          # Context window size
 	downsampling = 1e-3   # Downsample setting for frequent words
 	# Initialize and train the model (this will take some time)
 	print "Training Word2Vec model..."
-	'''
 	model = word2vec.Word2Vec(sentences, workers=num_workers, \
 		      size=num_features, min_count = min_word_count, \
 		      window = context, sample = downsampling, seed=1)
@@ -127,8 +124,7 @@ if __name__ == '__main__':
 	# save the model for later use. You can load it later using Word2Vec.load()
 	model_name = "300features_40minwords_10context"
 	model.save(model_name)
-	'''
-	model = word2vec.Word2Vec.load("300features_40minwords_10context")
+	#model = word2vec.Word2Vec.load("300features_40minwords_10context")
 	# ****** Create average vectors for the training and test sets
 	#
 
