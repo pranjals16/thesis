@@ -97,15 +97,15 @@ def getCleanReviews(reviews):
 
 
 if __name__ == '__main__':
-	train = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', 'iiit.tsv'), header=0, delimiter="\t", quoting=3 )
+	train = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', 'iitb.tsv'), header=0, delimiter="\t", quoting=3 )
 	print "Read %d labeled train reviews\n" % (train["review"].size)
 
-	num_features = 600    # Word vector dimensionality
+	num_features = 500    # Word vector dimensionality
 	min_word_count = 1   # Minimum word count
 	num_workers = 8       # Number of threads to run in parallel
-	context =6          # Context window size
+	context =7          # Context window size
 	downsampling = 1e-4   # Downsample setting for frequent words
-	sentences = word2vec.Text8Corpus('data/hindi_review_product.txt')
+	sentences = word2vec.Text8Corpus('data/hindi_review_movie.txt')
 	print "Training Word2Vec model..."
 	logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
 	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count,	window = context, sample = downsampling, seed=1,sg=1)
@@ -114,7 +114,7 @@ if __name__ == '__main__':
 
 	model_name = "300features_40minwords_10context"
 	model.save(model_name)
-	f=open('data/hindi_review_product.txt')
+	f=open('data/hindi_review_movie.txt')
 	corpus=[]
 	for line in f:
 		line= line.strip()
@@ -145,6 +145,7 @@ if __name__ == '__main__':
 	print "Creating average feature vecs for training reviews"
 	trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,X,feature_names,idf_scores)
 	print trainDataVecs.shape
+	'''
 	trainDataVecs_new= SelectKBest(f_classif, k=800).fit_transform(trainDataVecs, train["sentiment"])
 	print trainDataVecs_new.shape
 	NUM_TOPICS = 3
@@ -155,10 +156,10 @@ if __name__ == '__main__':
 	for i in range(X.shape[0]):
 		plt.scatter(X[i][0], X[i][1], c=colors[y[i]], s=10)    
 	plt.show()
-	
+	'''
 	######################              SVM				####################
 	print "Fitting a SVM classifier to labeled training data..."
-	clf = svm.LinearSVC(C=0.9)
-	clf.fit(trainDataVecs_new, train["sentiment"])
-	scores= cross_validation.cross_val_score(clf, trainDataVecs_new,train["sentiment"], cv=40)
+	clf = svm.LinearSVC(C=0.8)
+	clf.fit(trainDataVecs, train["sentiment"])
+	scores= cross_validation.cross_val_score(clf, trainDataVecs,train["sentiment"], cv=40)
 	print("Accuracy: %0.4f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))

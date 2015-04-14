@@ -24,6 +24,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import f_classif
 
 # ****** Define functions to create average word vectors
 #
@@ -126,10 +128,11 @@ if __name__ == '__main__':
 		
 	print "Creating average feature vecs for training reviews"
 	trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,X,feature_names)
-
+	#trainDataVecs_new= SelectKBest(f_classif, k=1000).fit_transform(trainDataVecs, train["sentiment"])
+	
 	######################              SVM				####################
 	print "Fitting a SVM classifier to labeled training data..."
-	clf = svm.LinearSVC()
+	clf = svm.LinearSVC(C=0.9)
 	clf.fit(trainDataVecs, train["sentiment"])
 	scores= cross_validation.cross_val_score(clf, trainDataVecs,train["sentiment"], cv=20)
 	print("Accuracy: %0.4f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))

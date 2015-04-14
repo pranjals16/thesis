@@ -124,7 +124,7 @@ if __name__ == '__main__':
 	model = word2vec.Word2Vec.load("500features_10minwords_5context")
 	# ****** Create average vectors for the training and test sets
 	#
-
+	'''
 	f=[]
 	for review in Train["review"]:
 		f.append(review)
@@ -144,7 +144,6 @@ if __name__ == '__main__':
 	for word in temp:
 		feature_names.append(word)
 	idf_score=tfidf.idf_
-	'''
 	idf_scores=[]
 	count=0
 	for doc in decoded:
@@ -154,14 +153,14 @@ if __name__ == '__main__':
 	'''
 	#idf_score = cPickle.load(open('idf_score.p', 'rb'))
 	print "Creating average feature vecs for training reviews"
-	trainDataVecs = getAvgFeatureVecs( getCleanReviews(Train), model, num_features,idf_score,feature_names )
-	cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
-	#trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
+	#trainDataVecs = getAvgFeatureVecs( getCleanReviews(Train), model, num_features,idf_score,feature_names )
+	#cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
+	trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
 
 	print "Creating average feature vecs for test reviews"
-	testDataVecs = getAvgFeatureVecs( getCleanReviews(Test), model, num_features,idf_score,feature_names )
-	cPickle.dump(testDataVecs, open('save_test.p', 'wb'))
-	#testDataVecs = cPickle.load(open('save_test.p', 'rb'))
+	#testDataVecs = getAvgFeatureVecs( getCleanReviews(Test), model, num_features,idf_score,feature_names )
+	#cPickle.dump(testDataVecs, open('save_test.p', 'wb'))
+	testDataVecs = cPickle.load(open('save_test.p', 'rb'))
 	'''
 	######################              Naive Bayes				####################
 	print "Fitting a Naive Bayes classifier to labeled training data..."

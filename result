@@ -1,17 +1,13 @@
 random forest: 280 trees
-
 84.14
 
 svm: linear (300 context;min count=20)
-
 87.05
 
 Naive Bayes
-
 75.95
 
 merged with Wiki trained(200 dim wiki trained)-svm
-
 87.56
 
 Logistic Regression with l1 penalty
@@ -22,7 +18,6 @@ k-nn:20
 ---------------------------------------------------------------------
 
 Hindi
-
 
 78.0% 50-fold cross validation (350+350 product review;context = 5 downsampling = 1e-5 word_count=1)
 
@@ -50,6 +45,8 @@ tf-idf+BOW results
 with pos+neg together idf includes tf-idf features
 89.71 : IIIT
 85.90 : IITB
+92.89:IIIT:600,6,1e-4;svm(C=0.9)40-fold
+90.30:IITB:500,7,1e-4;svm(C=0.8)40-fold
 
 with separate idf_scores includes tf-idf features
 93.71: IIIT
@@ -59,9 +56,42 @@ with separate idf_scores includes tf-idf features
 wihtout tf-idf features: pure weighted pos+neg separate average
 92.86: IIIT
 88.17: IITB  600 features
+
+Doc2Vec
+IITB:89.17;800,8,1e-4;svm(C=0.9)20-fold with feature engineering
+IITB:79.17;800,8,1e-4;svm(C=0.6)20-fold
+IIIT:86.86;800,7,1e-5;svm(C=0.8)20-fold
+IIIT: 90.86;800,7,1e-5;svm(C=0.8)20-fold with feature engineering
 ---------------------------------------------------------------
 
 parsed amazon dataset
 
 Weighted Average Word Vectors
 88.54: MP3  1000 features context=5
+89.23: Electronics  500 features context=5
+
+Trip Advisor Dataset
+91.57% accuracy: 600 context=10
+
+--------------------------------------------------------------------------------
+Movie Review Dataset(Mine)
+Doc2Vec
+------
+74.57
+88.07: with feature
+
+Without Feature Engineering:
+75.86:500,5
+76.43:600,5
+77.44:600,6(c=0.9)
+
+With Feature Engineering:
+89.51:500,5
+
+-----------------------------------------------------------
+To do in thesis
+---------------
+1) Graph of run on different datasets
+2) Wikipedia different context size tsne plot
+3) Dataset stats
+
