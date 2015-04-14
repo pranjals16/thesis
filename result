@@ -69,6 +69,7 @@ parsed amazon dataset
 Weighted Average Word Vectors
 88.54: MP3  1000 features context=5
 89.23: Electronics  500 features context=5
+91.15: Watches 500 features context=10
 
 Trip Advisor Dataset
 91.57% accuracy: 600 context=10
@@ -94,4 +95,4 @@ To do in thesis
 1) Graph of run on different datasets
 2) Wikipedia different context size tsne plot
 3) Dataset stats
-
+4) Merge Glove and word2vec vectors

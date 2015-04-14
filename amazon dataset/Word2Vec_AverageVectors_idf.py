@@ -31,7 +31,7 @@ def idf(word, decoded,count):
 	print count
 	return math.log(len(decoded)/(1+n_containing(word,decoded)))
 	
-def makeFeatureVec(words, model, num_features,counter,idf_score,feature_names):
+def makeFeatureVec(words, model, num_features,counter):
 	featureVec = np.zeros((num_features,),dtype="float32")
 	#
 	nwords = 0.
@@ -41,11 +41,6 @@ def makeFeatureVec(words, model, num_features,counter,idf_score,feature_names):
 	for word in words:
 		if word in index2word_set:
 			temp = np.zeros((num_features),dtype="float32")
-			#if word in feature_names:
-			#if(word in idf_score[int(counter)]):
-				#temp[0:num_features]=np.multiply(model[word],idf_score[int(counter)][word])
-			#	temp[0:num_features]=np.multiply(model[word],idf_score[feature_names.index(word)])
-			#else:
 			temp[0:num_features]=model[word]
 			nwords = nwords + 1.
 			featureVec = np.add(featureVec,temp)
@@ -54,7 +49,7 @@ def makeFeatureVec(words, model, num_features,counter,idf_score,feature_names):
 	return featureVec
 
 
-def getAvgFeatureVecs(reviews, model, num_features,idf_score,feature_names):
+def getAvgFeatureVecs(reviews, model, num_features):
     counter = 0.
     #
     reviewFeatureVecs = np.zeros((len(reviews),num_features),dtype="float32")
@@ -63,7 +58,7 @@ def getAvgFeatureVecs(reviews, model, num_features,idf_score,feature_names):
        #
        print "Review %d of %d" % (counter, len(reviews))
        #
-       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model, num_features,counter,idf_score,feature_names)
+       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model, num_features,counter)
        #
        counter = counter + 1.
     return reviewFeatureVecs
@@ -103,72 +98,32 @@ if __name__ == '__main__':
 	#
 	# Import the built-in logging module and configure it so that Word2Vec
 	# creates nice output messages
-	'''
 	logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
+	'''
 	# Set values for various parameters
 	num_features = 500    # Word vector dimensionality
 	min_word_count = 10   # Minimum word count
 	num_workers = 8       # Number of threads to run in parallel
-	context = 5          # Context window size
+	context = 10          # Context window size
 	downsampling = 1e-3   # Downsample setting for frequent words
 	# Initialize and train the model (this will take some time)
 	print "Training Word2Vec model..."
-	'''
-	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count, window = context, sample = downsampling, seed=1)
-
-	model.init_sims(replace=True)
-
-	model_name = "500features_10minwords_5context"
-	model.save(model_name)
-	'''
-	model = word2vec.Word2Vec.load("500features_10minwords_5context")
+	#model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count, window = context, sample = downsampling, seed=1)
+	#model.init_sims(replace=True)
+	#model_name = "500features_10minwords_5context_electronics"
+	#model.save(model_name)
+	model = word2vec.Word2Vec.load("500features_10minwords_5context_electronics")
 	# ****** Create average vectors for the training and test sets
 	#
-	'''
-	f=[]
-	for review in Train["review"]:
-		f.append(review)
-	corpus=[]
-	for line in f:
-		line= line.strip()
-		corpus.append(line)
-	decoded = [x for x in (corpus)]
-	print "Decoded Done!!"
-	count_vectorizer = CountVectorizer(max_features=20000,stop_words="english")
-	count_vectorizer.fit_transform(decoded)
-	freq_term_matrix = count_vectorizer.transform(decoded)
-	tfidf = TfidfTransformer(norm="l2")
-	tfidf.fit(freq_term_matrix)
-	temp= count_vectorizer.get_feature_names()
-	feature_names=[]
-	for word in temp:
-		feature_names.append(word)
-	idf_score=tfidf.idf_
-	idf_scores=[]
-	count=0
-	for doc in decoded:
-		count=count+1
-		idf_scores.append({word: idf(word, decoded,count) for word in doc.replace(',',' ,').split()})
-	cPickle.dump(idf_scores, open('idf_score.p', 'wb'))
-	'''
-	#idf_score = cPickle.load(open('idf_score.p', 'rb'))
 	print "Creating average feature vecs for training reviews"
-	#trainDataVecs = getAvgFeatureVecs( getCleanReviews(Train), model, num_features,idf_score,feature_names )
-	#cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
-	trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
+	trainDataVecs = getAvgFeatureVecs( getCleanReviews(Train), model, num_features )
+	cPickle.dump(trainDataVecs, open('save_train_electronics.p', 'wb'))
+	#trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
 
 	print "Creating average feature vecs for test reviews"
-	#testDataVecs = getAvgFeatureVecs( getCleanReviews(Test), model, num_features,idf_score,feature_names )
-	#cPickle.dump(testDataVecs, open('save_test.p', 'wb'))
-	testDataVecs = cPickle.load(open('save_test.p', 'rb'))
-	'''
-	######################              Naive Bayes				####################
-	print "Fitting a Naive Bayes classifier to labeled training data..."
-	clf = naive_bayes.GaussianNB()
-	clf.fit(trainDataVecs, train["sentiment"])
-	print clf.score(testDataVecs,test["sentiment"])
-	#------------------------------------------------------------------------------------------
-	'''
+	testDataVecs = getAvgFeatureVecs( getCleanReviews(Test), model, num_features)
+	cPickle.dump(testDataVecs, open('save_test_electronics.p', 'wb'))
+	#testDataVecs = cPickle.load(open('save_test.p', 'rb'))
 	#------------------------------------------------------------------------------------------
 	######################              SVM				####################
 	trainDataVecs = Imputer(strategy='mean').fit_transform(trainDataVecs)
