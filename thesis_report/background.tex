@@ -97,3 +97,28 @@ create another feature set for training purpose.
 \item Train linear SVM with $m$-fold cross validation to create a classifier
 (here $m$=20)
 \end{enumerate}
+
+\section{Document Vectors}
+This distributed representation of sentences and documents modifies wors2vec (Skip-Gram) algorithm to unsupervised learning of continuous representations for larger blocks of text, such as sentences, paragraphs or entire documents. The algorithm represents each document by a dense vector which is later trained and tuned to predict words in the sentence\/document.\\
+In Paragraph Vector framework, every paragraph is mapped to a unique vector and id, represented by a matrix $D$, which is a column matrix. Every word is mapped to a unique vector and word vectors are conactenated or averaged to predict the context, i.e., the next word.\\
+The change in this framework is that the $h$(in Skip-Gram model's equation) is now constructed in a different way. It is now constructed using both $W$ and $D$.\\
+The contexts are fixed-length and sampled from a sliding window over the paragraph. The paragraph vector is shared across all contexts generated from the same paragraph but not across paragraphs.  The word vector matrix W, however, is shared across paragraphs. i.e., the vector for "good" is the same for all paragraphs.\\
+
+The paragraph vectors and word vectors are trained using stochastic gradient descent and the gradient is obtained via backpropagation.  At every step of stochastic gradient descent, one can sample a fixed-length context from a random paragraph, compute the error gradient from the network in Figure \ref{fig:doc2vec} and use the gradient to update the parameters in our model. At prediction time, one needs to perform an inference step to compute the paragraph vector for a new paragraph. This is also obtained by gradient descent.  In this step, the parameters for the rest of the model, the word vectors W
+and the softmax weights, are fixed.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=110mm, height=70mm]{doc2vec_word_vector.eps}
+\caption{Framework for learning word vectors(Figure from Le (2014)). \label{fig:word2vec}}
+\end{figure}
+In Figure \ref{fig:word2vec}, context  of three words ("the", "cat" and "sat") is used to predict the fourth word ("on"). The input words are mapped to columns of the matrix $W$ to predict the output word(Figure from Le (2014)).
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=110mm, height=70mm]{doc2vec.eps}
+\caption{Framework for learning paragraph vectors(Figure from Le (2014)). \label{fig:doc2vec}}
+\end{figure}
+In Figure \ref{fig:doc2vec}, the only change is the additional paragraph token that is mapped to a vector via matrix $D$. In this model, the concatenation or average of this vector with a context of three words is used to predict the fourth word. The paragraph vector represents the missing information from the current context and can act as a memory of the topic of the paragraph.
+
+The advantage of using paragraph vectors is that they inherit the propery of word vectors, i.e., the semantics of the words. In addition, they also take into consideration a small context around each word which is in close resemblance to the n-gram model with a large n. This property is crucial because the n-gram model preserves a lot of information of the sentence\/paragraph, which includes the word order also. This model also performs better than the Bag-of-Words model which would create a very high-dimensional representation that has very poor generalization.

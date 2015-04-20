@@ -74,7 +74,7 @@ def getCleanReviews(reviews):
 
 if __name__ == '__main__':
 
-	total = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', 'trainData_electronics.tsv'), header=0, delimiter="\t", quoting=3 )
+	total = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', 'trainData_mp3.tsv'), header=0, delimiter="\t", quoting=3 )
 	train, test = train_test_split(total, train_size=0.80, random_state=1)
 	Train = pd.DataFrame(train, columns=total.columns)
 	Test = pd.DataFrame(test, columns=total.columns)
@@ -84,7 +84,6 @@ if __name__ == '__main__':
 	tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 	# ****** Split the labeled and unlabeled training sets into clean sentences
 	#
-	'''
 	sentences = []  # Initialize an empty list of sentences
 
 	print "Parsing sentences from training set"
@@ -99,7 +98,6 @@ if __name__ == '__main__':
 	# Import the built-in logging module and configure it so that Word2Vec
 	# creates nice output messages
 	logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
-	'''
 	# Set values for various parameters
 	num_features = 500    # Word vector dimensionality
 	min_word_count = 10   # Minimum word count
@@ -108,21 +106,21 @@ if __name__ == '__main__':
 	downsampling = 1e-3   # Downsample setting for frequent words
 	# Initialize and train the model (this will take some time)
 	print "Training Word2Vec model..."
-	#model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count, window = context, sample = downsampling, seed=1)
-	#model.init_sims(replace=True)
-	#model_name = "500features_10minwords_5context_electronics"
-	#model.save(model_name)
-	model = word2vec.Word2Vec.load("500features_10minwords_5context_electronics")
+	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count, window = context, sample = downsampling, seed=1,negative=10)
+	model.init_sims(replace=True)
+	model_name = "500features_10minwords_5context_mp3"
+	model.save(model_name)
+	#model = word2vec.Word2Vec.load("500features_10minwords_5context_mp3")
 	# ****** Create average vectors for the training and test sets
 	#
 	print "Creating average feature vecs for training reviews"
 	trainDataVecs = getAvgFeatureVecs( getCleanReviews(Train), model, num_features )
-	cPickle.dump(trainDataVecs, open('save_train_electronics.p', 'wb'))
+	cPickle.dump(trainDataVecs, open('save_train_mp3.p', 'wb'))
 	#trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
 
 	print "Creating average feature vecs for test reviews"
 	testDataVecs = getAvgFeatureVecs( getCleanReviews(Test), model, num_features)
-	cPickle.dump(testDataVecs, open('save_test_electronics.p', 'wb'))
+	cPickle.dump(testDataVecs, open('save_test_mp3.p', 'wb'))
 	#testDataVecs = cPickle.load(open('save_test.p', 'rb'))
 	#------------------------------------------------------------------------------------------
 	######################              SVM				####################
