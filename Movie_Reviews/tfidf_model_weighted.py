@@ -12,13 +12,11 @@ import logging
 import numpy as np  # Make sure that numpy is imported
 from gensim.models import word2vec
 from gensim import models
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import Ridge
 import cPickle
-from sklearn import svm
+from sklearn import svm,grid_search
 from nltk import word_tokenize
 from sklearn import cross_validation
-from sklearn import naive_bayes
-from sklearn.ensemble import AdaBoostClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -27,6 +25,7 @@ from sklearn.feature_selection import f_classif
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from sklearn.cluster import KMeans
+from sklearn import learning_curve
 
 # ****** Define functions to create average word vectors
 #
@@ -108,12 +107,15 @@ if __name__ == '__main__':
 	sentences = word2vec.Text8Corpus('new_movie_reviews2.txt')
 	print "Training Word2Vec model..."
 	logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
+	'''
 	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count,	window = context, sample = downsampling, seed=1)
 	model.init_sims(replace=True)
 
 	model_name = "300features_40minwords_10context"
 	model.save(model_name)
+	'''
 	model = word2vec.Word2Vec.load("300features_40minwords_10context")
+	'''
 	f=open('new_movie_reviews2.txt')
 	corpus=[]
 	for line in f:
@@ -142,10 +144,11 @@ if __name__ == '__main__':
 	#for doc in decoded:
 	#	idf_scores.append({word: idf(word, decoded) for word in doc.replace(',',' ,').split()})
 	idf_scores=tfidf.idf_
+	'''
 	print "Creating average feature vecs for training reviews"
-	trainDataVecs = getAvgFeatureVecs(getCleanReviews(train), model, num_features,X,feature_names,idf_scores)
+	#trainDataVecs = getAvgFeatureVecs(getCleanReviews(train), model, num_features,X,feature_names,idf_scores)
 	#cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
-	#trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
+	trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
 	print trainDataVecs.shape
 	trainDataVecs_new= SelectKBest(f_classif, k=4000).fit_transform(trainDataVecs, train["sentiment"])
 	print trainDataVecs_new.shape
@@ -173,8 +176,8 @@ if __name__ == '__main__':
 	clf.fit(trainDataVecs_new, train["sentiment"])
 	scores= cross_validation.cross_val_score(clf, trainDataVecs_new,train["sentiment"], cv=20)
 	print("Accuracy: %0.4f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
-	cscore=clf.decision_function(trainDataVecs_new)
-	predictions=clf.predict(trainDataVecs_new)
+	#cscore=clf.decision_function(trainDataVecs_new)
+	#predictions=clf.predict(trainDataVecs_new)
 	#print cscore
 	#print predictions
 	print "Fitting a Linear SVM classifier to labeled training data..."

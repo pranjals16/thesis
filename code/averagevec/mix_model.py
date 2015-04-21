@@ -36,9 +36,9 @@ def makeFeatureVec(words, model, model_full,num_features,index2word_set,index2wo
 	for word in words:
 		if word in index2word_set:
 			temp = np.zeros((num_features+200,),dtype="float32")
-			temp[0:300]=model[word]
+			temp[0:num_features]=model[word]
 			if word in index2word_set2:
-				temp[300:500]=model_full[word]
+				temp[num_features:500]=model_full[word]
 			featureVec = np.add(featureVec,temp)
 			nwords = nwords + 1.
 		#featureVec = np.add(featureVec,model[word])
@@ -153,26 +153,6 @@ if __name__ == '__main__':
     #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model,model_full, num_features )
     #cPickle.dump(testDataVecs, open('save_test_mix.p', 'wb'))
     testDataVecs = cPickle.load(open('save_test_mix.p', 'rb'))
-    '''
-    ######################              AdaBoostClassifier				####################
-    print "Fitting a Ada Boost classifier to labeled training data..."
-    clf = AdaBoostClassifier(n_estimators=100)
-    clf.fit(trainDataVecs, train["sentiment"])
-    print clf.score(testDataVecs,test["sentiment"])
-    #------------------------------------------------------------------------------------------
-    ######################              Naive Bayes				####################
-    print "Fitting a Naive Bayes classifier to labeled training data..."
-    clf = naive_bayes.GaussianNB()
-    clf.fit(trainDataVecs, train["sentiment"])
-    print clf.score(testDataVecs,test["sentiment"])
-    '''
-    #------------------------------------------------------------------------------------------
-    ######################              KNeighborsClassifier				####################
-    print "Fitting a KNeighbors classifier to labeled training data..."
-    clf = KNeighborsClassifier(n_neighbors=20,weights='distance')
-    clf.fit(trainDataVecs, train["sentiment"])
-    print clf.score(testDataVecs,test["sentiment"])
-    #------------------------------------------------------------------------------------------
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
     clf = svm.LinearSVC()

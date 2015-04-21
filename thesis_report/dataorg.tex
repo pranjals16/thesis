@@ -1,7 +1,89 @@
 \chapter{Data Acquisition}
-	This section describes the corpus used in our experiments.
-	
-	\section{Corpus}
-	\label{corpus}
-	We experimented on two Hindi review datasets. One is the Product Review dataset (LTG, IIIT Hyderabad) containing 350 Positive reviews and 350 Negative reviews. The other is a Movie Review dataset (CFILT, IIT Bombay) containing 127 Positive reviews and 125 Negative reviews. Similarly, for English, we trained on IMDB movie review dataset (Maas et al.(2013)) which consists of 25,000 positive and 25,000 negative reviews.\\
-	We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 290MB) containing around 24M words with 724K words in the vocabulary. This provided us with good embeddings due to larger size and contents from almost all domains.
+This section describes the corpus used in our experiments.
+
+\section{Hindi Corpus}
+\label{hindi_corpus}
+\subsection{Product and Movie Review Corpus}
+We experimented on two Hindi review datasets. One is the Product Review dataset (LTG, IIIT Hyderabad) containing 350 Positive reviews and 350 Negative reviews. The other is a Movie Review dataset (CFILT, IIT Bombay) containing 127 Positive reviews and 125 Negative reviews.\\
+Each review is around 1-2 sentences long and the sentences are mainly focused on sentiment, either positive or negative.
+
+\subsection{Movie Review Corpus(Our Contribution)}
+We collected Hindi movie reviews from websites such as \emph{Dainik Jagran} and \emph{Navbharat Times}. The movie reviews are longer than the previous corpus and contains subjects other than sentiment.
+There are in total 697 movie reviews from both the websites. The statistics compiled is described below.\\
+
+\begin {table}[h!]
+\large
+\centering
+\begin{tabular}{ |l|l| }
+\hline
+\multicolumn{2}{|c|}{\textbf{Dainik Jagran}} \\
+\hline
+Positive Reviews & 210 \\ 
+Negative Reviews & 226 \\
+Total Reviews & 436\\ \hline
+\multicolumn{2}{|c|}{29.7 sentences per document} \\ \hline
+\multicolumn{2}{|c|}{427.1 words per document} \\
+\hline
+\end{tabular}
+\caption {Statistics of Dainik Jagran Movie Reviews}
+\end{table}
+
+\begin {table}[h!]
+\large
+\centering
+\begin{tabular}{ |l|l| }
+\hline
+\multicolumn{2}{|c|}{\textbf{Navbharat Times}} \\
+\hline
+Positive Reviews & 146 \\ 
+Negative Reviews & 115 \\
+Total Reviews & 261\\ \hline
+\multicolumn{2}{|c|}{29.7 sentences per document} \\ \hline
+\multicolumn{2}{|c|}{607.2 words per document} \\
+\hline
+\end{tabular}
+\caption {Statistics of Navbharat Times Movie Reviews}
+\end{table}
+
+\begin {table}[h!]
+\large
+\centering
+\begin{tabular}{ |l|l| }
+\hline
+\multicolumn{2}{|c|}{\textbf{Overall}} \\
+\hline
+Positive Reviews & 356 \\ 
+Negative Reviews & 341 \\
+Total Reviews & 697\\ \hline
+\multicolumn{2}{|c|}{29.7 sentences per document} \\ \hline
+\multicolumn{2}{|c|}{494.6 words per document} \\
+\hline
+\end{tabular}
+\caption {Statistics of Movie Reviews from Jagran and Navbharat}
+\end{table}
+\subsection{Wikipedia}
+We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 290MB) containing around 24M words with 724K words in the vocabulary. This provided us with good embeddings due to larger size and contents from almost all domains.
+
+\section{English Corpus}
+\label{english_corpus}
+\subsection{IMDB Movie Review}
+We trained on IMDB movie review dataset (Maas et al.(2013)) which consists of 25,000 positive and 25,000 negative reviews. The core dataset contains 50,000 reviews split evenly into 25k train and 25k test sets. The overall distribution of labels is balanced (25k pos and 25k neg). It also contains an additional 50,000 unlabeled documents for unsupervised learning.\\
+In the entire collection, no more than 30 reviews are allowed for any given movie because reviews for the same movie tend to have correlated ratings. Further, the train and test sets contain a disjoint set of movies, so no significant performance is obtained by memorizing movie-unique terms and their associated with observed labels.  In the labeled train/test sets, a negative review has a score $<=$ 4 out of 10, and a positive review has a score $>=$ 7 out of 10. Thus reviews with more neutral ratings are not included in the train/test sets. In the unsupervised set, reviews of any rating are included and there are an even number of reviews $>$ 5 and $<=$ 5. For example,
+\begin{itemize}
+\item \textbf{Postive}: After reading previews for this movie I thought it would be a let down, however after I got my region 1 dvd ( the dvd was available before the film hit the uk cinemas) I was pleasantly surprised, strong performances from all cast members make this a very enjoyable movie. The fact that the script is quite weak means that you dont get bogged down in story and therefore the repeat viewing factor is greater. I recommend this movie to one and all
+\item \textbf{Negative}: This is by far the worst non-English horror movie I've ever seen. The acting is wooden, the dialogues are simply stupid and the story is totally braindead. It's not even scary. 2 out of 10 from me.
+\end{itemize}
+
+\subsection{Trip Advisor Review}
+It contains around 240K reviews(206MB) from hotel domain. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative.\\
+There were total 27315 words in the vocabulary after removing those with count $<$10. Overall, there were 154448 words in the corpus.\\
+The dataset was split into 80-20 ratio for training and testing purpose.\\
+The Meta data includes: Author, Content, Date, Number of Reader, Number of Helpful Judgment, Overall rating, Value aspect rating, Rooms aspect rating, Location aspect rating, Cleanliness aspect rating, Check in/front desk aspect rating, Service aspect rating and Business Service aspect rating. Ratings ranges from 0 to 5 stars, and -1 indicates this aspect rating is missing in the orginal html file.
+
+\subsection{Amazon Review}
+Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose.\\
+There were 3 review datasets: Watches, Electronics and MP3 each of size 30.8MB, 728.4MB and 27.7MB respectively.\\
+Electronics dataset consists of 1,241,778 reviews, Watches Dataset consists of 68,356 reviews and MP3 Dataset consists of 31,000 reviews.
+
+\subsection{Wikipedia}
+We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 20.3GB) containing around 3.5B words with 7.8M words in the vocabulary. This provided us with good embeddings due to larger size and contents from almost all domains.

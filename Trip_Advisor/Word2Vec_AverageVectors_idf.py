@@ -115,14 +115,12 @@ if __name__ == '__main__':
 	downsampling = 1e-3   # Downsample setting for frequent words
 	# Initialize and train the model (this will take some time)
 	print "Training Word2Vec model..."
-	'''
 	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count, window = context, sample = downsampling, seed=1)
 
 	model.init_sims(replace=True)
 
 	model_name = "500features_10minwords_5context"
 	model.save(model_name)
-	'''
 	model = word2vec.Word2Vec.load("500features_10minwords_5context")
 	# ****** Create average vectors for the training and test sets
 	#

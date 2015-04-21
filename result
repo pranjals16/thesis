@@ -88,11 +88,13 @@ Without Feature Engineering:
 
 With Feature Engineering:
 89.51:500,5
+90.37: 600
 
+92.53 with grid search
 -----------------------------------------------------------
 To do in thesis
 ---------------
 1) Graph of run on different datasets
 2) Wikipedia different context size tsne plot
-3) Dataset stats
-4) Merge Glove and word2vec vectors
+3) Merge Glove and word2vec vectors
+4) k-means plot

@@ -50,10 +50,9 @@ In this experiment, we filtered out stop-words on the basis of their frequency i
 		\subsection{Tools/Libraries}
 \begin{itemize}
 	\item Eclipse: An Integrated Development Environment helped speed up the process of coding and its subsequent debugging.
-	\item Java: Being a very common and widely used programming language, loads of  documentation and third party libraries are avialable.
-	\item Maven: A dependency resolver fetching all the required dependencies given the name and version of the required libraries.
-	\item Jedis (Redis): A java implementation of the Redis DB server. Redis is an in-memory key-value pair DB.
-	\item Apache Tomcat: An HTTP servlet implement in and for java execution environments.
+	\item Python: Being a very common and widely used programming language, loads of  documentation and third party libraries are available.
+	\item Scikit: Open source library built on NumPy, SciPy and matplotlib which contains simple and efficient tools for data mining and data analysis.
+	\item Gensim: It is an open-source vector space modeling and topic modeling toolkit, implemented in the Python programming language, using NumPy, SciPy and optionally Cython for performance. It is specifically intended for handling large text collections, using efficient online algorithms.
 \end{itemize}
 
 		\subsection{System Requirements}
@@ -62,7 +61,6 @@ In this experiment, we filtered out stop-words on the basis of their frequency i
 	\item RAM: 16GB; fails to run on 8GB, due to the high amount of in memory data.
 	\item CPU: Intel Core i7, 4th Generation; have used all 8 virtual cores with hyper-threading, with lower CPU, processes would take longer to complete.
 	\item HDD: 280GB dedicated; Million Song Dataset is the only component using considerable persistent memory. Storing user history and codes consume very minimal data storage (in MBs).
-	\item Internet Connection \emph{(optional)}: A suitably fast internet connection to getch user history and a few song information. Slower internet speeds might slow down the entire workflow. This is required for pre-processing when all the required data is collected. Alternatively, the whole pre-processed data can be imported by any means.
 \end{itemize}
 		
 		\subsection{Optimizations}
