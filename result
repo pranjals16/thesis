@@ -1,44 +1,34 @@
 random forest: 280 trees
 84.14
-
 svm: linear (300 context;min count=20)
 87.05
-
 Naive Bayes
 75.95
-
-merged with Wiki trained(200 dim wiki trained)-svm
-87.56
-
+merged with Wiki trained(300 dim wiki trained context5)-svm
+88.60
 Logistic Regression with l1 penalty
 86.90
-
 k-nn:20
 76.76
 ---------------------------------------------------------------------
-
 Hindi
 
 78.0% 50-fold cross validation (350+350 product review;context = 5 downsampling = 1e-5 word_count=1)
-
 79.62% 20-fold cross validation (iitb movie review;context = 5 downsampling = 1e-5 word_count=1,feature=300) better than paper : a fall-back strategy
 
 
 Merged word vectors with tf-idf
 ------------------
 89.52% 20-fold cross validation (iitb movie review;context = 6 downsampling = 1e-3 word_count=1,feature=500) better than paper : a fall-back strategy
-
 90.86% 20-fold cross validation (350+350 product review;context = 6 downsampling = 1e-3 word_count=1)
 
 
 with stop words removed(vectorizer = TfidfVectorizer(tokenizer=tokenize,use_idf=True,max_df=0.3,min_df=0.0001,strip_accents='unicode'))
 ------------------------
-
 89.97% 20-fold cross validation (iitb movie review;context = 6 downsampling = 1e-3 word_count=1,feature=500) better than paper : a fall-back strategy
 91.14% 20-fold cross validation (350+350 product review;context = 6 downsampling = 1e-3 word_count=1)
 
 -----
-
 
 tf-idf+BOW results
 ------------------------------------------------------------
@@ -79,7 +69,7 @@ Movie Review Dataset(Mine)
 Doc2Vec
 ------
 74.57
-88.07: with feature
+88.07: with feature engineering
 
 Without Feature Engineering:
 75.86:500,5
@@ -88,9 +78,11 @@ Without Feature Engineering:
 
 With Feature Engineering:
 89.51:500,5
-90.37: 600
+90.37: 600 select_k_best
+78.61: PCA 50
+66.67: LDA
 
-92.53 with grid search
+92.53 with grid search select_k_best
 
 --------------------------------------------------------------------------------
 IMDB DocVec
@@ -104,25 +96,44 @@ IMDB DocVec
 
 Word2vec+tfidf: 89.03%
 
-Word2vec: 88.21(pure average)
+--------------------------------------------------------
+Word2vec: 88.42(pure average with varying C in SVM Linear)
+Word2vec: (weighted average with varying C in SVM Linear)
+------------------------------------------------------------
 
 docvec+word2vec
 1) 93.09 logistic 100features_10minwords_10context
 2) 92.98 svm 100features_10minwords_10context
-3) 93.24 svm 200features_10minwords_10context
+3) 93.24 svm 200features_10minwords_10context linear
 
+docvec+word2vec+wiki
+1) 93.09 logistic wiki context old 200features_10minwords_10context
+2) 93.18 logistic wiki context 10 200features_10minwords_10context C=1.6
+3) 93.03 logistic wiki context 5 200features_10minwords_10context
 ------------------
-93.468 with RNNLM
-93.70 with my RNNLM+docvec+word2vec (c=6.5,100features+100)
-------------------
+wordvec+docvec+rnnlm
+93.468 with RNNLM+docvec
+93.70  (c=6.5,100features+100)
 
+93.57: word+doc+wiki+rnnlm
+93.93 word+doc+tfidf+rnnlm c=2.1
+
+word+doc+tfidf
+93.448 ngram=1,2;features=25000
+93.456 ngram=1,2;features=20000
+93.64 ngram=1,2;features=15000 (C=0.2 LinearSVC)
+
+word+doc+wiki+tfidf
+93.55 linear svm c=0.3
+------------------
 --------------------------------------------------------------------------------
-
------------------------------------------------------------
 To do in thesis
 ---------------
 1) Graph of run on different datasets
 2) Wikipedia different context size tsne plot
-3) Merge Glove and word2vec vectors
-4) k-means plot
-5) PCA new chapter with comparison in Hindi
+3) k-means plot
+4) PCA new chapter with comparison in Hindi
+5) Recurrent Network Different Chapter
+6) Concatenation of vector space Topic
+
+1st: weighted average

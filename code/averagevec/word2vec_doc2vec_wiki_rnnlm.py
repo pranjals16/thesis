@@ -17,10 +17,10 @@ from sklearn.lda import LDA
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.datasets import load_svmlight_file
+from sklearn.datasets import dump_svmlight_file
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import Normalizer
 
 def drange(start, stop, step):
 	r = start
@@ -100,18 +100,30 @@ if __name__ == '__main__':
     #
     print "Creating average feature vecs for training reviews"
     #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features )
-    #cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
+    #cPickle.dump(trainDataVecs, open('save_train_100.p', 'wb'))
     trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
-    
+    trainDataVecs2 = cPickle.load(open('save_train_mix_context10.p', 'rb'))
+
     print "Creating average feature vecs for test reviews"
     #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features )
-    #cPickle.dump(testDataVecs, open('save_test.p', 'wb'))
+    #cPickle.dump(testDataVecs, open('save_test_100.p', 'wb'))
     testDataVecs = cPickle.load(open('save_test.p', 'rb'))
-   
+    testDataVecs2 = cPickle.load(open('save_test_mix_context10.p', 'rb'))
+    
     X_train, y_train = load_svmlight_file("data/train.txt")
     X_test, y_test = load_svmlight_file("data/test.txt")
-    newTrain = np.hstack((trainDataVecs, X_train.toarray()))
-    newTest = np.hstack((testDataVecs, X_test.toarray()))
+    newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
+    newTest2 = np.hstack((testDataVecs, X_test.toarray()))
+    newTrain = np.hstack((trainDataVecs2, newTrain2))
+    newTest = np.hstack((testDataVecs2, newTest2))
+    kbest=SelectKBest(f_classif, k=500)
+    kbest= kbest.fit(newTrain, y_train)
+    newTrain=kbest.transform(newTrain)
+    newTest=kbest.transform(newTest)
+    with open("train.txt", "wb") as f:
+    		dump_svmlight_file(newTrain, y_train, f,zero_based=False)
+    with open("test.txt", "wb") as f:
+    		dump_svmlight_file(newTest, y_test, f,zero_based=False)
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
     clf = LogisticRegression(penalty='l1')
@@ -120,9 +132,8 @@ if __name__ == '__main__':
     #------------------------------------------------------------------------------------------
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
-    for i in drange(0.1,10.0,0.5):
-    		#clf = svm.SVC(kernel='rbf',C=i)
-    		clf=svm.LinearSVC(C=i)
+    for i in drange(0.1,10.0,0.3):
+    		clf = svm.LinearSVC(C=i)
     		clf.fit(newTrain, y_train)
     		print i,"------------",clf.score(newTest,y_test)
     #------------------------------------------------------------------------------------------

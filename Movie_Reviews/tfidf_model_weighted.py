@@ -25,7 +25,7 @@ from sklearn.feature_selection import f_classif
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from sklearn.cluster import KMeans
-from sklearn import learning_curve
+from sklearn.lda import LDA
 
 # ****** Define functions to create average word vectors
 #
@@ -150,7 +150,8 @@ if __name__ == '__main__':
 	#cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
 	trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
 	print trainDataVecs.shape
-	trainDataVecs_new= SelectKBest(f_classif, k=4000).fit_transform(trainDataVecs, train["sentiment"])
+	#trainDataVecs_new= SelectKBest(f_classif, k=4000).fit_transform(trainDataVecs, train["sentiment"])
+	trainDataVecs_new= LDA().fit_transform(trainDataVecs, train["sentiment"])
 	print trainDataVecs_new.shape
 	'''
 	NUM_TOPICS = 3

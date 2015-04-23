@@ -23,7 +23,7 @@ def makeFeatureVec(words, model, model_full,num_features,index2word_set,index2wo
 	# paragraph
 	#
 	# Pre-initialize an empty numpy array (for speed)
-	featureVec = np.zeros((num_features+200,),dtype="float32")
+	featureVec = np.zeros((num_features+300,),dtype="float32")
 	#
 	nwords = 0.
 	#
@@ -35,10 +35,10 @@ def makeFeatureVec(words, model, model_full,num_features,index2word_set,index2wo
 	# vocaublary, add its feature vector to the total
 	for word in words:
 		if word in index2word_set:
-			temp = np.zeros((num_features+200,),dtype="float32")
+			temp = np.zeros((num_features+300,),dtype="float32")
 			temp[0:num_features]=model[word]
 			if word in index2word_set2:
-				temp[num_features:500]=model_full[word]
+				temp[num_features:]=model_full[word]
 			featureVec = np.add(featureVec,temp)
 			nwords = nwords + 1.
 		#featureVec = np.add(featureVec,model[word])
@@ -56,7 +56,7 @@ def getAvgFeatureVecs(reviews, model,model_full, num_features):
     counter = 0.
     #
     # Preallocate a 2D numpy array, for speed
-    reviewFeatureVecs = np.zeros((len(reviews),num_features+200),dtype="float32")
+    reviewFeatureVecs = np.zeros((len(reviews),num_features+300),dtype="float32")
     index2word_set = set(model.index2word)
     index2word_set2 = set(model_full.index2word)
     #
@@ -68,8 +68,7 @@ def getAvgFeatureVecs(reviews, model,model_full, num_features):
        print "Review %d of %d" % (counter, len(reviews))
        #
        # Call the function (defined above) that makes average feature vectors
-       reviewFeatureVecs[counter] = makeFeatureVec(review, model,model_full, \
-           num_features,index2word_set,index2word_set2)
+       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model,model_full, num_features,index2word_set,index2word_set2)
        #
        # Increment the counter
        counter = counter + 1.
@@ -119,7 +118,7 @@ if __name__ == '__main__':
         level=logging.INFO)
     '''
     # Set values for various parameters
-    num_features = 300    # Word vector dimensionality
+    num_features = 200    # Word vector dimensionality
     min_word_count = 20   # Minimum word count
     num_workers = 4       # Number of threads to run in parallel
     context = 10          # Context window size
@@ -140,46 +139,22 @@ if __name__ == '__main__':
     model_name = "300features_40minwords_10context"
     model.save(model_name)
     '''
-    model = word2vec.Word2Vec.load("300features_40minwords_10context")
-    #model_full = word2vec.Word2Vec.load("../wikipedia_latest.model")
+    model = word2vec.Word2Vec.load("200features_10minwords_10context")
+    model_full = word2vec.Word2Vec.load("../wikipedia_latest_context5")
     # ****** Create average vectors for the training and test sets
     #
     print "Creating average feature vecs for training reviews"
-    #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model,model_full, num_features )
-    #cPickle.dump(trainDataVecs, open('save_train_mix.p', 'wb'))
-    trainDataVecs = cPickle.load(open('save_train_mix.p', 'rb'))
+    trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model,model_full, num_features )
+    cPickle.dump(trainDataVecs, open('save_train_mix_context5.p', 'wb'))
+    #trainDataVecs = cPickle.load(open('save_train_mix.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
-    #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model,model_full, num_features )
-    #cPickle.dump(testDataVecs, open('save_test_mix.p', 'wb'))
-    testDataVecs = cPickle.load(open('save_test_mix.p', 'rb'))
+    testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model,model_full, num_features )
+    cPickle.dump(testDataVecs, open('save_test_mix_context5.p', 'wb'))
+    #testDataVecs = cPickle.load(open('save_test_mix.p', 'rb'))
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
     clf = svm.LinearSVC()
     clf.fit(trainDataVecs, train["sentiment"])
     print clf.score(testDataVecs,test["sentiment"])
     #------------------------------------------------------------------------------------------
-    '''
-    with open("res.tsv", "wb") as outfile:
-    		outfile.write("RandomForestClassifier\n")
-    for x in range(5,300):
-	    forest = RandomForestClassifier( n_estimators = x )
-	    print "Fitting a random forest to labeled training data..."
-	    print "Number of trees is:"
-	    print x
-	    forest = forest.fit( trainDataVecs, train["sentiment"] )
-	    errorv= forest.score(testDataVecs,test["sentiment"])
-	    print errorv
-	    with open("res.tsv", "a") as outfile:
-	    	    outfile.write(str(x))
-	    	    outfile.write(",")
-	    	    outfile.write(str(errorv))
-	    	    outfile.write("\n")
-	
-    # Test & extract results
-    result = clf.predict( testDataVecs )
-    # Write the test results
-    output = pd.DataFrame( data={"id":test["id"], "sentiment":result} )
-    output.to_csv( "Word2Vec_AverageVectors.csv", index=False, quoting=3 )
-    print "Wrote Word2Vec_AverageVectors.csv"
-    '''
