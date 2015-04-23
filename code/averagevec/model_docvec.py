@@ -14,6 +14,7 @@ import numpy as np  # Make sure that numpy is imported
 from gensim.models import word2vec, doc2vec
 from gensim import models
 import cPickle
+from KaggleWord2VecUtility import KaggleWord2VecUtility
 from sklearn import svm
 from nltk import word_tokenize
 from sklearn import cross_validation
@@ -33,14 +34,8 @@ def n_containing(word, decoded):
 def idf(word, decoded):
 	return math.log(len(decoded)/(1+n_containing(word,decoded)))
 	
-def tokenize(text):
-	tokens = word_tokenize(text)
-	stems = []
-	for item in tokens:
-		stems.append(item)
-	return stems
 	
-def makeFeatureVec(words, model,num_features,counter):
+def makeFeatureVec(words, model,num_features,counter,traintest):
 	featureVec = np.zeros((num_features,),dtype="float32")
 	#
 	nwords = 0.
@@ -54,20 +49,23 @@ def makeFeatureVec(words, model,num_features,counter):
 			featureVec = np.add(featureVec,temp)
 			nwords = nwords + 1.
 	#'''
-	featureVec[0:num_features]=model["SENT_"+str(int(counter))]
+	if(traintest=='false'):
+		featureVec[0:num_features]=model["SENT_"+str(int(counter))]
+	else:
+		featureVec[0:num_features]=model["SENT_"+str(int(counter+75000))]
 	# Divide the result by the number of words to get the average
 	#featureVec = np.divide(featureVec,nwords)
 	return featureVec
 
 
-def getAvgFeatureVecs(reviews, model, num_features):
+def getAvgFeatureVecs(reviews, model, num_features,traintest):
     counter = 0.
     reviewFeatureVecs = np.zeros((len(reviews),num_features),dtype="float32")
     #index2word_set = set(model.index2word)
     
     for review in reviews:
        print "Review %d of %d" % (counter, len(reviews))
-       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model,num_features,counter)
+       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model,num_features,counter,traintest)
        counter = counter + 1.
     return reviewFeatureVecs
 
@@ -75,9 +73,7 @@ def getAvgFeatureVecs(reviews, model, num_features):
 def getCleanReviews(reviews):
 	clean_reviews = []
 	for review in reviews["review"]:
-		raw=review.decode('utf-8')
-		tokens = word_tokenize(raw)
-		clean_reviews.append(tokens)
+		clean_reviews.append(review)
 	return clean_reviews
 
 
@@ -88,46 +84,40 @@ if __name__ == '__main__':
     	unlabeled_train = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', "unlabeledTrainData.tsv"), header=0,  delimiter="\t", quoting=3 )
 	print "Read %d labeled train reviews, %d labeled test reviews, " "and %d unlabeled reviews\n" % (train["review"].size, test["review"].size, unlabeled_train["review"].size )
 	
+	tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+	
 	logging.basicConfig(format='%(asctime)s : %(threadName)s : %(levelname)s : %(message)s', level=logging.INFO)
 	logging.info("running %s" % " ".join(sys.argv))
 	
-	num_features = 500    # Word vector dimensionality
-	min_word_count = 10   # Minimum word count
+	num_features = 400    # Word vector dimensionality
+	min_word_count = 1   # Minimum word count
 	num_workers = 8       # Number of threads to run in parallel
-	context =6          # Context window size
-	downsampling = 1e-3   # Downsample setting for frequent words
-	'''
-	input_file = 'data/imdb_train.txt'
+	context =10          # Context window size
+	
+	input_file = 'data/imdb.txt'
 	sentences = doc2vec.LabeledLineSentence(input_file)	
 	print "Training Word2Vec model..."
 	model = doc2vec.Doc2Vec(sentences, workers=num_workers,size=num_features, min_count = min_word_count, window = context)
 	model.init_sims(replace=True)
-	model_name = "500features_10minwords_6context_docvec_train"
+	model_name = "500features_10minwords_6context_docvec"
 	model.save(model_name)
-	'''
-	model=doc2vec.Doc2Vec.load("500features_10minwords_6context_docvec_train")
-	input_file = 'data/imdb_test.txt'
-	sentences = doc2vec.LabeledLineSentence(input_file)	
-	print "Training Word2Vec model..."
-	model2 = doc2vec.Doc2Vec(sentences, workers=num_workers,size=num_features, min_count = min_word_count, window = context)
-	model2.init_sims(replace=True)
-	model_name = "500features_10minwords_6context_docvec_test"
-	model2.save(model_name)
-	model2=doc2vec.Doc2Vec.load("500features_10minwords_6context_docvec_test")
-	#print model2["SENT_1168"]
+	model=doc2vec.Doc2Vec.load("500features_10minwords_6context_docvec")
 	
+	traintest='false'
 	print "Creating average feature vecs for training reviews"
-	#trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features)
-	#cPickle.dump(trainDataVecs, open('save_train_docvec.p', 'wb'))
-	trainDataVecs = cPickle.load(open('save_train_docvec.p', 'rb'))
+	trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,traintest)
+	cPickle.dump(trainDataVecs, open('save_train_docvec.p', 'wb'))
+	#trainDataVecs = cPickle.load(open('save_train_docvec.p', 'rb'))
 	
+	traintest='true'
 	print "Creating average feature vecs for testing reviews"
-	testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model2, num_features)
+	testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,traintest)
+	cPickle.dump(trainDataVecs, open('save_test_docvec.p', 'wb'))
+	#testDataVecs = cPickle.load(open('save_test_docvec.p', 'rb'))
 	#trainDataVecs_new= SelectKBest(f_classif, k=1000).fit_transform(trainDataVecs, train["sentiment"])
 	
 	######################              SVM				####################
 	print "Fitting a SVM classifier to labeled training data..."
-	clf = svm.LinearSVC(C=0.9)
+	clf = svm.LinearSVC()
 	clf.fit(trainDataVecs, train["sentiment"])
-	scores= cross_validation.cross_val_score(clf, trainDataVecs,train["sentiment"], cv=20)
-	print("Accuracy: %0.4f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+	print clf.score(testDataVecs,test["sentiment"])

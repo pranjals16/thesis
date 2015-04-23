@@ -91,6 +91,33 @@ With Feature Engineering:
 90.37: 600
 
 92.53 with grid search
+
+--------------------------------------------------------------------------------
+IMDB DocVec
+
+1) PvDm: 72.52
+2) PvDBOW: 74.77
+3) 92.93 with logistic
+4) 92.88 svm
+5) 93.07 grid search
+6) 93.33 rbf kernel svm
+
+Word2vec+tfidf: 89.03%
+
+Word2vec: 88.21(pure average)
+
+docvec+word2vec
+1) 93.09 logistic 100features_10minwords_10context
+2) 92.98 svm 100features_10minwords_10context
+3) 93.24 svm 200features_10minwords_10context
+
+------------------
+93.468 with RNNLM
+93.70 with my RNNLM+docvec+word2vec (c=6.5,100features+100)
+------------------
+
+--------------------------------------------------------------------------------
+
 -----------------------------------------------------------
 To do in thesis
 ---------------
@@ -98,3 +125,4 @@ To do in thesis
 2) Wikipedia different context size tsne plot
 3) Merge Glove and word2vec vectors
 4) k-means plot
+5) PCA new chapter with comparison in Hindi

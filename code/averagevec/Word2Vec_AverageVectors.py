@@ -55,7 +55,8 @@ def getAvgFeatureVecs(reviews, model, num_features):
     # Given a set of reviews (each one a list of words), calculate
     # the average feature vector for each one and return a 2D numpy array
     #
-    # Initialize a counter
+    # Initialize a counterfrom sklearn import naive_bayes
+from sklearn.ensemble import AdaBoostClassifier
     counter = 0.
     #
     # Preallocate a 2D numpy array, for speed
@@ -180,27 +181,3 @@ if __name__ == '__main__':
     print clf.score(testDataVecs,test["sentiment"])
     
     #------------------------------------------------------------------------------------------
-    '''
-    with open("res.tsv", "wb") as outfile:
-    		outfile.write("RandomForestClassifier\n")
-    for x in range(5,300):
-	    forest = RandomForestClassifier( n_estimators = x )
-	    print "Fitting a random forest to labeled training data..."
-	    print "Number of trees is:"
-	    print x
-	    forest = forest.fit( trainDataVecs, train["sentiment"] )
-	    errorv= forest.score(testDataVecs,test["sentiment"])
-	    print errorv
-	    with open("res.tsv", "a") as outfile:
-	    	    outfile.write(str(x))
-	    	    outfile.write(",")
-	    	    outfile.write(str(errorv))
-	    	    outfile.write("\n")
-	
-    # Test & extract results
-    result = clf.predict( testDataVecs )
-    # Write the test results
-    output = pd.DataFrame( data={"id":test["id"], "sentiment":result} )
-    output.to_csv( "Word2Vec_AverageVectors.csv", index=False, quoting=3 )
-    print "Wrote Word2Vec_AverageVectors.csv"
-    '''
