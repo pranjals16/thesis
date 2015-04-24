@@ -14,13 +14,12 @@ from sklearn import naive_bayes
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.lda import LDA
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import f_classif
 from sklearn.datasets import load_svmlight_file
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import Normalizer
 
 def drange(start, stop, step):
 	r = start
@@ -82,11 +81,9 @@ if __name__ == '__main__':
 
     # Load the punkt tokenizer
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-    # ****** Split the labeled and unlabeled training sets into clean sentences
-    #
     #sentences=cPickle.load(open('sentences.p', 'rb'))
-    sentences = word2vec.Text8Corpus('data/alldata.txt')
-    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
+    #sentences = word2vec.Text8Corpus('data/alldata.txt')
+    #logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
     # Set values for various parameters
     num_features = 200    # Word vector dimensionality
     min_word_count = 10   # Minimum word count
@@ -99,7 +96,7 @@ if __name__ == '__main__':
     #model.init_sims(replace=True)
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
-    model = word2vec.Word2Vec.load("200features_10minwords_10context")
+    #model = word2vec.Word2Vec.load("200features_10minwords_10context")
     #
     '''
     f=open('data/alldata.txt','r')
@@ -131,16 +128,16 @@ if __name__ == '__main__':
     newTrain=trainDataVecs
     newTest=testDataVecs
     ######################              LogisticRegression				####################
-    print "Fitting a LogisticRegression classifier to labeled training data..."
-    clf = LogisticRegression(penalty='l1')
-    clf.fit(newTrain, y_train)
-    print clf.score(newTest,y_test)
-    #------------------------------------------------------------------------------------------
+    #print "Fitting a L2 LogisticRegression classifier to labeled training data..."
+    #for i in drange(0.1,10.0,0.3):
+    #		clf=LogisticRegression(penalty='l1',C=i)
+    #		clf.fit(newTrain, y_train)
+    #		print i,"------------",clf.score(newTest,y_test)
+    
     ######################              SVM				####################
-    print "Fitting a SVM classifier to labeled training data..."
-    for i in drange(0.1,10.0,0.3):
-    		#clf = svm.SVC(kernel='rbf',C=i)
-    		clf=svm.LinearSVC(C=i)
+    print "Fitting a Linear SVM classifier to labeled training data..."
+    for i in drange(250.0,600.0,10.0):
+    		clf = svm.SVC(kernel='rbf',C=i)
+    		#clf=svm.LinearSVC(C=i)
     		clf.fit(newTrain, y_train)
     		print i,"------------",clf.score(newTest,y_test)
-    #------------------------------------------------------------------------------------------

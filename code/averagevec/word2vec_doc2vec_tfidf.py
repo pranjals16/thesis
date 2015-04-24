@@ -22,7 +22,7 @@ from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import Normalizer
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer,HashingVectorizer
 
 def drange(start, stop, step):
 	r = start
@@ -32,10 +32,7 @@ def drange(start, stop, step):
 
 def makeTfidfFeatures(traindata, testdata):
     print('vectorizing... ')    
-    tfv = TfidfVectorizer(min_df=2,  max_features=15000,
-                          strip_accents='unicode', analyzer='word', token_pattern=r'\w{1,}',
-                          ngram_range=(1, 2), use_idf=1, smooth_idf=1, sublinear_tf=1,
-                          stop_words='english')
+    tfv=TfidfVectorizer(min_df=5,max_features=15000,strip_accents='unicode',analyzer='word',token_pattern=r'\w{1,}',ngram_range=(1,2),use_idf=1,smooth_idf=1,sublinear_tf=1,dtype=np.float32)
     X_all = traindata + testdata
     lentrain = len(traindata)
     tfv.fit(X_all)
@@ -141,15 +138,22 @@ if __name__ == '__main__':
     #cPickle.dump(testDataVecs, open('save_test.p', 'wb'))
     testDataVecs = cPickle.load(open('save_test.p', 'rb'))
    
-    X_train, y_train = load_svmlight_file("data/train.txt")
-    X_test, y_test = load_svmlight_file("data/test.txt")
-    newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
-    newTest2 = np.hstack((testDataVecs, X_test.toarray()))
+    X_train1, y_train = load_svmlight_file("data/train.txt")
+    X_test1, y_test = load_svmlight_file("data/test.txt")
+    X_train2, y_train2 = load_svmlight_file("data/train2.txt")
+    X_test2, y_test2 = load_svmlight_file("data/test2.txt")
+    X_train3=np.add(X_train1,X_train2)
+    X_test3=np.add(X_test1,X_test2)
+    X_train4=np.divide(X_train3,2)
+    X_test4=np.divide(X_test3,2)
+    newTrain2 = np.hstack((trainDataVecs, X_train4.toarray()))
+    newTest2 = np.hstack((testDataVecs, X_test4.toarray()))
     newTrain=np.hstack((newTrain2, trainTfidfData.toarray()))
     print "1st Loaded!!!"
     newTest=np.hstack((newTest2, testTfidfData.toarray()))
     print "2nd Loaded!!!"
     print newTrain.shape,newTest.shape
+    
     #cPickle.dump(newTrain, open('newTrain_worddoctfidf.p', 'wb'))
     #cPickle.dump(newTest, open('newTest_worddoctfidf.p', 'wb'))
     #newTrain=cPickle.load(open('newTrain_worddoctfidf.p', 'rb'))
@@ -158,15 +162,20 @@ if __name__ == '__main__':
     gc.collect()
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
-    clf=LogisticRegression(penalty='l1')
+    clf=LogisticRegression(penalty='l2',C=4.3)
     clf.fit(newTrain, y_train)
-    print clf.score(newTest,y_test)
-    #------------------------------------------------------------------------------------------
+    score=clf.score(newTest,y_test)
+    print score
+    #prob=clf.predict_proba(newTest)
+    #clas=clf.predict(newTest)
+    #for i in range(0,25000):
+    #		print int(clas[i]),prob[i][0]
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
-    for i in drange(0.1,0.6,0.1):
-    		#clf = svm.SVC(kernel='linear',C=i)
-    		clf=svm.LinearSVC(C=i)
+    for i in drange(0.1,0.4,0.01):
+    		#clf = svm.SVC(kernel='rbf',C=i)
+    		clf=svm.LinearSVC(C=0.29)
     		clf.fit(newTrain, y_train)
-    		print i,"------------",clf.score(newTest,y_test)
+    		score=clf.score(newTest,y_test)
+    		print i,"------------",score
     #------------------------------------------------------------------------------------------

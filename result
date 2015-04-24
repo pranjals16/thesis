@@ -1,3 +1,9 @@
+IMPORTant
+average of shuffled and not shuffled sentence vectors
+92.14 logistic c=3.3; without rnnlm 
+92.22 linear SVM c=0.29 without rnnlm 
+92.71 c=4.5 rnnlm
+-----------------------------------------
 random forest: 280 trees
 84.14
 svm: linear (300 context;min count=20)
@@ -98,7 +104,7 @@ Word2vec+tfidf: 89.03%
 
 --------------------------------------------------------
 Word2vec: 88.42(pure average with varying C in SVM Linear)
-Word2vec: (weighted average with varying C in SVM Linear)
+Word2vec: 88.41 (weighted average with varying C in SVM Linear)
 ------------------------------------------------------------
 
 docvec+word2vec
@@ -110,21 +116,28 @@ docvec+word2vec+wiki
 1) 93.09 logistic wiki context old 200features_10minwords_10context
 2) 93.18 logistic wiki context 10 200features_10minwords_10context C=1.6
 3) 93.03 logistic wiki context 5 200features_10minwords_10context
+4) 93.18 with weighted logistic wiki context 10 200features_10minwords_10context C=1.6
 ------------------
 wordvec+docvec+rnnlm
 93.468 with RNNLM+docvec
-93.70  (c=6.5,100features+100)
+93.70  (c=6.5,100features+100) 50 nodes in RNNLM
 
-93.57: word+doc+wiki+rnnlm
-93.93 word+doc+tfidf+rnnlm c=2.1
+93.57: word+doc+wiki+rnnlm hidden=50
+93.93 word+doc+tfidf+rnnlm c=2.1 hidden=50
+94.19 word+doc+tfidf+rnnlm c=8.5 without stop words hidden=50
 
 word+doc+tfidf
 93.448 ngram=1,2;features=25000
 93.456 ngram=1,2;features=20000
 93.64 ngram=1,2;features=15000 (C=0.2 LinearSVC)
+93.91 ngram=1,2;features=15000 stop_words=false svm C=0.33
+93.83 ngram=1,2;features=15000 stop_words=false logistic l2 c=4.3
 
 word+doc+wiki+tfidf
 93.55 linear svm c=0.3
+
+weighted word: 88.42
+weighted word+ doc: 93.19 linear svm
 ------------------
 --------------------------------------------------------------------------------
 To do in thesis
@@ -135,5 +148,6 @@ To do in thesis
 4) PCA new chapter with comparison in Hindi
 5) Recurrent Network Different Chapter
 6) Concatenation of vector space Topic
+7) Chapter on Embeddings
 
-1st: weighted average
+1st: weighted average alone with logistic l1,l and svm linear,rbf

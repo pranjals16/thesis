@@ -1,5 +1,5 @@
 #this function will convert text to lowercase and will disconnect punctuation and special symbols from words
-<< comment
+<< comment1
 function normalize_text {
   awk '{print tolower($0);}' < $1 | sed -e 's/\./ \. /g' -e 's/<br \/>/ /g' -e 's/"/ " /g' \
   -e 's/,/ , /g' -e 's/(/ ( /g' -e 's/)/ ) /g' -e 's/\!/ \! /g' -e 's/\?/ \? /g' \
@@ -30,7 +30,12 @@ wget http://www.fit.vutbr.cz/~imikolov/rnnlm/rnnlm-0.3e.tgz
 tar -xvf rnnlm-0.3e.tgz
 g++ -lm -O3 -march=native -Wall -funroll-loops -ffast-math -c rnnlmlib.cpp
 g++ -lm -O3 -march=native -Wall -funroll-loops -ffast-math rnnlm.cpp rnnlmlib.o -o rnnlm
+comment1
 
+cd rnnlm
+tar -xvf rnnlm-0.3e.tgz
+g++ -lm -O3 -march=native -Wall -funroll-loops -ffast-math -c rnnlmlib.cpp
+g++ -lm -O3 -march=native -Wall -funroll-loops -ffast-math rnnlm.cpp rnnlmlib.o -o rnnlm	
 head ../train-pos.txt -n 12300 > train
 tail ../train-pos.txt -n 200 > valid
 ./rnnlm -rnnlm model-pos -train train -valid valid -hidden 50 -direct-order 3 -direct 200 -class 100 -debug 2 -bptt 4 -bptt-block 10 -binary
@@ -44,6 +49,8 @@ awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
 ./rnnlm -rnnlm model-pos -test test-id.txt -debug 0 -nbest > model-pos-score
 ./rnnlm -rnnlm model-neg -test test-id.txt -debug 0 -nbest > model-neg-score
 paste model-pos-score model-neg-score | awk '{print $1 " " $2 " " $1/$2;}' > ../RNNLM-SCORE
+
+<< comment2
 cd ..
 mkdir word2vec
 cd word2vec
@@ -55,12 +62,12 @@ gcc word2vec.c -o word2vec -lm -pthread -O3 -march=native -funroll-loops
 #time ./word2vec -train ../alldata-id.txt -output vectors.txt -cbow 0 -size 100 -window 10 -negative 5 -hs 0 -sample 1e-4 -threads 40 -binary 0 -iter 20 -min-count 1 -sentence-vectors 1
 time ./word2vec -train ../alldata-id.txt -output vectors.txt -cbow 0 -size 100 -window 10 -negative 5 -hs 1 -sample 1e-3 -threads 40 -binary 0 -iter 20 -min-count 1 -sentence-vectors 1 
 grep '_\*' vectors.txt > sentence_vectors.txt
-wget http://www.csie.ntu.edu.tw/~cjlin/liblinear/liblinear-1.94.zip
-unzip liblinear-1.94.zip
-comment
-cd liblinear-1.94
-make
-cd ..
+#wget http://www.csie.ntu.edu.tw/~cjlin/liblinear/liblinear-1.94.zip
+#unzip liblinear-1.94.zip
+
+#cd liblinear-1.94
+#make
+#cd ..
 head sentence_vectors.txt -n 25000 | awk 'BEGIN{a=0;}{if (a<12500) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > train.txt
 head sentence_vectors.txt -n 50000 | tail -n 25000 | awk 'BEGIN{a=0;}{if (a<12500) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > test.txt
 ./liblinear-1.94/train -s 0 train.txt model.logreg
@@ -94,3 +101,4 @@ BEGIN{cn=0; corr=0;} \
   cn++; \
 } \
 END{print "FINAL accuracy: " corr/cn*100 "%";}'
+comment2
