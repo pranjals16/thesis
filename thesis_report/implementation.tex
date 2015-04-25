@@ -1,6 +1,27 @@
-\chapter{Implementation}
-	A workflow defined as a graphic summary of the following has been depicted in Figure \ref{work_flow}.
-	We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 290MB) containing around 24M words with 724K words in the vocabulary. This provided us with good embeddings due to larger size and contents from almost all domains.
+\chapter{Experiment}
+\section{Context Size}
+\cite{Mikolov:13a} describe in their work how context size affects the type and quality of word vectors. One of the observations is that a smaller context size tend to capture syntactic similarity to a much better extent. As we increase the context size, vectors tend to capture more of semantic similarity.\\
+\begin{figure}[ht]
+\centering
+\includegraphics[width=140mm, height=110mm]{context_size.eps}
+\caption{Variation of Accuracy with Different Context Size on Watches and MP3 Datasets. \label{fig:context_size}}
+\end{figure}
+We try to look how context size affects the accuracy on two amazon datasets, Watches and MP3.\\
+Figure \ref{fig:context_size} depicts the accuracies obtained by varying the context size from 5 to 10. In both the cases, we find a peak at context size 7. There is an increase from 5 to 7 which denotes increase of context strength. As a result, we see increase in accuracies. Once the context size goes beyond a threshold, the semantic counterpart dominates which attains maximum at context size 10.\\
+We also see that larger data size or training data affects the accuracy on test set. In this case, \emph{Watches} dataset is larger than \emph{MP3} dataset.\\
+
+Figure \ref{fig:tsne_context} shows how the high dimensional representation changes when we change the context size. The embeddings were formed with context sizes 5 and 10 by training on Latest Wikipedia dump.
+\section{SkipGram or CBOW}
+SkipGram model tends to predict a context given a word whereas CBOW model predicts a word given a context. It seems intuitive and also from observation~\cite{Mikolov:13b} that SkipGram will perform better on semantic tasks and CBOW on syntactic tasks. We now try to evaluate how they differ on classification accuracies on the two datasets: \emph{Watches} and \emph{MP3}.
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=140mm, height=110mm]{accuracy_sgcbow.eps}
+\caption{Variation of Accuracy with Different Context Size on Watches and MP3 Datasets. \label{fig:accuracy_sgcbow}}
+\end{figure}
+Figure \ref{fig:accuracy_sgcbow} show that skipgram outperforms CBOW on sentiment classification task. It can be justified by the fact that sentiment inclination of a document is more oriented towards semantics of that document rather than just syntax and our results clearly demonstrate this fact.
+
+A workflow defined as a graphic summary of the following has been depicted in Figure \ref{work_flow}.
+We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 290MB) containing around 24M words with 724K words in the vocabulary. This provided us with good embeddings due to larger size and contents from almost all domains.
 
 The quality of word vectors can be evaluated by comparing them with words which are closer to them semantically and syntactically. This is usually done via cosine similarity.  Another evaluation can be done through tSNE~\cite{Maaten:08} which helps in visualization which maps each high-dimensional data point to a two or three-dimensional map. In our experiment, we took 5K words and plotted
 them with tSNE (fig.~\ref{fig:5K_hindi_zoom}). 

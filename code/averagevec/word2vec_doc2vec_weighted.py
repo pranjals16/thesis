@@ -136,7 +136,7 @@ if __name__ == '__main__':
     
     ######################              SVM				####################
     print "Fitting a Linear SVM classifier to labeled training data..."
-    for i in drange(250.0,600.0,10.0):
+    for i in drange(1100.0,2000.0,10.0):
     		clf = svm.SVC(kernel='rbf',C=i)
     		#clf=svm.LinearSVC(C=i)
     		clf.fit(newTrain, y_train)

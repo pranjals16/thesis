@@ -102,25 +102,25 @@ if __name__ == '__main__':
 	num_features = 500    # Word vector dimensionality
 	min_word_count = 10   # Minimum word count
 	num_workers = 8       # Number of threads to run in parallel
-	context = 10          # Context window size
+	context = 10        # Context window size
 	downsampling = 1e-3   # Downsample setting for frequent words
 	# Initialize and train the model (this will take some time)
 	print "Training Word2Vec model..."
-	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count, window = context, sample = downsampling, seed=1,negative=10)
+	model = word2vec.Word2Vec(sentences, workers=num_workers, size=num_features, min_count = min_word_count, window = context, sample = downsampling, seed=1,negative=10,sg=0)
 	model.init_sims(replace=True)
-	model_name = "500features_10minwords_5context_mp3"
-	model.save(model_name)
+	#model_name = "500features_10minwords_5context_mp3"
+	#model.save(model_name)
 	#model = word2vec.Word2Vec.load("500features_10minwords_5context_mp3")
 	# ****** Create average vectors for the training and test sets
 	#
 	print "Creating average feature vecs for training reviews"
 	trainDataVecs = getAvgFeatureVecs( getCleanReviews(Train), model, num_features )
-	cPickle.dump(trainDataVecs, open('save_train_mp3.p', 'wb'))
+	#cPickle.dump(trainDataVecs, open('save_train_mp3.p', 'wb'))
 	#trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
 
 	print "Creating average feature vecs for test reviews"
 	testDataVecs = getAvgFeatureVecs( getCleanReviews(Test), model, num_features)
-	cPickle.dump(testDataVecs, open('save_test_mp3.p', 'wb'))
+	#cPickle.dump(testDataVecs, open('save_test_mp3.p', 'wb'))
 	#testDataVecs = cPickle.load(open('save_test.p', 'rb'))
 	#------------------------------------------------------------------------------------------
 	######################              SVM				####################

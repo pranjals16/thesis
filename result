@@ -4,6 +4,8 @@ average of shuffled and not shuffled sentence vectors
 92.22 linear SVM c=0.29 without rnnlm 
 92.71 c=4.5 rnnlm
 -----------------------------------------
+
+
 random forest: 280 trees
 84.14
 svm: linear (300 context;min count=20)
@@ -62,10 +64,22 @@ IIIT: 90.86;800,7,1e-5;svm(C=0.8)20-fold with feature engineering
 
 parsed amazon dataset
 
-Weighted Average Word Vectors
-88.98: MP3  500 features context=10 (NE=10)
-89.41: Electronics  500 features context=10
-91.15: Watches 500 features context=10
+Average Word Vectors
+88.39: MP3  500 features context=10 (NE=10) cbow
+88.98: MP3  500 features context=10 (NE=10) sg
+88.64: MP3  500 features context=5 (NE=10) sg
+88.69: MP3  500 features context=6 (NE=10) sg
+89.02: MP3  500 features context=7 (NE=10) sg
+88.74: MP3  500 features context=8 (NE=10) sg
+89.02: MP3  500 features context=9 (NE=10) sg
+89.41: Electronics  500 features context=10 sg
+90.69: Watches 500 features context=10 cbow
+91.15: Watches 500 features context=10 sg
+90.90: Watches 500 features context=5 sg
+90.96: Watches 500 features context=6 sg
+91.19: Watches 500 features context=7 sg
+90.99: Watches 500 features context=8 sg
+91.17: Watches 500 features context=9 sg
 
 Trip Advisor Dataset
 91.57% accuracy: 600 context=10
@@ -146,8 +160,4 @@ To do in thesis
 2) Wikipedia different context size tsne plot
 3) k-means plot
 4) PCA new chapter with comparison in Hindi
-5) Recurrent Network Different Chapter
-6) Concatenation of vector space Topic
-7) Chapter on Embeddings
-
-1st: weighted average alone with logistic l1,l and svm linear,rbf
+5) Chapter on Embeddings
