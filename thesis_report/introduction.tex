@@ -76,11 +76,16 @@ Majority of the existing work in this field is in English (Pang and Lee, 2008).
 
 Our model uses word vector averaging to build document vectors which constitute a feature set for our SVM classier. We have used skip-gram model (Mikolov et al., 2013b) for building word vectors because deep network model of Collobert et al.(2008) takes too much time for training. Also the word embeddings obtained by them are not as good as those obtained by Mikolov et al.(2013b). On NER task, skip-gram obtained F1-score of 93.1 while CW obtained F1-score of 92.2. We have also experimented with tf-idf for building our feature set. Our model shows slight improvement in performance if we filter out certain corpus based stop words. This is a first attempt to use word vectors for sentiment analysis in Hindi. Word vectors capture both semantic and syntactic information for a given corpus. Words which are semantically and syntactically related tend to be closer in high-dimensional space.\\
 
-	\section{The Problem}
-		The mood of a music enthusiast can be determined by the songs she has heard recently. The mood usually changes gradually over time and can be modeled by the genre of the songs. Mood once modeled can be compared with those of other similar users and thus help conclude the preference of a song after a set of given songs (which determine the mood) as heard by other ``similar" users.
+\section{The Problem}
+The problem undertaken in this thesis is to use Distributional Semantics for under-resourced languages such as Hindi to cater to a very significant NLP task of sentiment analysis. We also took the task of using distributional semantics with various forms of composition of vectors and even features to build good models for English as well. We have also laid a systematic background to the problem of context size and how it is related to syntactic and semantic similarity in text. 
 
-	\section{Contributions of this Thesis}
-		There are two main contributions of this thesis. The first is to determine the rolling current mood of a user based on her recently played tracks. The challenge here is to optimize the monitored rolling time duration, to come up with a method to compare two set of moods a set of weights for each of the contributing factor, i.e., mood, user's preferences and collaborative filtering to obtain a confidence score for each recommendation at any given instant. The second is to build a tool that not only shows the recommendations but also lets you customize the determining weights and parameters of the recommendation engine.
+\section{Contributions of this Thesis}
+There are three main contributions of this thesis:
+\begin{itemize}
+\item We have successfully applied distributional models for Hindi and achieved state-of-the-art results on standard corpus of product and movie reviews. As a result, we have successfully published our work in regICON-2015 organized at IIT-BHU.
+\item We have also compiled a corpus in Hindi containing around 700 Movie Reviews which is the largest corpus in Hindi in this domain.
+\item We have achieved state-of-the-art results on IMDB Movie Review dataset(94.19\%) and have beaten the previous best by over 1.6\% in terms of accuracy.
+\end{itemize}
 
-	\section{Organization of this Thesis}
-		The rest of this thesis is organized as follows. Chapter 2 presents related work done. Chapter 3 discusses the various background work that one must be acquainted with in order to understand the work presented. Chapter 4 discusses the data sources and APIs used to set up a sample infrastructure of the recommendation system. Chapter 5 then discusses in detail the implemented methods and algorithms. Chapter 6 presents a summary of the results that was achieved and also talks about what can be done further.
+\section{Organization of this Thesis}
+The rest of this thesis is organized as follows. Chapter 2 presents related work done. Chapter 3 discusses the various background work that one must be acquainted with in order to understand the work presented. Chapter 4 discusses the data sources and presents the statistics of each dataset. Chapter 5 then discusses in detail the implemented methods and algorithms. Chapter 6 presents a summary of the results that was achieved. Chapter 7 presents concluding remarks to our work and talks about what can be done further.

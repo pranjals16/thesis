@@ -1,57 +1,74 @@
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
-from sklearn.ensemble import RandomForestClassifier
-import matplotlib.pyplot as plt
+print(__doc__)
+
 import numpy as np
-from EnsembleClassifier import EnsembleClassifier
+import matplotlib.pyplot as plt
+from sklearn import svm, datasets
+import cPickle
+from sklearn.datasets import load_svmlight_file
+from sklearn.datasets import dump_svmlight_file
+# import some data to play with
+iris = datasets.load_iris()
+X=iris.data[:, [0,3]]  # we only take the first two features. We could
+                      # avoid this ugly slicing by using a two-dim dataset
+y = iris.target
 
-clf1 = LogisticRegression(random_state=123)
-clf2 = RandomForestClassifier(random_state=123)
-clf3 = GaussianNB()
-X = np.array([[-1.0, -1.0], [-1.2, -1.4], [-3.4, -2.2], [1.1, 1.2]])
-y = np.array([1, 1, 2, 2])
+h = .02  # step size in the mesh
+trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
+testDataVecs = cPickle.load(open('save_test.p', 'rb'))
+X_train1, y_train = load_svmlight_file("data/train.txt")
+X_test1, y_test = load_svmlight_file("data/test.txt")
+X_train2, y_train2 = load_svmlight_file("data/train2.txt")
+X_test2, y_test2 = load_svmlight_file("data/test2.txt")
+X_train3=np.add(X_train1,X_train2)
+X_test3=np.add(X_test1,X_test2)
+X_train4=np.divide(X_train3,2)
+X_test4=np.divide(X_test3,2)
+newTrain = np.hstack((trainDataVecs, X_train4.toarray()))
+newTest = np.hstack((testDataVecs, X_test4.toarray()))
+X=newTrain
+y=y_train
+# we create an instance of SVM and fit out data. We do not scale our
+# data since we want to plot the support vectors
+C = 1.0  # SVM regularization parameter
+clf = svm.LinearSVC(C=C).fit(X, y)
+print "Linear SVM"
+#rbf_svc = svm.SVC(kernel='rbf', gamma=0.7, C=C).fit(X, y)
+print "RBF SVM"
+#poly_svc = svm.SVC(kernel='poly', degree=3, C=C).fit(X, y)
+print "Poly SVM"
+#svc = svm.SVC(kernel='linear', C=C).fit(X, y)
+print "LinearSVC"
 
-eclf = EnsembleClassifier(clfs=[clf1, clf2, clf3], 
-                        voting='soft', 
-                        weights=[1, 1, 5])
+# create a mesh to plot in
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                     np.arange(y_min, y_max, h))
 
-# predict class probabilities for all classifiers
-probas = [c.fit(X, y).predict_proba(X) for c in (clf1, clf2, clf3, eclf)]
+# title for the plots
+titles = ['SVC with linear kernel']
 
-# get class probabilities for the first sample in the dataset
-class1_1 = [pr[0,0] for pr in probas]
-class2_1 = [pr[0,1] for pr in probas]
 
-#####################
-# plotting 
+# Plot the decision boundary. For that, we will assign a color to each
+# point in the mesh [x_min, m_max]x[y_min, y_max].
+#plt.subplot(1, 1, 1 + 1)
+#plt.subplots_adjust(wspace=0.4, hspace=0.4)
+#print i
+Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+#Z= clf.predict(newTest)
 
-N = 4  # number of groups
-ind = np.arange(N)  # group positions
-width = 0.35  # bar width
+# Put the result into a color plot
+#Z = Z.reshape(xx.shape)
+plt.contourf(xx, yy, Z, cmap=plt.cm.Paired, alpha=0.8)
 
-fig, ax = plt.subplots(figsize=(7,5))
+# Plot also the training points
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Paired)
+plt.xlabel('Sepal length')
+plt.ylabel('Sepal width')
+plt.xlim(xx.min(), xx.max())
+plt.ylim(yy.min(), yy.max())
+plt.xticks(())
+plt.yticks(())
+plt.title(titles[i])
 
-# bars for classifier 1-3
-p1 = ax.bar(ind, np.hstack(([class1_1[:-1],[0]])), width, color='green')
-p2 = ax.bar(ind + width, np.hstack(([class2_1[:-1],[0]])), width, color='lightgreen')
-
-# bars for VotingClassifier
-p3 = ax.bar(ind, [0, 0, 0, class1_1[-1]], width, color='blue')
-p4 = ax.bar(ind + width, [0, 0, 0, class2_1[-1]], width, color='steelblue')
-
-# plot annotations
-plt.axvline(2.8, color='k', linestyle='dashed')
-ax.set_xticks(ind + width)
-ax.set_xticklabels(['LogisticRegression\nweight 1', 
-                    'GaussianNB\nweight 1', 
-                    'RandomForestClassifier\nweight 5', 
-                    'VotingClassifier\n(average probabilities)'],
-                   rotation=40,
-                   ha='right')
-plt.ylim([0,1])
-plt.ylabel('probability')
-plt.title('Class probabilities for sample 1 by different classifiers')
-plt.legend([p1[0], p2[0]], ['class 1', 'class 2'] , loc='upper left')
-plt.tight_layout()
-#plt.savefig('../../images/sklean_ensemble_probas.png')
 plt.show()

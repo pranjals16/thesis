@@ -13,18 +13,9 @@ Before concludiong, we return to the unexpectedly high improvement in accuracy a
 ~\cite{Bakliwal:12}, which shows intern-annotator agreement on sentiment words are very poor (70\%) - i.e. about 30\% of these words have poor human agreement. Compared to this, the word vector model  
 provides considerable power, especially as amplified by the tf-idf process. Thus, this also seems to underline the claim that distributional semantics is a topic worth exploring for Indian languages. 
 
-	\section{Improvements}
-		This recommendation system has been built more as a \emph{proof of concept} than a competitive tool. A lot of things may enhance the performance the results of the recommendation and to make it even more accurate. Some of them have been discussed below.
-
- \begin{itemize}
- 	\item Million Song Dataset: The global dictionary of songs has been restricted to 1,000,000 and recommendations are made from this dataset only. Adding more songs, will improve the quality of recommendations.
- 	\item User History: There is a certain amount of loss while fetching the user history and cleaning it up. It corrupts the determined ``mood'' of the user. Using a cleaner method and a reliable source of history should be able to tackle this matter.
- 	\item Users: Currently, the set of users being used for collaborative filtering is not only limited but also very random and does not encompass the different moods and interests of music listeners.
- 	\item MFCC: There are several other parameters as obtained from the MFCC analysis of a song. These included appropriately in the computation would significantly bring out better results.
- 	\item Feedback: If a user skips a certain song, the recommendation engine should learn not to present her with the song anytime soon again. The weights for each parameters can be dynamically changed as per the user feedback using machine learning techniques.
- \end{itemize} 
+\section{Improvements}
 	
-	\section{Summary}
+\section{Summary}
 \begin{itemize}
 	\item Corpus: This plays a very significant role in the process of sentiment prediction and has not been very widely tapped. Some corpus tend to be more focused towards sentiment while some contain a lot of information which is redundant as far as their sentiment score is concerned.
 	\item Features: This parameter has been part of what we call in machine learing as \emph{Feature Engineering} and has been very popular whenever a new algorithm appears in the domain of Machine Learning or Natural Language Processing.

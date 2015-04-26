@@ -153,11 +153,4 @@ word+doc+wiki+tfidf
 weighted word: 88.42
 weighted word+ doc: 93.19 linear svm
 ------------------
---------------------------------------------------------------------------------
-To do in thesis
----------------
-1) Graph of run on different datasets
-2) Wikipedia different context size tsne plot
-3) k-means plot
-4) PCA new chapter with comparison in Hindi
-5) Chapter on Embeddings
+PCA new chapter with comparison in Hindi
