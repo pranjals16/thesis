@@ -1,5 +1,43 @@
 \chapter{Results}
 \section{Results on English Datasets}
+
+\begin {table}[h!]
+\centering
+\begin{tabular}{ | c | c | }
+\hline
+\textbf{Method} & \textbf{Accuracy} \\ \hline
+Maas et al.(2011) & 88.89\\ \hline
+NBSVM-bi (Wang \& Manning, 2012) & 91.22\\ \hline
+NBSVM-uni (Wang \& Manning, 2012) & 88.29\\ \hline
+SVM-uni (Wang \& Manning, 2012) & 89.16\\ \hline
+Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
+WordVector+Wiki(Our Method) & 88.60\\ \hline
+WordVector+TfIdf(Our Method) & 89.03\\ \hline
+WordVector+TfIdf+Document Vector+RNNLM(Our Method) & \textbf{94.19}\\ \hline
+\end{tabular}
+\caption {Results on IMDB Movie Review Dataset}
+\end{table}
+
+\begin {table}[h!]
+\centering
+\begin{tabular}{ | c | c | }
+\hline
+\textbf{Method} & \textbf{Accuracy} \\ \hline
+WordVector Averaging & 88.42\\ \hline
+Weighted WordVector Average & 88.41\\ \hline
+WordVector Averaging+Wiki & 88.60\\ \hline
+WordVector Averaging+TfIdf & 89.03\\ \hline
+WordVector Averaging+Document Vector & 93.24\\ \hline
+WordVector Averaging+Wiki+Document Vector & 93.18\\ \hline
+WordVector Averaging+Document Vector+RNNLM & 93.70\\ \hline
+WordVector Averaging+Wiki+Document Vector+RNNLM & 93.57\\ \hline
+WordVector Averaging+TfIdf+Document Vector & 93.91\\ \hline
+WordVector Averaging+Wiki+Document Vector+TfIdf & 93.55\\ \hline
+WordVector Averaging+TfIdf+Document Vector+RNNLM & \textbf{94.19}\\ \hline
+\end{tabular}
+\caption {Comparison of results on IMDB Movie Review Dataset with Various Features}
+\end{table}
+
 \begin {table}[h!]
 \centering
 \begin{tabular}{ | c | c | }
@@ -12,19 +50,6 @@ WordVector Averaging (Our Method) & \textbf{89.23}\\ \hline
 \caption {Results on Amazon Electronics Review Dataset}
 \end{table}
 
-\begin {table}[h!]
-\centering
-\begin{tabular}{ | c | c | }
-\hline
-\textbf{Features} & \textbf{Accuracy} \\ \hline
-Maas et al.(2011) & 88.89\\ \hline
-Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
-WordVector Averaging+Wiki (Our Method) & 88.60\\ \hline
-\end{tabular}
-\caption {Results on IMDB Movie Review Dataset}
-\end{table}
-
-
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=140mm, height=120mm]{accuracy_wordvectors.eps}
@@ -32,6 +57,7 @@ WordVector Averaging+Wiki (Our Method) & 88.60\\ \hline
 \end{figure}
 
 \section{Results on Hindi Datasets}
+\label{sec:hindi_results}
 \begin {table}[h!]
 \centering
 \begin{tabular}{ | c | c | c | }
@@ -39,7 +65,9 @@ WordVector Averaging+Wiki (Our Method) & 88.60\\ \hline
 \textbf{Features} & \textbf{Accuracy(1)} & \textbf{Accuracy(2)} \\ \hline
 WordVector Averaging & 78.0 & 79.62\\ \hline
 WordVector+tf-idf & 90.73 & 89.52\\ \hline
-WordVector+tf-idf without stop words & \textbf{91.14} & \textbf{89.97}\\ \hline
+WordVector+tf-idf without stop words & 91.14 & 89.97\\ \hline
+Weighted WordVector & 89.71 & 85.90\\ \hline
+Weighted WordVector+tf-idf & \textbf{92.89} & \textbf{90.30}\\ \hline
 \end{tabular}
 \caption {Accuracies for Product Review and Movie Review Datasets.}
 \end{table}
@@ -75,7 +103,7 @@ Improved Hindi-SWN  (Bakliwal et al.(2012)) & Adj. and Adv. presence & 79.0\\ \h
 
 Table 5 shows the top few similar words for certain words from the corpus with cosine similarity as a distance metric. 
 The words which have higher cosine similarity tend to be semantically and syntactically related.
-\begin {table}[h!]
+\begin {table}[ht!]
 \small
 \begin{tabular}{ | l | l | l | }
 \hline
@@ -86,4 +114,69 @@ The words which have higher cosine similarity tend to be semantically and syntac
 {\dn itnA} & {\dn bdtr} & {\dn avsAd}\\ \hline
 \end{tabular}
 \caption {Some sentiment words and their neighbors}
+\end{table}
+
+\section{Odd One Out}
+We trained Skip-Gram model on latest English and Hindi Wikipedia dump and tried to analyze the quality of embeddings by finding the odd word amongst a list of words. For this task, we took found cosine similarity between each pair and found the worrd with lowest cosine similarity with every other. The results are highlighted below-
+
+\begin{table}[ht!]
+\centering
+\Large
+\begin{tabular}{|l|l|l|l|}
+\hline
+breakfast         & \textbf{cereal} & lunch        & dinner  \\ \hline 
+eight             & seven           & \textbf{owe} & nine    \\ \hline 
+\textbf{shopping} & math            & reading      & science \\ \hline
+\end{tabular}
+\caption{Odd One Out in English}
+\label{fig:english_odd}
+\end{table}
+
+\begin{table}[ht!]
+\centering
+\Large
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\dn BArt} & \textbf{{\dn \7{m}MbI}} & {\dn !s} & {\dn cFn}  \\ \hline 
+{\dn lwkF}  & {\dn b\?hn} & \textbf{{\dn md\0}} & {\dn mEhlA}    \\ \hline 
+\textbf{{\dn u\38Dwog}} & {\dn n\?tA}  & {\dn m\2/F} & {\dn srkAr} \\ \hline
+\end{tabular}
+\caption{Odd One Out in Hindi}
+\label{fig:hindi_odd}
+\end{table}
+
+\section{Similar Words}
+The trained skip-gram model was used for this task as well. We found the top few words which were closer in terms of cosine distance to the give word. The results are highlighted below-
+\begin{table}[ht!]
+\centering
+\large
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textcolor{blue}{\textbf{Father}} & \textcolor{blue}{\textbf{France}} & \textcolor{blue}{\textbf{XBOX}} & \textcolor{blue}{\textbf{scratched}} & \textcolor{blue}{\textbf{megabits}} \\ \hline
+grandfather & Germany & XBLA  & scraped & gigabits  \\ \hline 
+uncle & French & Xbox360  & rubbed & kilobits  \\ \hline 
+mother & Greece & SmartGlass  & bruised & megabit  \\ \hline 
+father-in-law & Netherlands & 360/PS3  & cracked & terabits  \\ \hline 
+brother & Scotland & XBLA   & discarded & MB/s  \\ \hline 
+- & - & Qubed  & shoved & Tbit/s  \\ \hline 
+- & - & Kinect  & tripped & -  \\ \hline 
+\end{tabular}
+\caption{Top Few Similar words in English}
+\label{fig:english_similar}
+\end{table}
+
+\begin{table}[ht!]
+\centering
+\large
+\begin{tabular}{|l|l|l|}
+\hline
+\textcolor{blue}{\textbf{{\dn BArt}}} & \textcolor{blue}{\textbf{{\dn \326wyApAr}}} & \textcolor{blue}{\textbf{{\dn aobAmA}}} \\ \hline
+{\dn \3FEwd\?f} & {\dn \326wyvsAy} & {\dn E\3CAw\2Vn}  \\ \hline 
+{\dn Et\3A9wt} & {\dn \7{p}nbF{\qvb}mA} & {\dn brAk} \\ \hline 
+{\dn d\?f} & {\dn vAEZ>y} & {\dn sFn\?Vr} \\ \hline 
+{\dn aA\1D\5\3FEwd\?f} & {\dn b\4{\qva}Ek\2g} & {\dn rA\6{\3A3w}pEt} \\ \hline 
+{\dn l\38CwAK} & {\dn u\38Dwog} & {\dn uMmFdvAr} \\ \hline 
+\end{tabular}
+\caption{Top Few Similar words in Hindi}
+\label{fig:hindi_similar}
 \end{table}

@@ -58,6 +58,7 @@ $EH_i=\sum_{j=1}^{V}EI_j.w'_{ij}$
 \end{figure}
 
 \subsection{tf-idf}
+\label{subsec:tfidf}
 Let $D=d_1, d_2, d_3....d_N$ be $N$ documents under study and $T=t_1, t_2, t_3,....t_M$ be the $M$ unique terms in these documents, then each document can be represented as a $M$-dimensional vector:\\
 $t_d=\{tf_1,tf_2,tf_3,...tf_M\}$\\
 $tf-idf$ weights discounts the frequency of terms based on their importance to a particular document in the entire document set collection under consideration. This is done as follows:
@@ -152,7 +153,7 @@ error(t) =  actual(t) - y(t)
 where $actual(t)$ is a $1$-hot vector representing the word that should have been predicted given the context.
 \begin {table}[h!]
 \centering
-\begin{tabular}{ |l|l|l| }
+\begin{tabular}{ |c|c|c| }
 \hline
 Model & DEV WER & EVAL WER \\ \hline
 Lattice 1 best & 12.9 & 18.4 \\ 
@@ -186,7 +187,7 @@ where $\Theta$ can be any operation(e.g., addition, multiplication) and $c_i$s a
 
 \begin {table}[h!]
 \centering
-\begin{tabular}{ |l|l| }
+\begin{tabular}{ |c|c| }
 \hline
 Composition & Accuracy \\ \hline \hline
 Average & 88.42 \\ \hline

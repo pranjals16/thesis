@@ -1,4 +1,4 @@
-\chapter{Experiment}
+\chapter{Models and Experiments}
 \section{Context Size}
 \cite{Mikolov:13a} describe in their work how context size affects the type and quality of word vectors. One of the observations is that a smaller context size tend to capture syntactic similarity to a much better extent. As we increase the context size, vectors tend to capture more of semantic similarity.
 \begin{figure}[]
@@ -32,7 +32,7 @@ We also see that larger data size or training data affects the accuracy on test 
 
 \section{SkipGram or CBOW}
 SkipGram model tends to predict a context given a word whereas CBOW model predicts a word given a context. It seems intuitive and also from observation~\cite{Mikolov:13b} that SkipGram will perform better on semantic tasks and CBOW on syntactic tasks. We now try to evaluate how they differ on classification accuracies on the two datasets: \emph{Watches} and \emph{MP3}.
-\begin{figure}[!ht]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=140mm, height=110mm]{accuracy_sgcbow.eps}
 \caption{Variation of Accuracy with Different Context Size on Watches and MP3 Datasets. \label{fig:accuracy_sgcbow}}
@@ -45,7 +45,7 @@ We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 290MB)
 The quality of word vectors can be evaluated by comparing them with words which are closer to them semantically and syntactically. This is usually done via cosine similarity.  Another evaluation can be done through tSNE~\cite{Maaten:08} which helps in visualization which maps each high-dimensional data point to a two or three-dimensional map. In our experiment, we took 5K words and plotted
 them with tSNE (fig.~\ref{fig:5K_hindi_zoom}). 
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=140mm, height=110mm]{tsne.ps}
 \caption{Variation of Accuracy with Different Context Size on Watches and MP3 Datasets. \label{fig:context_size}}
@@ -85,19 +85,33 @@ are closer to each other but farther from words such as
     \label{fig:5K_hindi_zoom}
 \end{figure}
 
-\subsection{Skip-Gram and \emph{tf-idf} based Word Vectors}
+\section{Skip-Gram and \emph{tf-idf} based Word Vectors}
 In this experiment, we first generated 300-dimensional word vectors by training skip-gram model on both review corpus. The context size was taken as 5. We then averaged-out word vectors for each document to create document vectors. This now acts as a feature set for that particular document.
 We also created \emph{tf-idf} vectors for each document. This can be seen as a vector representation of that particular document. We then concatenated these document vectors with document vectors obtained after averaging-out word vector of each document. In this case, the dimension of each word vector obtained from skip-gram training was 500.
 
-\subsection{Skip-Gram and \emph{tf-idf} based Word Vectors without stop-words}
+\section{Skip-Gram and \emph{tf-idf} based Word Vectors without stop-words}
 In this experiment, we filtered out stop-words on the basis of their frequency in the corpus. Words which had very high or very low frequency were pruned as they had negligible contribution to the sentiment polarity of a document. This is a noise-reduction step and gives better results.
-		\subsection{Tools/Libraries}
+
+\section{Weighted Average Word Vectors}
+Algorithm \ref{alg:weighted_average} presents a new approach to build document vectors using distributional semantics. Refer to \ref{sec:hindi_results} to see how this new technique has improved sentiment classification on Hindi reviews.
+\RestyleAlgo{boxruled}
+\LinesNumbered
+\begin{algorithm}[ht!]
+\large
+\textbf{Skip-Gram}: Train skip-gram model on text to obtain word vectors.\\
+\textbf{idf Calculation}: Calculate \emph{idf} value of each word with respect to given document (Refer \ref{subsec:tfidf}).\\
+\textbf{Additive Composition}: For each document, $\sum_{i}(idf_i \times WordVector_i)$ is the document vector.\\
+\textbf{Feature Set}: Repeat 3 for each document in training and test set to build document vectors.\\
+\textbf{Classification}: Use a binary classification algorithm(SVM or Logistic Regression) to classify each test sample as positive or negative.
+\caption{Weighted Average for Vector Composition\label{alg:weighted_average}}
+\end{algorithm}
+
+\section{Work Flow Summary}
+
+\section{Tools/Libraries}
 \begin{itemize}
 	\item Eclipse: An Integrated Development Environment helped speed up the process of coding and its subsequent debugging.
 	\item Python: Being a very common and widely used programming language, loads of  documentation and third party libraries are available.
 	\item Scikit: Open source library built on NumPy, SciPy and matplotlib which contains simple and efficient tools for data mining and data analysis.
 	\item Gensim: It is an open-source vector space modeling and topic modeling toolkit, implemented in the Python programming language, using NumPy, SciPy and optionally Cython for performance. It is specifically intended for handling large text collections, using efficient online algorithms.
 \end{itemize}
-
-\section{Work Flow Summary}
-			
