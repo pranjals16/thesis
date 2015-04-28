@@ -1,53 +1,17 @@
 \chapter{Introduction}
-Over a period of nearly a millenium, Indian grammarians have been trying to find whether sentence meaning accrues by combining word meanings, or whether words gain their meanings based on the context they appear in \cite{Matilal:90}.  The former position, that meaning is {\em compositional}, has been associated with the fregean
-enterprise of semantics, whereas recent models, building on large corpora of
-text (and associated multimedia) a large degree of success has accrued to
-models that attempt to model word meaning based on their linguistic context
-(e.g. ~\cite{Landauer:97}).  The latter line has resulted in strong improvements in several NLP tasks using word vectors~\cite{Collobert:08,Turian:10,Mikolov:13a,Socher:13}. 
-The advantage of these approaches is that they can capture both the syntactic
-and the semantic similarity between words in terms of their projections onto
-a high-dimensional vector space; further, it seems that one can tune the
-privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}. 
+Over a period of nearly a millennium, Indian grammarians have been trying to find whether sentence meaning accrues by combining word meanings, or whether words gain their meanings based on the context they appear in \cite{Matilal:90}.  The former position, that meaning is {\em compositional}, has been associated with the fregean enterprise of semantics, whereas recent models, building on large corpora of text (and associated multimedia) a large degree of success has accrued to models that attempt to model word meaning based on their linguistic context (e.g. ~\cite{Landauer:97}). The latter line has resulted in strong improvements in several NLP tasks using word vectors~\cite{Collobert:08,Turian:10,Mikolov:13a,Socher:13}. Recently, the introduction of sentence/document vectors have achieved very good results in various NLP task~\cite{Le:14}. The advantage of these approaches is that they can capture both the syntactic and the semantic similarity between words/documents in terms of their projections onto a high-dimensional vector space; further, it seems that one can tune the privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}. 
 
-For resource-poor languages, these approaches have the added lure
-that many of these methods are completely unsupervised and work directly with
-large raw text corpora, thus
-avoiding contentious issues such as deciding on a POS-tagset, or expensive
-human annotated resources such as treebanks.  For Indian languages which are
-highly inflected, stemming or identifying the lemma is another problem
-which such models can overcome, provided the corpus is large enough.
-Nonetheless, this approach remains under-explored for Indian languages.
-At the same time, it must 
-be noted that many approaches seek to improve their performance
-by combining POS-tags and even parse tree structures
-into the models for higher accuracies in specific tasks~\cite{Socher:13}. 
+For resource-poor languages, these approaches have the added lure that many of these methods are completely unsupervised and work directly with large raw text corpora, thus avoiding contentious issues such as deciding on a POS-tagset, or expensive human annotated resources such as treebanks.  For Indian languages which are highly inflected, stemming or identifying the lemma is another problem
+which such models can overcome, provided the corpus is large enough. Nonetheless, this approach remains under-explored for Indian languages. At the same time, it must be noted that many approaches seek to improve their performance by combining POS-tags and even parse tree structures into the models for higher accuracies in specific tasks~\cite{Socher:13}. 
 
-Vector models for individual words are obtained via distributional learning, the
-mechanisms for which varies from document-term
-matrix factorization~\cite{Landauer:97},
-various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, 
-optimizing models to explain co-occurrence constraints
-~\cite{Mikolov:13a,Pennington:14},etc. Once the word vectors have been assigned, similarity between words can
-be captured via cosine distances. 
+Vector models for individual words are obtained via distributional learning, the mechanisms for which varies from document-term matrix factorization~\cite{Landauer:97}, various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, optimizing models to explain co-occurrence constraints ~\cite{Mikolov:13a,Pennington:14},etc. Once the word vectors have been assigned, similarity between words can be captured via cosine distances. The same models have been extended(\cite{Le:14}) with new variables to build vector models for sentences and documents. These models include the essence of individual words as well as their relative order in terms of sentence vector which was earlier absent in word vectors.
 
 \cite{Chirawichitchai:14}
 \cite{Sharma:14}
-One problem in this approach is that of 
-combining the word vectors into larger phrases.  In past work,
-inverse-similarity weighted averaging appears
-to work to some extent even for complex tasks such as essay grading \cite{Landauer:03},
-but multiplicative models (based on a reducing the tensor products of the
-vectors) appears to correlate better with human
-judgements~\cite{Mitchell:08,Socher:13}.
-Another complexity in composition is that composing words across phrasal
-boundaries are less meaningful than composing them within a phrase - this has
-led to models that evaluate the nodes of a parse tree, so that only coherent
-phrases are
-evaluated~\cite{Socher:13}. 
-The results reported here, are based on applying the Skip-Gram  model~\cite{Mikolov:13b} to Hindi. 
+One problem in this approach is that of  combining the word vectors into larger phrases. In past work, inverse-similarity weighted averaging appears to work to some extent even for complex tasks such as essay grading \cite{Landauer:03}, but multiplicative models (based on a reducing the tensor products of the vectors) appears to correlate better with human judgements~\cite{Mitchell:08,Socher:13}.
+Another complexity in composition is that composing words across phrasal boundaries are less meaningful than composing them within a phrase - this has led to models that evaluate the nodes of a parse tree, so that only coherent phrases are evaluated~\cite{Socher:13}. The results reported here, are based on applying the Skip-Gram  model~\cite{Mikolov:13b} to Hindi. 
 
 \subsection{Sentiment Analysis}
-
 In order to evaluate the efficacy of the model, we apply it to the task of sentiment analysis. Here the problem is that of identifying the polarity of sentences (Liu et al. 2012); for example: 
 \begin{itemize}
 \item Positive: {\dn rA\8{m} n\? khAnF kF r\327wtAr khF{\qva} Tmn\? nhF{\qva} dF} [Ramu didn't allow the pace of the story to subside]
@@ -55,14 +19,9 @@ In order to evaluate the efficacy of the model, we apply it to the task of senti
 nhF{\qva} psr pAtA} [The horror shown on the screen didn't reach the theater]
 \end{itemize}
 
-This is a problem that has attracted reasonable attention in Hindi (see section~\ref{sec:related}), since most sentiment analysis is oriented towards semantics, and one may bypass the syntactic
-processing which remains poor for Hindi. Methods that have been used are largely based on assigning a sentiment effect for individual words, and then combining these in some manner to come up with an overall sentiment for the document. Such methods ignore word order and have beencriticized since the import of a sentence can change completely simply by re-arranging the words, though the sentiment evaluation remains the same. Several groups have attempted to improve the situation by modeling the composition of words into larger contexts \cite{Le:14,Socher:13,Johnson:14,Baroni:14}.
+This is a problem that has attracted reasonable attention in both Hindi and English (see section~\ref{sec:related}). 
 
-However, most of the work on sentiment analysis in Hindi has not attempted to form richer compositional analyses.   For the type of corpora used here, the best results, obtained by combining a sentiment lexicon with hand-crafted rules (e.g. modeling negation and "but" phrases), reach an accuracy of 80\%~\cite{Mittal:13}.
-
-In this work, we first learn a distributional word vector model based on the wikipedia Hindi corpus as well as the sentiment corpus, and then we use this to discern the polarities on the existing corpora of movie and product reviews. To our own surprise, we find that even a simple additive composition model improves the state of the art in this task significantly (a gain of nearly
-10\%). When used for the much better-researched, larger datasets of English the system does respectably, but well behind the very best models that attempt more complex composition models. 
-So the question arises as to whether the very significant gains in Hindi are due to some quirk in the dataset, or could it be that Hindi word vectors are particularly informative,
+In this work, we first learn a distributional word vector model as well as sentence vector model based on the wikipedia corpus as well as the sentiment corpus, and then we use this to discern the polarities on the existing corpora of movie and product reviews. To our own surprise, we find that even a simple additive composition model improves the state of the art in this task significantly (a gain of nearly 10\%). With weighted additive composition, the gain is more than 2\% beating the state-of-the-art in Hindi(\cite{Singh:15}). When used for the much better-researched, larger datasets of English the system does respectably, but well behind the very best models that attempt more complex composition models. So the question arises as to whether the very significant gains in Hindi are due to some quirk in the dataset, or could it be that Hindi word vectors are particularly informative,
 e.g. owing to more highly inflected nature of its surface forms.  Also, if the results are not corpus-specific, it also raises the possibility that word vector methods may result in significant gains in
 other similar problems for Hindi. 
 
@@ -74,7 +33,9 @@ For example, the sentences below give a brief idea of what positive and negative
 \footnotetext{en.wikipedia.org/wiki/List\_of\_languages\_by\_number\_of\_native\_speakers}
 Majority of the existing work in this field is in English (Pang and Lee, 2008).
 
-Our model uses word vector averaging to build document vectors which constitute a feature set for our SVM classier. We have used skip-gram model (Mikolov et al., 2013b) for building word vectors because deep network model of Collobert et al.(2008) takes too much time for training. Also the word embeddings obtained by them are not as good as those obtained by Mikolov et al.(2013b). On NER task, skip-gram obtained F1-score of 93.1 while CW obtained F1-score of 92.2. We have also experimented with tf-idf for building our feature set. Our model shows slight improvement in performance if we filter out certain corpus based stop words. This is a first attempt to use word vectors for sentiment analysis in Hindi. Word vectors capture both semantic and syntactic information for a given corpus. Words which are semantically and syntactically related tend to be closer in high-dimensional space.\\
+We then go a step ahead to build a model using document vectors along with tfidf and ensemble techniques to achieve state-of-the-art result on IMDB movie review dataset achieving a significant improvement over the previous best. We have got an accuracy of 94.19\% by using an ensemble method merged with recursive neural network to show the excellency of generative models merged with discriminative ones.
+Our model uses concatenation of average word vectors, sentence vectors and tf-idf to build informative document vectors which constitute a feature set for our SVM classier. We have used skip-gram model (Mikolov et al., 2013b) for building word vectors because deep network model of Collobert et al.(2008) takes too much time for training. Also the word embeddings obtained by them are not as good as those obtained by Mikolov et al.(2013b). \\
+For Hindi, we have experimented with tf-idf and weighted average word vectors for building our feature set. Our model shows slight improvement in performance if we filter out certain corpus based stop words. This is a first attempt to use word vectors for sentiment analysis in Hindi. Word vectors capture both semantic and syntactic information for a given corpus. Words which are semantically and syntactically related tend to be closer in high-dimensional space.\\
 
 \section{The Problem}
 The problem undertaken in this thesis is to use Distributional Semantics for under-resourced languages such as Hindi to cater to a very significant NLP task of sentiment analysis. We also took the task of using distributional semantics with various forms of composition of vectors and even features to build good models for English as well. We have also laid a systematic background to the problem of context size and how it is related to syntactic and semantic similarity in text. 
@@ -88,4 +49,4 @@ There are three main contributions of this thesis:
 \end{itemize}
 
 \section{Organization of this Thesis}
-The rest of this thesis is organized as follows. Chapter 2 presents related work done. Chapter 3 discusses the various background work that one must be acquainted with in order to understand the work presented. Chapter 4 discusses the data sources and presents the statistics of each dataset. Chapter 5 then discusses in detail the implemented methods and algorithms. Chapter 6 presents a summary of the results that was achieved. Chapter 7 presents concluding remarks to our work and talks about what can be done further.
+The rest of this thesis is organized as follows. Chapter \ref{sec:related} presents related work done and discusses the various background work that one must be acquainted with in order to understand the work presented. Chapter \ref{sec:data} discusses the data sources and presents the statistics of each dataset. Chapter \ref{sec:dimensionality_reduction} gives an overview of dimensionality reduction techniques and how we have successfully applied them on vectors of our Hindi corpus to achieve very good results. Chapter \ref{sec:experiment} then discusses in detail the implemented methods and algorithms. Chapter \ref{sec:result} presents a summary of the results that was achieved. Chapter \ref{sec:conclusion} presents concluding remarks to our work and talks about what can be done further.

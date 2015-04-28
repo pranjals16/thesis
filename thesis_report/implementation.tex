@@ -1,4 +1,5 @@
 \chapter{Models and Experiments}
+\label{sec:experiment}
 \section{Context Size}
 \cite{Mikolov:13a} describe in their work how context size affects the type and quality of word vectors. One of the observations is that a smaller context size tend to capture syntactic similarity to a much better extent. As we increase the context size, vectors tend to capture more of semantic similarity.
 \begin{figure}[]
@@ -106,7 +107,13 @@ Algorithm \ref{alg:weighted_average} presents a new approach to build document v
 \caption{Weighted Average for Vector Composition\label{alg:weighted_average}}
 \end{algorithm}
 
-\section{Work Flow Summary}
+\section{Work Flow}
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=160mm, height=180mm]{flow_chart.eps}
+\caption{Work Flow Summary. \label{fig:flow_chart}}
+\end{figure}
+
 
 \section{Tools/Libraries}
 \begin{itemize}

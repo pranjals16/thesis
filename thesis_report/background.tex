@@ -1,7 +1,7 @@
 \chapter{Background}
-	The algorithms and data structures used in this thesis have been introduced and discussed below.
-	\section{Word-Vectors by using Skip-Gram}
-	\label{sec:skipgram}
+The algorithms and data structures used in this thesis have been introduced and discussed below.
+\section{Word-Vectors by using Skip-Gram}
+\label{sec:skipgram}
 Mikolov et al. (2013b) proposed two neural network models for building word vectors from large unlabelled corpora; Continuous Bag of Words(CBOW) and Skip-Gram.  In the CBOW model, the context is the input, and one tries to learn a vector for the central word; in Skip grams, the input is the target word and one tries to guess the set of contexts.  The Skip gram was found to perform better on smaller corpora, and here we have focused on this model for building our word vectors. The model uses each current word as an input to a log-linear classifier with continuous projection layer, and predict words within a certain range before and after the current word. The objective is to maximize the probability of the context given a word within a language model:
 
 \begin{center} $p(c|w;\theta)=\frac{\exp^{v_c.v_w}}{\sum_{c' \in C}\exp^{v_c.v_w}}$ \end{center}
