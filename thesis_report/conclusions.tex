@@ -2,9 +2,7 @@
 \label{sec:conclusion}
 \section{Inference}
 		In this work we present an early experiment on the possibilities of distributional semantic models (word vectors) for low-resource, highly inflected languages such as Hindi.  What is interesting is that our word vector averaging method along with tf-idf results in improvements of accuracy compared to existing state-of-the art methods for sentiment analysis in Hindi (from 80.2\% to 89.9\%).
-Distributional semantics approaches remain relatively under-explored for Indian languages, and our results suggest that there may be substantial benefits to exploring these approaches for Indian languages.  While this work has focussed on sentiment classification, it may also improve a range of tasks from verbal analogy tests to ontology learning, as has been reported for other languages.
-In our future work, we seek to explore various compositional models - a) weighted average - where weights are determined based on cosine distances in vector space;  b) multiplicational models. Another aspect we are considering is to incorporate multiple word vectors for the same surface token in cases of polysemy - this would directly be useful for word sense disambiguation.  Identifying morphological variants would be another direction to explore for better accuracy. With regard to sentiment analysis, the idea of aspect-based models (or part-based sentiment analysis), which looks into constituents in a document and classify their sentiment polarity separately, remains to be explored in Hindi. Another point to note is that we are re-computing the word vectors
-for the two review corpora, which are extremely small.  We may expect better performance  with a larger sentiment corpus.
+
 %?? perhaps ASPECT requires parsing? 
 
 We also observe that pruning high-frequency stop words improves the accuracy by around 0.45\%. This is most likely  because such words tend to occur in most of the documents and don't contribute to sentiment.  Similarly, words with very low frequency are noisy and can be pruned. For example, the word {\dn EPSm} occurs in 139/252 documents in Movie Review Dataset(55.16\%) and has little effect on sentiment.
@@ -14,10 +12,14 @@ Before concludiong, we return to the unexpectedly high improvement in accuracy a
 ~\cite{Bakliwal:12}, which shows intern-annotator agreement on sentiment words are very poor (70\%) - i.e. about 30\% of these words have poor human agreement. Compared to this, the word vector model  
 provides considerable power, especially as amplified by the tf-idf process. Thus, this also seems to underline the claim that distributional semantics is a topic worth exploring for Indian languages. 
 
-\section{Improvements}
-	
+\section{Future Work}
+Distributional semantics approaches remain relatively under-explored for Indian languages, and our results suggest that there may be substantial benefits to exploring these approaches for Indian languages.  While this work has focussed on sentiment classification, it may also improve a range of tasks from verbal analogy tests to ontology learning, as has been reported for other languages.
+In our future work, we seek to explore various compositional models - a) weighted average - where weights are determined based on cosine distances in vector space;  b) multiplicational models. Another aspect we are considering is to incorporate multiple word vectors for the same surface token in cases of polysemy - this would directly be useful for word sense disambiguation.  Identifying morphological variants would be another direction to explore for better accuracy. With regard to sentiment analysis, the idea of aspect-based models (or part-based sentiment analysis), which looks into constituents in a document and classify their sentiment polarity separately, remains to be explored in Hindi. Another point to note is that we are re-computing the word vectors
+for the two review corpora, which are extremely small.  We may expect better performance  with a larger sentiment corpus.
+
 \section{Summary}
 \begin{itemize}
 	\item Corpus: This plays a very significant role in the process of sentiment prediction and has not been very widely tapped. Some corpus tend to be more focused towards sentiment while some contain a lot of information which is redundant as far as their sentiment score is concerned.
-	\item Features: This parameter has been part of what we call in machine learing as \emph{Feature Engineering} and has been very popular whenever a new algorithm appears in the domain of Machine Learning or Natural Language Processing.
+	\item Features: This parameter has been part of what we call in machine learing as \emph{Feature Engineering} and has been very popular whenever a new algorithm appears in the domain of Machine Learning or Natural Language Processing. We have effectively tapped this area in or work to achieve excellent results.
+	\item Classifier: It is the deciding factor on which whole classification task depends and selection of a suitable classifer accroding to the task is a crucial factor to look at. We have used Linear SVM in almost all experiments.
 \end{itemize}

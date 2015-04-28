@@ -10,3 +10,4 @@ clean:
 	rm *dvi
 	rm *lof
 	rm *out
+	rm *~

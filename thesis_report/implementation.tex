@@ -19,7 +19,7 @@
 	\label{fig:tsne_5_10}
 \end{figure}
 
-Figure \ref{fig:tsne_5_10} shows how the high dimensional representation changes when we change the context size. The embeddings were formed with context sizes 5 and 10 by training on Latest Wikipedia dump. We see that 5.1(a), has words \emph{\{high,higher,highest\}} very close to each other which is in accordamce to our argument that smaller context size promotes syntactical similarity whereas these words are farther when we increase the context size. From 5.1(b), we can see that there is a larger semantic difference between two clusters of words:\emph{\{wikiproject,wikipeda\}} and \emph{\{facebook,html,id\}}. This again justifies our argument that larger context size favors more of semantic similarity than syntactic similarity.
+Figure \ref{fig:tsne_5_10} shows how the high dimensional representation changes when we change the context size. The embeddings were formed with context sizes 5 and 10 by training on Latest Wikipedia dump. We see that 5.1(a), has words \emph{\{high,higher,highest\}} very close to each other which is in accordance to our argument that smaller context size promotes syntactical similarity whereas these words are farther when we increase the context size. From 5.1(b), we can see that there is a larger semantic difference between two clusters of words:\emph{\{wikiproject,wikipedia\}} and \emph{\{facebook,html,id\}}. This again justifies our argument that larger context size favors more of semantic similarity than syntactic similarity.
 
 \begin{figure}[ht!]
 \centering
@@ -30,7 +30,6 @@ We try to look how context size affects the accuracy on two amazon datasets, Wat
 Figure 5.2 depicts the accuracies obtained by varying the context size from 5 to 10. In both the cases, we find a peak at context size 7. There is an increase from 5 to 7 which denotes increase of context strength. As a result, we see increase in accuracies. Once the context size goes beyond a threshold, the semantic counterpart dominates which attains maximum at context size 10.\\
 We also see that larger data size or training data affects the accuracy on test set. In this case, \emph{Watches} dataset is larger than \emph{MP3} dataset.\\
 
-
 \section{SkipGram or CBOW}
 SkipGram model tends to predict a context given a word whereas CBOW model predicts a word given a context. It seems intuitive and also from observation~\cite{Mikolov:13b} that SkipGram will perform better on semantic tasks and CBOW on syntactic tasks. We now try to evaluate how they differ on classification accuracies on the two datasets: \emph{Watches} and \emph{MP3}.
 \begin{figure}[ht!]
@@ -40,32 +39,58 @@ SkipGram model tends to predict a context given a word whereas CBOW model predic
 \end{figure}
 Figure \ref{fig:accuracy_sgcbow} show that skipgram outperforms CBOW on sentiment classification task. It can be justified by the fact that sentiment inclination of a document is more oriented towards semantics of that document rather than just syntax and our results clearly demonstrate this fact.
 
-A workflow defined as a graphic summary of the following has been depicted in Figure \ref{work_flow}.
-We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 290MB) containing around 24M words with 724K words in the vocabulary. This provided us with good embeddings due to larger size and contents from almost all domains.
+\section{Skip-Gram and \emph{tf-idf} based Word Vectors}
+In this experiment, we first generated $n$-dimensional word vectors by training skip-gram model on product and movie review corpus in Hindi and IMDB corpus in English. We then averaged-out word vectors for each document to create document vectors. This now acts as a feature set for that particular document.
+We also created \emph{tf-idf} vectors for each document. This can be seen as a vector representation of that particular document. We then concatenated these document vectors with document vectors obtained after averaging-out word vector of each document.
 
-The quality of word vectors can be evaluated by comparing them with words which are closer to them semantically and syntactically. This is usually done via cosine similarity.  Another evaluation can be done through tSNE~\cite{Maaten:08} which helps in visualization which maps each high-dimensional data point to a two or three-dimensional map. In our experiment, we took 5K words and plotted
-them with tSNE (fig.~\ref{fig:5K_hindi_zoom}). 
+In another experiment, we filtered out stop-words on the basis of their frequency in the corpus. Words which had very high or very low frequency were pruned as they had negligible contribution to the sentiment polarity of a document. This is a noise-reduction step and gives better results.
 
-\begin{figure}[ht!]
+\section{Weighted Average Word Vectors}
+Algorithm \ref{alg:weighted_average} presents a new approach to build document vectors using distributional semantics.Till date, everyone has ignored how to effectively use vector composition techniques and as a result, this area has seen very less attention. But we have successfully used \emph{idf} values to give weights to word vectors and hence obtain much better sentence/document vectors. Refer to \ref{sec:hindi_results} to see how this new technique has improved sentiment classification on Hindi reviews.\\
+
+\RestyleAlgo{boxruled}
+\LinesNumbered
+\begin{algorithm}[H]
+\large
+\textbf{Skip-Gram}: Train skip-gram model on text to obtain word vectors.\\
+\textbf{idf Calculation}: Calculate \emph{idf} value of each word with respect to given document (Refer \ref{subsec:tfidf}).\\
+\textbf{Additive Composition}: For each document, $\sum_{i}(idf_i \times WordVector_i)$ is the document vector.\\
+\textbf{Feature Set}: Repeat 3 for each document in training and test set to build document vectors.\\
+\textbf{Classification}: Use a binary classification algorithm(SVM or Logistic Regression) to classify each test sample as positive or negative.
+\caption{\large{\textbf{Weighted Average for Vector Composition}}\label{alg:weighted_average}}
+\end{algorithm}
+The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation.
+
+\section{Word and Document Vectors with tf-idf: Enhanced Document Vectors}
+This experiment redefined document representation in NLP used for sentiment classification. It has the property of including both syntactic and semantic properties of a piece of text. The limitations of skip-gram word vectors have been fulfilled by document vectors and hence we achieve state-of-the-art results on IMDB movie review dataset.
+
+\section{Ensemble of RNNLM and Enhanced Document Vectors}
+This experiment was done on IMDB movie review dataset. Here, we first trained a \emph{recursive neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using Enhanced Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic, described below, to obtain final classification. This led to a tremendous increase in classification accuracy(Refer section \ref{sec:result}).\\
+Let $y*$ be actual output and $y$ is the predicted output. The heuristic used is:
+\begin{align}
+((RNNLM_{pred}-1)*7+(0.5-SVM_{pred})).y<0 \text{  if } y*=1\\
+((RNNLM_{pred}-1)*7+(0.5-SVM_{pred})).y<0 \text{  otherwise}
+\end{align}
+
+\section{Embeddings}
+The quality of word vectors can be evaluated by comparing them with words which are closer to them semantically and syntactically. This is usually done via cosine similarity.
+\begin{align}
+similarity=cos(\theta)=\frac{A.B}{\|A\|\|B\|}=\frac{\sum_{i=1}^{n}A_i \times B_i}{\sqrt{\sum_{i=1}^{n}(A_i)^2}\times \sqrt{\sum_{i=1}^{n}(B_i)^2}}
+\end{align}
+
+Another evaluation can be done through tSNE~\cite{Maaten:08} which helps in visualization which maps each high-dimensional data point to a two or three-dimensional map. In our experiment, we took 5K words and plotted
+them with tSNE (fig.~\ref{fig:5K_hindi}). 
+
+\begin{figure}[H]
 \centering
 \includegraphics[width=140mm, height=110mm]{tsne.ps}
-\caption{Variation of Accuracy with Different Context Size on Watches and MP3 Datasets. \label{fig:context_size}}
+\caption{t-SNE visualization of the top 5000 Hindi Words in high dimensional space.  (Magnify to see details). \label{fig:5K_hindi}}
 \end{figure}
 
-%\begin{figure}[ht!]
-%\centering
-%\includepdf[width=80mm]{tsne.pdf}
-%\includegraphics[width=80mm]{tsne.pdf}
-%\caption{t-SNE visualization of the top 5000 Hindi Words in high dimensional space.  (Magnify to see details).}
-%\label{fig:5K_hindi_zoom}
-%\end{figure}
-
 Figure \ref{fig:5K_hindi_zoom} gives a closer look into few clusters which depicts the relation between words in high dimensional space. Figure \ref{fig:5K_hindi_zoom1} shows that words such as 
-%{\dn mO\8{j}d} and {\dn uplND} 
-are closer to each other but farther from words such as 
-%{\dn \31EwyAdA} and {\dn aEDk}.
+{\dn mO\8{j}d} and {\dn uplND} are closer to each other but farther from words such as {\dn \31EwyAdA} and {\dn aEDk}.
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \begin{subfigure}{.4\linewidth}
         \includegraphics[scale=0.5]{5K_hindi_zoom1.eps}
@@ -86,29 +111,10 @@ are closer to each other but farther from words such as
     \label{fig:5K_hindi_zoom}
 \end{figure}
 
-\section{Skip-Gram and \emph{tf-idf} based Word Vectors}
-In this experiment, we first generated 300-dimensional word vectors by training skip-gram model on both review corpus. The context size was taken as 5. We then averaged-out word vectors for each document to create document vectors. This now acts as a feature set for that particular document.
-We also created \emph{tf-idf} vectors for each document. This can be seen as a vector representation of that particular document. We then concatenated these document vectors with document vectors obtained after averaging-out word vector of each document. In this case, the dimension of each word vector obtained from skip-gram training was 500.
-
-\section{Skip-Gram and \emph{tf-idf} based Word Vectors without stop-words}
-In this experiment, we filtered out stop-words on the basis of their frequency in the corpus. Words which had very high or very low frequency were pruned as they had negligible contribution to the sentiment polarity of a document. This is a noise-reduction step and gives better results.
-
-\section{Weighted Average Word Vectors}
-Algorithm \ref{alg:weighted_average} presents a new approach to build document vectors using distributional semantics. Refer to \ref{sec:hindi_results} to see how this new technique has improved sentiment classification on Hindi reviews.
-\RestyleAlgo{boxruled}
-\LinesNumbered
-\begin{algorithm}[ht!]
-\large
-\textbf{Skip-Gram}: Train skip-gram model on text to obtain word vectors.\\
-\textbf{idf Calculation}: Calculate \emph{idf} value of each word with respect to given document (Refer \ref{subsec:tfidf}).\\
-\textbf{Additive Composition}: For each document, $\sum_{i}(idf_i \times WordVector_i)$ is the document vector.\\
-\textbf{Feature Set}: Repeat 3 for each document in training and test set to build document vectors.\\
-\textbf{Classification}: Use a binary classification algorithm(SVM or Logistic Regression) to classify each test sample as positive or negative.
-\caption{Weighted Average for Vector Composition\label{alg:weighted_average}}
-\end{algorithm}
 
 \section{Work Flow}
-\begin{figure}[ht!]
+This section summarizes our approach in brief with graphics. This is a general classification system and includes building of enhanced document vectors.
+\begin{figure}[H]
 \centering
 \includegraphics[width=160mm, height=180mm]{flow_chart.eps}
 \caption{Work Flow Summary. \label{fig:flow_chart}}
