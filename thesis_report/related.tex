@@ -7,6 +7,9 @@ They used distributed bag-of-words model, which they call as \emph{paragraph vec
 % WANG IS NOT BEING REFERRED TO
 Wang et al. (2014) propose a word vector neural-network model, which takes both sentiment and semantic information into account. This word vector expression model learns word semantics and sentiment at the same time as well as fuses unsupervised contextual information and sentence level supervised labels.
 
+Neelakantan et al.(2015)\cite{Neelakantan:14} took word vector models to next level where they proposed multiple embeddings per word. Nearly all the work before this assumes a single vector per word
+type—ignoring polysemy and thus jeopardizing their usefulness for downstream tasks. The authors present an extension to the Skip-gram model that efficiently learns multiple embeddings per word type. It differs from recent related work by jointly performing word sense discrimination and embedding learning, by non-parametrically estimating the number of senses per word type, and by its efficiency and scalability. They achieve state-of-the-art results in the word similarity in context task and demonstrate its scalability by training with one machine on a corpus of nearly 1 billion tokens in less than 6 hours.
+
 Since most sentiment analysis is oriented towards semantics, and one may bypass the syntactic
 processing which remains poor for Hindi. Methods that have been used are largely based on assigning a sentiment effect for individual words, and then combining these in some manner to come up with an overall sentiment for the document. Such methods ignore word order and have been criticized since the import of a sentence can change completely simply by re-arranging the words, though the sentiment evaluation remains the same. Several groups have attempted to improve the situation by modeling the composition of words into larger contexts \cite{Le:14,Socher:13,Johnson:14,Baroni:14}.
 
@@ -27,8 +30,7 @@ Mukherjee et al. (2012) presented the inclusion of discourse markers in a bag-of
 Mittal et al. (2013) incorporate hand-coded rules dealing with negation and discourse relations and extend the HSWN lexicon with more opinion words.  Their algorithm achieves  80.2\%
 accuracy on classification of movie reviews on a separate dataset.\\
 
-\cite{Mikolov:10} is a work The model has developed into
-More details in \ref{sec:rnn}
+\cite{Mikolov:10} presents new recurrent neural network based langauge model which has found vital application in various NLP tasks as well. They provide ample empirical evidence to suggest that connectionist language models are superior to standard n-gram techniques, except their high computational (training) complexity. The model has also been extended to speedup training time by few optimizations.(More details in \ref{sec:rnn}).
 
 The algorithms and data structures used in this thesis have been introduced and discussed below.
 \section{Word-Vectors by using Skip-Gram}

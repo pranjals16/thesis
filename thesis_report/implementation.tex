@@ -57,7 +57,7 @@ Algorithm \ref{alg:weighted_average} presents a new approach to build document v
 \textbf{Additive Composition}: For each document, $\sum_{i}(idf_i \times WordVector_i)$ is the document vector.\\
 \textbf{Feature Set}: Repeat 3 for each document in training and test set to build document vectors.\\
 \textbf{Classification}: Use a binary classification algorithm(SVM or Logistic Regression) to classify each test sample as positive or negative.
-\caption{\large{\textbf{Weighted Average for Vector Composition}}\label{alg:weighted_average}}
+\caption{Weighted Average for Vector Composition}\label{alg:weighted_average}
 \end{algorithm}
 The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation.
 
@@ -120,11 +120,19 @@ This section summarizes our approach in brief with graphics. This is a general c
 \caption{Work Flow Summary. \label{fig:flow_chart}}
 \end{figure}
 
-
-\section{Tools/Libraries}
+\section{Technical Specifications}
+\subsection{Tools/Libraries}
 \begin{itemize}
 	\item Eclipse: An Integrated Development Environment helped speed up the process of coding and its subsequent debugging.
 	\item Python: Being a very common and widely used programming language, loads of  documentation and third party libraries are available.
 	\item Scikit: Open source library built on NumPy, SciPy and matplotlib which contains simple and efficient tools for data mining and data analysis.
 	\item Gensim: It is an open-source vector space modeling and topic modeling toolkit, implemented in the Python programming language, using NumPy, SciPy and optionally Cython for performance. It is specifically intended for handling large text collections, using efficient online algorithms.
+\end{itemize}
+
+\subsection{System Requirements}
+The code and tests have been successfully run on the following configuration. Any system with a configuration equal or higher than this should be able to do the job faster.
+\begin{itemize}
+	\item RAM: 16GB; fails to run on 8GB, due to the high amount of in memory data.
+	\item CPU: Intel Core i7, 4th Generation; have used all 8 virtual cores with hyper-threading, with lower CPU, processes would take longer to complete.
+	\item HDD: 1TB dedicated; Wikipedia Dump is the only component using considerable persistent memory. Storing pickle dumps of various datasets consumes considerable amount of memory.
 \end{itemize}

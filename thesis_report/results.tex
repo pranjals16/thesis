@@ -67,7 +67,7 @@ WordVector Averaging (Our Method) & \textbf{89.23}\\ \hline
 
 
 \section{Results on Hindi Datasets}
-\label{table:hindi_ourmethods}
+\label{sec:hindi_results}
 \begin {table}[h!]
 \centering
 \begin{tabular}{ | c | c | c | }
@@ -80,6 +80,7 @@ Weighted WordVector & 89.71 & 85.90\\ \hline
 Weighted WordVector+tf-idf & \textbf{92.89} & \textbf{90.30}\\ \hline
 \end{tabular}
 \caption {Accuracies for Product Review and Movie Review Datasets.}
+\label{table:hindi_ourmethods}
 \end{table}
 
 Table \ref{table:hindi_ourmethods} represents the results using five different techniques for feature set construction. We see that there is a slight improvement in accuracy on both datasets once we remove stop-words but the major breakthrough occurs once we used weighted averaging technique for construction of document vectors from word vectors.
