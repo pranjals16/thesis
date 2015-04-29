@@ -17,9 +17,13 @@ WordVector+TfIdf(Our Method) & 89.03\\ \hline
 WordVector+TfIdf+Document Vector+RNNLM(Our Method) & \textbf{94.19}\\ \hline
 \end{tabular}
 \caption {Results on IMDB Movie Review Dataset}
+\label{table:IMDB}
 \end{table}
 
-\begin {table}[h!]
+Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best(\cite{Le:14}) by a margin of 1.61\% using an ensemble of RNNLM and enhanced document vector.
+
+Table \ref{table:IMDB_features} gives an overview of the results obtained with various experiments that we conducted on IMDB dataset. We have tried various vector composition models and feature composition models to obtain good results. Even a simple feature composition of word and document vector yield an improvement over the existing state-of-the-art suggesting that feature composition is a vital area when it comes to NLP tasks such as sentiment analysis.
+\begin {table}[H]
 \centering
 \begin{tabular}{ | c | c | }
 \hline
@@ -37,9 +41,18 @@ WordVector Averaging+Wiki+Document Vector+TfIdf & 93.55\\ \hline
 WordVector Averaging+TfIdf+Document Vector+RNNLM & \textbf{94.19}\\ \hline
 \end{tabular}
 \caption {Comparison of results on IMDB Movie Review Dataset with Various Features}
+\label{table:IMDB_features}
 \end{table}
 
-\begin {table}[h!]
+\begin{figure}[H]
+\centering
+\includegraphics[width=140mm, height=120mm]{accuracy_wordvectors.eps}
+\caption{Accuracies of Different Classifiers with Average Word Vectors(IMDB). \label{fig:accuracy_wordvectors}}
+\end{figure}
+Figure \ref{fig:accuracy_wordvectors} gives an overview of accuracies of various classifiers using word vector averaging method on IMDB dataset. This clearly gives a green signal to us for using Linear SVM as our classier in all experiments.
+
+Table \ref{table:amazon} presents result of another experiment conducted on famous Amazon electronics review dataset(refer \ref{data:amazon}). Our vector averaging method alone has beaten previous best by 3.3\% which was based on maximum entropy method.
+\begin {table}[H]
 \centering
 \begin{tabular}{ | c | c | }
 \hline
@@ -49,16 +62,12 @@ Max Entropy & 83.79\\ \hline
 WordVector Averaging (Our Method) & \textbf{89.23}\\ \hline
 \end{tabular}
 \caption {Results on Amazon Electronics Review Dataset}
+\label{table:amazon}
 \end{table}
 
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=140mm, height=120mm]{accuracy_wordvectors.eps}
-\caption{Accuracies of Different Classifiers with Average Word Vectors(IMDB). \label{fig:accuracy_wordvectors}}
-\end{figure}
 
 \section{Results on Hindi Datasets}
-\label{sec:hindi_results}
+\label{table:hindi_ourmethods}
 \begin {table}[h!]
 \centering
 \begin{tabular}{ | c | c | c | }
@@ -73,40 +82,43 @@ Weighted WordVector+tf-idf & \textbf{92.89} & \textbf{90.30}\\ \hline
 \caption {Accuracies for Product Review and Movie Review Datasets.}
 \end{table}
 
-Table 3 represents the results using three different techniques for feature set construction. We see that there is a slight improvement in accuracy on both datasets once we remove stop-words.
+Table \ref{table:hindi_ourmethods} represents the results using five different techniques for feature set construction. We see that there is a slight improvement in accuracy on both datasets once we remove stop-words but the major breakthrough occurs once we used weighted averaging technique for construction of document vectors from word vectors.
 
 \begin {table}[h!]
 \centering
 \begin{tabular}{ | c | c | c | }
 \hline
 \textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-Word Vector with SVM (Our method) & tf-idf with word vector & \textbf{91.14}\\ \hline
 Subjective Lexicon (Bakliwal et al.(2012)) & Simple Scoring & 79.03\\ \hline
 Hindi-SWN Baseline (Arora et al.(2013)) & Adjective and Adverb presence & 69.30\\ \hline
+Word Vector with SVM (Our method) & tf-idf with word vector & 91.14\\ \hline
+Weighted Word Vector with SVM (Our method) & tf-idf+weighted word vector & \textbf{92.89}\\ \hline
 \end{tabular}
 \caption {Comparison of Approaches: Product Review Dataset}
+\label{table:hindi_product}
 \end{table}
-Table 4 and 5 compares our best method with various other methods which have performed well using techniques such as \emph{tf-idf}, subjective lexicon, etc.
+Table \ref{table:hindi_product} and \ref{table:hindi_movie} compares our best method with various other methods which have performed well using techniques such as \emph{tf-idf}, subjective lexicon, etc.
 
 \begin {table}[h!]
 \centering
 \begin{tabular}{ | c | c | c | }
 \hline
 \textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-WordVector Averaging & word vector & 78.0\\ \hline
-Word Vector with SVM (Our method) & tf-idf; word vector & \textbf{89.97}\\ \hline
 In language using SVM (Joshi et al.(2010)) & tf-idf & 78.14\\ \hline
 MT Based using SVM (Joshi et al.(2010)) & tf-idf & 65.96\\ \hline
 Improved Hindi-SWN  (Bakliwal et al.(2012)) & Adj. and Adv. presence & 79.0\\ \hline
+WordVector Averaging & word vector & 78.0\\ \hline
+Word Vector with SVM (Our method) & tf-idf; word vector & 89.97\\ \hline
+Weighted Word Vector with SVM (Our method) & tf-idf+weighted word vector & \textbf{90.30}\\ \hline
 \end{tabular}
 \caption {Comparison of Approaches: Movie Review Dataset}
+\label{table:hindi_movie}
 \end{table}
 
-Table 5 shows the top few similar words for certain words from the corpus with cosine similarity as a distance metric. 
-The words which have higher cosine similarity tend to be semantically and syntactically related.
+Table \ref{table:hindi_neighbors} shows the top few similar words for certain words from the corpus with cosine similarity as a distance metric. The words which have higher cosine similarity tend to be semantically and syntactically related.
 \begin {table}[ht!]
-\small
-\begin{tabular}{ | l | l | l | }
+\centering
+\begin{tabular}{ | c | c | c | }
 \hline
 \textbf{{\dn aQCA}} & \textbf{{\dn{KrAb}}} & \textbf{{\dn ByAnk}} \\ \hline
 {\dn b\7{h}t} & {\dn EnrAsAjnk} & {\dn By\306wkr}\\ \hline
@@ -115,10 +127,11 @@ The words which have higher cosine similarity tend to be semantically and syntac
 {\dn itnA} & {\dn bdtr} & {\dn avsAd}\\ \hline
 \end{tabular}
 \caption {Some sentiment words and their neighbors}
+\label{table:hindi_neighbors}
 \end{table}
 
 \section{Odd One Out}
-We trained Skip-Gram model on latest English and Hindi Wikipedia dump and tried to analyze the quality of embeddings by finding the odd word amongst a list of words. For this task, we took found cosine similarity between each pair and found the worrd with lowest cosine similarity with every other. The results are highlighted below-
+We trained Skip-Gram model on latest English and Hindi Wikipedia dump and tried to analyze the quality of embeddings by finding the odd word amongst a list of words. For this task, we took found cosine similarity between each pair and found the word with lowest cosine similarity with every other. The results are highlighted below-
 
 \begin{table}[ht!]
 \centering
