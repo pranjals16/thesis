@@ -73,6 +73,7 @@ Average Word Vectors
 88.74: MP3  500 features context=8 (NE=10) sg
 89.02: MP3  500 features context=9 (NE=10) sg
 89.41: Electronics  500 features context=10 sg
+91.40 with docvec linear svm c=0.1
 90.69: Watches 500 features context=10 cbow
 91.15: Watches 500 features context=10 sg
 90.90: Watches 500 features context=5 sg
