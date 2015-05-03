@@ -20,7 +20,7 @@ from sklearn.datasets import load_svmlight_file
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import Normalizer,Imputer
 
 def drange(start, stop, step):
 	r = start
@@ -100,19 +100,22 @@ if __name__ == '__main__':
     #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features )
     #cPickle.dump(trainDataVecs, open('save_train_electronics10.p', 'wb'))
     trainDataVecs = cPickle.load(open('save_train_electronics10.p', 'rb'))
-    
+
     print "Creating average feature vecs for test reviews"
     #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features )
     #cPickle.dump(testDataVecs, open('save_test_electronics10.p', 'wb'))
     testDataVecs = cPickle.load(open('save_test_electronics10.p', 'rb'))
-   
+    
     X_train, y_train = load_svmlight_file("electronics/train.txt")
+    print "Train Loaded!!"
     X_test, y_test = load_svmlight_file("electronics/test.txt")
-    #newTrain = np.hstack((trainDataVecs, X_train.toarray()))
+    print "Test Loaded!!"
+    trainDataVecs=Imputer().fit_transform(trainDataVecs,y_train)
+    testDataVecs=Imputer().fit_transform(testDataVecs,y_test)
+    newTrain = np.hstack((trainDataVecs, X_train.toarray()))
     print "Here"
-    #newTest = np.hstack((testDataVecs, X_test.toarray()))
-    newTrain=trainDataVecs
-    newTest=testDataVecs
+    newTest = np.hstack((testDataVecs, X_test.toarray()))
+    
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
     clf = LogisticRegression(penalty='l1')

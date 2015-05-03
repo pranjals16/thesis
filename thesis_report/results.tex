@@ -2,7 +2,7 @@
 \label{sec:result}
 \section{Results on English Datasets}
 
-\begin {table}[h!]
+\begin {table}[H]
 \centering
 \begin{tabular}{ | c | c | }
 \hline
@@ -14,15 +14,30 @@ SVM-uni (Wang \& Manning, 2012) & 89.16\\ \hline
 Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
 WordVector+Wiki(Our Method) & 88.60\\ \hline
 WordVector+TfIdf(Our Method) & 89.03\\ \hline
-WordVector+TfIdf+Document Vector+RNNLM(Our Method) & \textbf{94.19}\\ \hline
+WordVector Averaging+TfIdf+Document Vector & \textbf{93.91}\\ \hline
+
 \end{tabular}
 \caption {Results on IMDB Movie Review Dataset}
 \label{table:IMDB}
 \end{table}
 
-Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best(\cite{Le:14}) by a margin of 1.61\% using an ensemble of RNNLM and enhanced document vector.
+Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best(\cite{Le:14}) by a margin of 1.33\% using enhanced document vector.
 
-Table \ref{table:IMDB_features} gives an overview of the results obtained with various experiments that we conducted on IMDB dataset. We have tried various vector composition models and feature composition models to obtain good results. Even a simple feature composition of word and document vector yield an improvement over the existing state-of-the-art suggesting that feature composition is a vital area when it comes to NLP tasks such as sentiment analysis.
+\begin {table}[H]
+\centering
+\begin{tabular}{ | c | c | }
+\hline
+\textbf{Method} & \textbf{Accuracy} \\ \hline
+WordVector Averaging+TfIdf+Document Vector & 93.91\\ \hline
+WordVector+TfIdf+Document Vector+RNNLM(Our Method) & \textbf{94.19}\\ \hline
+\end{tabular}
+\caption {Results on IMDB Movie Review Dataset}
+\label{table:IMDB_rnnlm}
+\end{table}
+
+The main contributor for improvement in results is our enhanced document vector which overcomes the weaknesses of BOW and document vectors taken separately.\\
+Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and enhanced document vector model together(voting ensemble).
+
 \begin {table}[H]
 \centering
 \begin{tabular}{ | c | c | }
@@ -49,7 +64,12 @@ WordVector Averaging+TfIdf+Document Vector+RNNLM & \textbf{94.19}\\ \hline
 \includegraphics[width=140mm, height=120mm]{accuracy_wordvectors.eps}
 \caption{Accuracies of Different Classifiers with Average Word Vectors(IMDB). \label{fig:accuracy_wordvectors}}
 \end{figure}
+
+Table \ref{table:IMDB_features} gives an overview of the results obtained with various experiments that we conducted on IMDB dataset. We have tried various vector composition models and feature composition models to obtain good results. Even a simple feature composition of word and document vector yield an improvement over the existing state-of-the-art suggesting that feature composition is a vital area when it comes to NLP tasks such as sentiment analysis.
+
 Figure \ref{fig:accuracy_wordvectors} gives an overview of accuracies of various classifiers using word vector averaging method on IMDB dataset. This clearly gives a green signal to us for using Linear SVM as our classier in all experiments.
+
+
 
 Table \ref{table:amazon} presents result of another experiment conducted on famous Amazon electronics review dataset(refer \ref{data:amazon}). Our vector averaging method alone has beaten previous best by 3.3\% which was based on maximum entropy method.
 \begin {table}[H]
@@ -59,7 +79,8 @@ Table \ref{table:amazon} presents result of another experiment conducted on famo
 \textbf{Features} & \textbf{Accuracy} \\ \hline
 Dredze et al.(2008) & 85.90\\ \hline
 Max Entropy & 83.79\\ \hline
-WordVector Averaging (Our Method) & \textbf{89.23}\\ \hline
+WordVector Averaging (Our Method) & 89.41\\ \hline
+WordVector Averaging+Document Vector(Our Method) & \textbf{92.17}\\ \hline
 \end{tabular}
 \caption {Results on Amazon Electronics Review Dataset}
 \label{table:amazon}
