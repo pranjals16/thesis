@@ -150,8 +150,8 @@ if __name__ == '__main__':
 	#cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
 	trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
 	print trainDataVecs.shape
-	#trainDataVecs_new= SelectKBest(f_classif, k=4000).fit_transform(trainDataVecs, train["sentiment"])
-	trainDataVecs_new= LDA().fit_transform(trainDataVecs, train["sentiment"])
+	trainDataVecs_new= SelectKBest(f_classif, k=4000).fit_transform(trainDataVecs, train["sentiment"])
+	#trainDataVecs_new= LDA().fit_transform(trainDataVecs, train["sentiment"])
 	print trainDataVecs_new.shape
 	'''
 	NUM_TOPICS = 3

@@ -101,6 +101,7 @@ Without Feature Engineering:
 With Feature Engineering:
 89.51:500,5
 90.37: 600 select_k_best
+91.53: C=2.5 new weighted of probability
 78.61: PCA 50
 66.67: LDA
 
