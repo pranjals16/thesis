@@ -22,7 +22,7 @@ mv data/test/neg/norm.txt test-neg.txt
 cat train-pos.txt train-neg.txt test-pos.txt test-neg.txt > alldata.txt
 awk 'BEGIN{a=0;}{print "_*" a " " $0; a++;}' < alldata.txt > alldata-id.txt
 
-
+comment1
 #mkdir rnnlm
 cd rnnlm
 #wget http://www.fit.vutbr.cz/~imikolov/rnnlm/rnnlm-0.3e.tgz
@@ -33,11 +33,11 @@ g++ -lm -O3 -march=native -Wall -funroll-loops -ffast-math rnnlm.cpp rnnlmlib.o 
 cd rnnlm
 head ../train-pos.txt -n 794811 > train
 tail ../train-pos.txt -n 200 > valid
-./rnnlm -rnnlm model-pos -train train -valid valid -hidden 300 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
+./rnnlm -rnnlm model-pos -train train -valid valid -hidden 200 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
 
 head ../train-neg.txt -n 198283 > train
 tail ../train-neg.txt -n 200 > valid
-./rnnlm -rnnlm model-neg -train train -valid valid -hidden 300 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
+./rnnlm -rnnlm model-neg -train train -valid valid -hidden 200 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
 
 cat ../test-pos.txt ../test-neg.txt > test.txt
 awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
@@ -45,7 +45,7 @@ awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
 ./rnnlm -rnnlm model-neg -test test-id.txt -debug 0 -nbest > model-neg-score
 paste model-pos-score model-neg-score | awk '{print $1 " " $2 " " $1/$2;}' > ../RNNLM-SCORE
 
-
+<< comment2
 #cd ..
 mkdir word2vec
 cd word2vec
@@ -62,14 +62,14 @@ grep '_\*' vectors.txt > sentence_vectors.txt
 #cd liblinear-1.94
 #make
 #cd ..
-comment1
+
 
 #head sentence_vectors.txt -n 993494 | awk 'BEGIN{a=0;}{if (a<795011) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > train.txt
 #head sentence_vectors.txt -n 1241778 | tail -n 248284 | awk 'BEGIN{a=0;}{if (a<198634) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > test.txt
 ./liblinear-1.94/train -s 0 train.txt model.logreg
 ./liblinear-1.94/predict -b 1 test.txt model.logreg out.logreg
 tail -n 248286 out.logreg > SENTENCE-VECTOR.LOGREG
-<< comment2
+
 #cd ..
 
 cat SENTENCE-VECTOR.LOGREG | awk ' \

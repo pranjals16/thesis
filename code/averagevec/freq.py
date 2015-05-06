@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 import cPickle
-
+import math
+from sklearn.feature_extraction.text import CountVectorizer
 f=open("data/train-pos.txt",'r')
 g=open("data/train-neg.txt",'r')
 
@@ -30,21 +31,30 @@ for line in g:
 			if word not in word_list:
 				word_list.append(word)
 print "Boundary 2",len(dict_neg)
+score={}
+for word in word_list:
+	if word in dict_pos and word in dict_neg:
+		score[word]=math.log(float(dict_pos[word])/float(dict_neg[word]),2)
+	else:
+		score[word]=1.0
+cPickle.dump(score, open('score.p', 'wb'))
+'''
 
-#for key in dict_pos:
-#	dict_pos[key]=float(dict_pos[key])/float(len(dict_pos))
+for key in dict_pos:
+	dict_pos[key]=float(dict_pos[key])/float(len(dict_pos))
 	
-#for key in dict_neg:
-#	dict_neg[key]=float(dict_neg[key])/float(len(dict_neg))
+for key in dict_neg:
+	dict_neg[key]=float(dict_neg[key])/float(len(dict_neg))
 print "Boundary 3"
 score={}
 for word in word_list:
 	if word in dict_pos and word in dict_neg:
-		score[word]=max(float(dict_pos[word])/float(dict_neg[word]),float(dict_neg[word])/float(dict_pos[word]))
+		score[word]=max(float(dict_pos[word])/float(dict_neg[word]),float(dict_neg[word])/float(dict_pos[word]))*10
 	elif word in dict_pos:
-		score[word]=float(dict_pos[word])
+		score[word]=float(dict_pos[word])*10
 	else:
-		score[word]=float(dict_neg[word])
+		score[word]=float(dict_neg[word])*10
 
 cPickle.dump(score, open('score.p', 'wb'))
 #cPickle.load(open('newTrain_worddoctfidf.p', 'rb'))
+'''

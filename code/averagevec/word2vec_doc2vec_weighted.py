@@ -36,7 +36,9 @@ def makeFeatureVec(words, model, num_features,index2word_set,feature_names,idf_s
 		if word in index2word_set:
 			temp = np.zeros((num_features),dtype="float32")
 			if word in feature_names.keys():
-				temp[0:num_features]=np.multiply(model[word],idf_score[feature_names[word]])
+				score=idf_score[feature_names[word]]
+				temp[0:num_features]=np.multiply(model[word],score)
+				temp[0:num_features]=np.multiply(temp[0:num_features],score)
 			else:
 				temp[0:num_features]=model[word]
 			nwords = nwords + 1.
@@ -96,9 +98,8 @@ if __name__ == '__main__':
     #model.init_sims(replace=True)
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
-    #model = word2vec.Word2Vec.load("200features_10minwords_10context")
+    model = word2vec.Word2Vec.load("200features_10minwords_10context")
     #
-    '''
     f=open('data/alldata.txt','r')
     print('vectorizing... ')    
     vectorizer=TfidfVectorizer(min_df=2)
@@ -110,23 +111,22 @@ if __name__ == '__main__':
     for word in temp:
     		feature_names[word]=i
     		i=i+1
-    '''
     print "Creating average feature vecs for training reviews"
-    #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
+    trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
     #cPickle.dump(trainDataVecs, open('save_train_weighted.p', 'wb'))
-    trainDataVecs = cPickle.load(open('save_train_weighted.p', 'rb'))
+    #trainDataVecs = cPickle.load(open('save_train_weighted.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
-    #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
+    testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
     #cPickle.dump(testDataVecs, open('save_test_weighted.p', 'wb'))
-    testDataVecs = cPickle.load(open('save_test_weighted.p', 'rb'))
+    #testDataVecs = cPickle.load(open('save_test_weighted.p', 'rb'))
    
     X_train, y_train = load_svmlight_file("data/train.txt")
     X_test, y_test = load_svmlight_file("data/test.txt")
-    #newTrain = np.hstack((trainDataVecs, X_train.toarray()))
-    #newTest = np.hstack((testDataVecs, X_test.toarray()))
-    newTrain=trainDataVecs
-    newTest=testDataVecs
+    newTrain = np.hstack((trainDataVecs, X_train.toarray()))
+    newTest = np.hstack((testDataVecs, X_test.toarray()))
+    #newTrain=trainDataVecs
+    #newTest=testDataVecs
     ######################              LogisticRegression				####################
     #print "Fitting a L2 LogisticRegression classifier to labeled training data..."
     #for i in drange(0.1,10.0,0.3):
@@ -136,8 +136,8 @@ if __name__ == '__main__':
     
     ######################              SVM				####################
     print "Fitting a Linear SVM classifier to labeled training data..."
-    for i in drange(1100.0,2000.0,10.0):
-    		clf = svm.SVC(kernel='rbf',C=i)
-    		#clf=svm.LinearSVC(C=i)
+    for i in drange(0.1,10.0,0.3):
+    		clf=svm.LinearSVC(C=i)
     		clf.fit(newTrain, y_train)
     		print i,"------------",clf.score(newTest,y_test)
+
