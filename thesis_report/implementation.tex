@@ -65,7 +65,7 @@ The advantage of this model is that once we obtain \emph{idf} values from traini
 This experiment redefined document representation in NLP used for sentiment classification. It has the property of including both syntactic and semantic properties of a piece of text. The limitations of skip-gram word vectors have been fulfilled by document vectors and hence we achieve state-of-the-art results on IMDB movie review dataset.
 
 \section{Ensemble of RNNLM and Enhanced Document Vectors}
-This experiment was done on IMDB movie review dataset. Here, we first trained a \emph{recursive neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using Enhanced Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic, described below, to obtain final classification. This led to a tremendous increase in classification accuracy(Refer section \ref{sec:result}).\\
+This experiment was done on IMDB movie review dataset. Here, we first trained a \emph{recurrent neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using Enhanced Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic, described below, to obtain final classification. This led to a tremendous increase in classification accuracy(Refer section \ref{sec:result}).\\
 Let $y*$ be actual output and $y$ is the predicted output. The heuristic used is:
 \begin{align}
 ((RNNLM_{pred}-1)*7+(0.5-SVM_{pred})).y<0 \text{  if } y*=1\\
