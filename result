@@ -3,6 +3,7 @@ average of shuffled and not shuffled sentence vectors
 92.14 logistic c=3.3; without rnnlm 
 92.22 linear SVM c=0.29 without rnnlm 
 92.71 c=4.5 rnnlm
+https://groups.google.com/forum/#!msg/word2vec-toolkit/Q49FIrNOQRo/CJLWzmr0LaUJ
 -----------------------------------------
 
 

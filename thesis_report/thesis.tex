@@ -24,6 +24,7 @@
 % to write the date in the desired format
 \usepackage{datetime}
 \usepackage{graphicx}
+\usepackage{fancyhdr}
 
 \usepackage{hyperref}
 
@@ -35,7 +36,7 @@
 \newdateformat{monthyear}{\monthname[\THEMONTH], \THEYEAR}
 \newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
 
-\def\title{Distributed Semantics: Vector Models for NLP tasks in Hindi and English}
+\def\title{Domain Driven Decompositional Semantics}
 \def\degree{Master of Technology}
 \def\author{Pranjal Singh}
 \def\rollno{10327511}
@@ -93,8 +94,13 @@
 	\mainmatter
 	\doublespacing
 	\pagenumbering{arabic}
-	\pagestyle{myheadings}
-	
+	%\pagestyle{myheadings}
+	\pagestyle{fancy}
+	\fancyhf{}
+	\fancyhead[LE,RO]{\thepage}
+	\fancyhead[RE,LO]{\leftmark}
+	%\fancyfoot[CE,CO]{\leftmark}
+	%\fancyfoot[LE,RO]{\thepage}
 	\include{introduction}
 	\include{related}
 %	\include{background}

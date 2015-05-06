@@ -33,7 +33,7 @@ accuracy on classification of movie reviews on a separate dataset.\\
 \cite{Mikolov:10} presents new recurrent neural network based language model which has found vital application in various NLP tasks as well. They provide ample empirical evidence to suggest that connectionist language models are superior to standard n-gram techniques, except their high computational (training) complexity. The model has also been extended to speedup training time by few optimizations.(More details in \ref{sec:rnn}).
 
 The algorithms and data structures used in this thesis have been introduced and discussed below.
-\section{Word-Vectors and Reprsentations}
+\section{Word-Vectors and Representations}
 \subsection{Skip-Gram}
 \label{sec:skipgram}
 Mikolov et al. (2013b) proposed two neural network models for building word vectors from large unlabeled corpora; Continuous Bag of Words(CBOW) and Skip-Gram.  In the CBOW model, the context is the input, and one tries to learn a vector for the central word; in Skip grams, the input is the target word and one tries to guess the set of contexts.  The Skip gram was found to perform better on smaller corpora, and here we have focused on this model for building our word vectors. The model uses each current word as an input to a log-linear classifier with continuous projection layer, and predict words within a certain range before and after the current word. The objective is to maximize the probability of the context given a word within a language model:
@@ -85,9 +85,9 @@ where $EH$ is a $N$-dimensional vector. Its each component is defined as
 $EH_i=\sum_{j=1}^{V}EI_j.w'_{ij}$
 \end{center}
 
-\begin{figure}[ht!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=70mm, height=70mm]{skipgram.eps}
+\includegraphics[width=90mm, height=90mm]{skipgram.eps}
 \caption{Skip Gram Model(Figure from Rong (2014)) \label{fig:skipgram}}
 \end{figure}
 The main advantage of using skip-gram is that it is computationally less expensive than other neural language models with a complexity of O(log V) instead of O(V). They use hierarchical softmax~\cite{Morin:05} to achieve such computational efficiency.
@@ -241,7 +241,7 @@ We, therefore, adopt both simple and weighted average methods in our work. The a
 \end{center}
 \cite{Blacoe:12} clearly show that vectors of Neural Language Model and Distributed Model when used with additive composition outperform those with multiplicative composition in Paraphrase Classification task. DM vectors outperform by nearly giving accuracy difference of 6\%. They also perform very well on Phrase similarity tasks.\\
 \cite{Socher:13} also present yet another model for semantic composition but that uses a sentiment treebank which is a very costly structure to build and it is task dependent. For under-resourced languages such as Hindi, it would take years to build (for English, task done through Amazon Mechanical Turk). This leads to appreciation of models such as Additive Composition.\\
-\begin{figure}[ht!]
+\begin{figure}[H]
 \centering
 \includegraphics[width=90mm, height=80mm]{recursiveNN.eps}
 \caption{Approach of Recursive Neural Network(Figure from \cite{Socher:13}). \label{fig:recursiveNN}}
