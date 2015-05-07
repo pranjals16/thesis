@@ -22,7 +22,7 @@ mv data/test/neg/norm.txt test-neg.txt
 cat train-pos.txt train-neg.txt test-pos.txt test-neg.txt > alldata.txt
 awk 'BEGIN{a=0;}{print "_*" a " " $0; a++;}' < alldata.txt > alldata-id.txt
 
-comment1
+
 #mkdir rnnlm
 cd rnnlm
 #wget http://www.fit.vutbr.cz/~imikolov/rnnlm/rnnlm-0.3e.tgz
@@ -34,18 +34,19 @@ cd rnnlm
 head ../train-pos.txt -n 794811 > train
 tail ../train-pos.txt -n 200 > valid
 ./rnnlm -rnnlm model-pos -train train -valid valid -hidden 200 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
-
-head ../train-neg.txt -n 198283 > train
-tail ../train-neg.txt -n 200 > valid
-./rnnlm -rnnlm model-neg -train train -valid valid -hidden 200 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
-
+comment1
+cd rnnlm
+head ../train-neg.txt -n 198283 > train-neg
+tail ../train-neg.txt -n 200 > valid-neg
+./rnnlm -rnnlm model-neg -train train-neg -valid valid-neg -hidden 200 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
+<< comment2
 cat ../test-pos.txt ../test-neg.txt > test.txt
 awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
 ./rnnlm -rnnlm model-pos -test test-id.txt -debug 0 -nbest > model-pos-score
 ./rnnlm -rnnlm model-neg -test test-id.txt -debug 0 -nbest > model-neg-score
 paste model-pos-score model-neg-score | awk '{print $1 " " $2 " " $1/$2;}' > ../RNNLM-SCORE
 
-<< comment2
+
 #cd ..
 mkdir word2vec
 cd word2vec
