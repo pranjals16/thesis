@@ -63,7 +63,7 @@ grep '_\*' vectors.txt > sentence_vectors.txt
 #make
 #cd ..
 
-comment2
+
 #head sentence_vectors.txt -n 993494 | awk 'BEGIN{a=0;}{if (a<795011) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > train.txt
 #head sentence_vectors.txt -n 1241778 | tail -n 248284 | awk 'BEGIN{a=0;}{if (a<198634) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > test.txt
 ./liblinear-1.94/train -s 0 train.txt model.logreg
@@ -71,12 +71,12 @@ comment2
 tail -n 248284 out.logreg > SENTENCE-VECTOR.LOGREG
 
 #cd ..
-
+comment2
 cat SENTENCE-VECTOR.LOGREG | awk ' \
 BEGIN{cn=0; corr=0;} \
 { \
-  if ($2>0.5) if (cn<12500) corr++; \
-  if ($2<0.5) if (cn>=12500) corr++; \
+  if ($2>0.5) if (cn<198634) corr++; \
+  if ($2<0.5) if (cn>=198634) corr++; \
   cn++; \
 } \
 END{print "Sentence vector + logistic regression accuracy: " corr/cn*100 "%";}'
@@ -84,8 +84,8 @@ END{print "Sentence vector + logistic regression accuracy: " corr/cn*100 "%";}'
 cat RNNLM-SCORE | awk ' \
 BEGIN{cn=0; corr=0;} \
 { \
-  if ($3<1) if (cn<12500) corr++; \
-  if ($3>1) if (cn>=12500) corr++; \
+  if ($3<1) if (cn<198634) corr++; \
+  if ($3>1) if (cn>=198634) corr++; \
   cn++; \
 } \
 END{print "RNNLM accuracy: " corr/cn*100 "%";}'
@@ -93,8 +93,8 @@ END{print "RNNLM accuracy: " corr/cn*100 "%";}'
 paste RNNLM-SCORE SENTENCE-VECTOR.LOGREG | awk ' \
 BEGIN{cn=0; corr=0;} \
 { \
-  if (($3-1)*7+(0.5-$5)<0) if (cn<12500) corr++; \
-  if (($3-1)*7+(0.5-$5)>0) if (cn>=12500) corr++; \
+  if (($3-1)*7+(0.5-$5)<0) if (cn<198634) corr++; \
+  if (($3-1)*7+(0.5-$5)>0) if (cn>=198634) corr++; \
   cn++; \
 } \
 END{print "FINAL accuracy: " corr/cn*100 "%";}'
