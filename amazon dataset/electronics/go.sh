@@ -34,19 +34,18 @@ cd rnnlm
 head ../train-pos.txt -n 794811 > train
 tail ../train-pos.txt -n 200 > valid
 ./rnnlm -rnnlm model-pos -train train -valid valid -hidden 200 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
-comment1
-cd rnnlm
+
 head ../train-neg.txt -n 198283 > train-neg
 tail ../train-neg.txt -n 200 > valid-neg
 ./rnnlm -rnnlm model-neg -train train-neg -valid valid-neg -hidden 200 -direct-order 3 -direct 200 -class 200 -debug 2 -bptt 4 -bptt-block 10 -binary
-<< comment2
+
 cat ../test-pos.txt ../test-neg.txt > test.txt
 awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
 ./rnnlm -rnnlm model-pos -test test-id.txt -debug 0 -nbest > model-pos-score
 ./rnnlm -rnnlm model-neg -test test-id.txt -debug 0 -nbest > model-neg-score
 paste model-pos-score model-neg-score | awk '{print $1 " " $2 " " $1/$2;}' > ../RNNLM-SCORE
-
-
+comment1
+<< comment2
 #cd ..
 mkdir word2vec
 cd word2vec
@@ -64,12 +63,12 @@ grep '_\*' vectors.txt > sentence_vectors.txt
 #make
 #cd ..
 
-
+comment2
 #head sentence_vectors.txt -n 993494 | awk 'BEGIN{a=0;}{if (a<795011) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > train.txt
 #head sentence_vectors.txt -n 1241778 | tail -n 248284 | awk 'BEGIN{a=0;}{if (a<198634) printf "1 "; else printf "-1 "; for (b=1; b<NF; b++) printf b ":" $(b+1) " "; print ""; a++;}' > test.txt
 ./liblinear-1.94/train -s 0 train.txt model.logreg
 ./liblinear-1.94/predict -b 1 test.txt model.logreg out.logreg
-tail -n 248286 out.logreg > SENTENCE-VECTOR.LOGREG
+tail -n 248284 out.logreg > SENTENCE-VECTOR.LOGREG
 
 #cd ..
 
@@ -99,4 +98,4 @@ BEGIN{cn=0; corr=0;} \
   cn++; \
 } \
 END{print "FINAL accuracy: " corr/cn*100 "%";}'
-comment2
+
