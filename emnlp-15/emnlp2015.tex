@@ -25,6 +25,7 @@
 \usepackage{devanagari}
 \usepackage{amsmath}
 \usepackage{multirow}
+\usepackage{float}
 
 %\setlength\titlebox{5cm}
 
@@ -104,7 +105,7 @@ We then go a step ahead to build a model using document vectors along with tfidf
 Our model uses concatenation of average word vectors, sentence vectors and tf-idf to build informative document vectors which constitute a feature set for our SVM classier. We have used skip-gram model (Mikolov et al., 2013b) for building word vectors because deep network model of Collobert et al.(2008) takes too much time for training. Also the word embeddings obtained by them are not as good as those obtained by Mikolov et al.(2013b). \\
 For Hindi, we have experimented with tf-idf and weighted average word vectors for building our feature set. Our model shows slight improvement in performance if we filter out certain corpus based stop words. This is a first attempt to use word vectors for sentiment analysis in Hindi. Word vectors capture both semantic and syntactic information for a given corpus. Words which are semantically and syntactically related tend to be closer in high-dimensional space.\\
 
-\section{BAckground and Related Work}
+\section{Background and Related Work}
 
 Sentiment analysis is a well-known research area in NLP today (see reviews in~\cite{Liu:12} and Pang et al. (2008), and also
 challenge in SemEval-2014).  Early work on movie review sentiments achieved an accuracy of 87.2\% (Pang et al. 2004) on a dataset that discarded objective sentences and used text categorization techniques
@@ -363,33 +364,6 @@ Dimensionality Reduction helps in visualization of high-dimensional data in 2D o
 In machine learning, it is often used for feature selection and feature extraction. In this work, we have successfully used dimensionality reduction for feature selection i.e., we have selected an optimal subset of features from the given data to achieve a large improvement in accuracy.\\
 Next we will discuss two of the techniques which we have used in our work and present the results obtained after applying these techniques.
 
-\subsubsection{Principal Component Analysis(PCA)}
-Principal Component Analysis(PCA) is a very famous technique for dimensionality reduction in machine learning. When given a data with $n$-dimensions/features, PCA aims to find a linear subspace of dimension $d$ lower than $n$ such that this reduced space contains most of the data points and it maintains most of the variability of the data.\\
-It can be easily proved that first principal component is given by the normalized eigenvector with the largest associated eigenvalue of the sample covariance matrix $S$. A similar argument can show that the $d$ dominant eigenvectors of covariance matrix $S$ determine the first $d$ principal components. Also, the projection onto the principal subspace minimizes the squared reconstruction error,
-$\sum_{i=1}^{t}\|x_i-x_i^{\widehat{}}\|^{2}$.
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=40mm, height=60mm]{img/pca.eps}
-\caption{PCA of a multivariate Gaussian distribution centered at (1,3) with a standard deviation of 3 in roughly the (0.878, 0.478) direction and of 1 in the orthogonal direction. The vectors shown are the eigenvectors of the covariance matrix scaled by the square root of the corresponding eigenvalue, and shifted so their tails are at the mean(Figure from \cite{wiki:2015}). \label{fig:pca}}
-\end{figure}
-
-\subsubsection{ANOVA: F-value}
-Analysis of variance(ANOVA) is a set of statistical models used to analyze the differences between the group means and variation among and between groups. It was developed by R.A. Fisher. It is also a measure of statistical significance of the data point with reference to other data points present in the sample.\\
-In our experiment, we have used F-test to reduce the number of features and it has led to a considerable increase in classification accuracy on our new movie dataset(Refer \ref{new_reviews}).\\
-The F-statistic is calculated as:
-\begin{align*}
-F=\frac{\text{variance between groups}}{\text{variance within groups}}
-\end{align*}
-The variance between groups is given as:
-\begin{align}
-\frac{\sum_{i}n_i(\bar{Y_i}-\bar{Y})^2}{K-1}
-\end{align}
-where $\bar{Y_i}$ denotes the sample mean in the $i^{th}$ group, $n_i$ is the number of observations in the $i^{th}$ group, $\bar{Y}$ denotes the overall mean of the data, and $K$ denotes the number of groups.\\
-The variance within groups is given as:
-\begin{align}
-\frac{\sum_{ij}(Y_{ij}-\bar{Y_i})^2}{N-K}
-\end{align}
-where $Y_{ij}$ is the $j^{th}$ observation in the $i^{th}$ out of $K$ groups and $N$ is the overall sample size.
 
 \subsubsection{Result}
 \begin{table}[h!]
@@ -501,17 +475,11 @@ We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 290MB)
 \label{english_corpus}
 \subsubsection{IMDB Movie Review}
 We trained on IMDB movie review dataset (Maas et al.(2013)) which consists of 25,000 positive and 25,000 negative reviews. The core dataset contains 50,000 reviews split evenly into 25k train and 25k test sets. The overall distribution of labels is balanced (25k pos and 25k neg). It also contains an additional 50,000 unlabeled documents for unsupervised learning.\\
-In the entire collection, no more than 30 reviews are allowed for any given movie because reviews for the same movie tend to have correlated ratings. Further, the train and test sets contain a disjoint set of movies, so no significant performance is obtained by memorizing movie-unique terms and their associated with observed labels.  In the labeled train/test sets, a negative review has a score $<=$ 4 out of 10, and a positive review has a score $>=$ 7 out of 10. Thus reviews with more neutral ratings are not included in the train/test sets. In the unsupervised set, reviews of any rating are included and there are an even number of reviews $>$ 5 and $<=$ 5. For example,
-\begin{itemize}
-\item \textbf{Positive}: After reading previews for this movie I thought it would be a let down, however after I got my region 1 dvd ( the dvd was available before the film hit the uk cinemas) I was pleasantly surprised, strong performances from all cast members make this a very enjoyable movie. The fact that the script is quite weak means that you dont get bogged down in story and therefore the repeat viewing factor is greater. I recommend this movie to one and all
-\item \textbf{Negative}: This is by far the worst non-English horror movie I've ever seen. The acting is wooden, the dialogues are simply stupid and the story is totally braindead. It's not even scary. 2 out of 10 from me.
-\end{itemize}
 
 \subsubsection{Trip Advisor Review}
 It contains around 240K reviews(206MB) from hotel domain. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative.\\
 There were total 27315 words in the vocabulary after removing those with count $<$10. Overall, there were 154448 words in the corpus.\\
 The dataset was split into 80-20 ratio for training and testing purpose.\\
-The Meta data includes: Author, Content, Date, Number of Reader, Number of Helpful Judgment, Overall rating, Value aspect rating, Rooms aspect rating, Location aspect rating, Cleanliness aspect rating, Check in/front desk aspect rating, Service aspect rating and Business Service aspect rating. Ratings ranges from 0 to 5 stars, and -1 indicates this aspect rating is missing in the original html file.
 
 \subsubsection{Amazon Review}
 \label{data:amazon}
@@ -522,27 +490,10 @@ Electronics dataset consists of 1,241,778 reviews, Watches Dataset consists of 6
 \subsubsection{Wikipedia}
 We also trained our skip-gram model on Hindi Wikipedia text dump (approx. 20.3GB) containing around 3.5B words with 7.8M words in the vocabulary. This provided us with good embeddings due to larger size and contents from almost all domains.
 
-
 \section{Models and Experiments}
 \label{sec:experiment}
 \subsection{Context Size}
 \cite{Mikolov:13a} describe in their work how context size affects the type and quality of word vectors. One of the observations is that a smaller context size tend to capture syntactic similarity to a much better extent. As we increase the context size, vectors tend to capture more of semantic similarity.
-\begin{figure}[]
-	\centering
-	\begin{subfigure}
-	\includegraphics[scale=0.08]{img/tsne_5.eps}
-	\caption{}
-	\label{fig:5K_hindi_zoom1}
-	\end{subfigure}
-	\newline
-	\begin{subfigure}
-	\includegraphics[scale=0.08]{img/tsne_10.eps}
-	\caption{}
-	\end{subfigure}
-	\newline
-	\caption{High Dimensional representation of Wiki Text with a) Context Size 5 b) Context Size 10}
-	\label{fig:tsne_5_10}
-\end{figure}
 
 Figure \ref{fig:tsne_5_10} shows how the high dimensional representation changes when we change the context size. The embeddings were formed with context sizes 5 and 10 by training on Latest Wikipedia dump. We see that 5.1(a), has words \emph{\{high,higher,highest\}} very close to each other which is in accordance to our argument that smaller context size promotes syntactical similarity whereas these words are farther when we increase the context size. From 5.1(b), we can see that there is a larger semantic difference between two clusters of words:\emph{\{wikiproject,wikipedia\}} and \emph{\{facebook,html,id\}}. This again justifies our argument that larger context size favors more of semantic similarity than syntactic similarity.
 
@@ -595,11 +546,11 @@ similarity=cos(\theta)=\frac{A.B}{\|A\|\|B\|}=\frac{\sum_{i=1}^{n}A_i \times B_i
 Another evaluation can be done through tSNE~\cite{Maaten:08} which helps in visualization which maps each high-dimensional data point to a two or three-dimensional map. In our experiment, we took 5K words and plotted
 them with tSNE (fig.~\ref{fig:5K_hindi}). 
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=40mm, height=60mm]{img/tsne.eps}
-\caption{t-SNE visualization of the top 5000 Hindi Words in high dimensional space.  (Magnify to see details). \label{fig:5K_hindi}}
-\end{figure}
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=40mm, height=60mm]{img/tsne.eps}
+%\caption{t-SNE visualization of the top 5000 Hindi Words in high dimensional space.  (Magnify to see details). \label{fig:5K_hindi}}
+%\end{figure}
 
 %\begin{figure}[]
 %\centering
@@ -623,242 +574,9 @@ them with tSNE (fig.~\ref{fig:5K_hindi}).
 %\label{fig:5K_hindi_zoom}
 %\end{figure}
 
-Figure \ref{fig:5K_hindi_zoom} gives a closer look into few clusters which depicts the relation between words in high dimensional space. Figure \ref{fig:5K_hindi_zoom1} shows that words such as 
-{\dn mO\8{j}d} and {\dn uplND} are closer to each other but farther from words such as {\dn \31EwyAdA} and {\dn aEDk}.
+%Figure \ref{fig:5K_hindi_zoom} gives a closer look into few clusters which depicts the relation between words in high dimensional space. Figure \ref{fig:5K_hindi_zoom1} shows that words such as 
+%{\dn mO\8{j}d} and {\dn uplND} are closer to each other but farther from words such as {\dn \31EwyAdA} and {\dn aEDk}.
 
-\subsection{Work Flow}
-This section summarizes our approach in brief with graphics. This is a general classification system and includes building of enhanced document vectors.
-\begin{figure}[H]
-\centering
-\includegraphics[width=40mm, height=60mm]{img/flow_chart.eps}
-\caption{Work Flow Summary. \label{fig:flow_chart}}
-\end{figure}
-
-\section{Results on English Datasets}
-
-\begin {table}[H]
-\centering
-\small
-\begin{tabular}{ | c | c | }
-\hline
-\textbf{Method} & \textbf{Accuracy} \\ \hline
-Maas et al.(2011) & 88.89\\ \hline
-NBSVM-bi (Wang \& Manning, 2012) & 91.22\\ \hline
-NBSVM-uni (Wang \& Manning, 2012) & 88.29\\ \hline
-SVM-uni (Wang \& Manning, 2012) & 89.16\\ \hline
-Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
-WordVector+Wiki(Our Method) & 88.60\\ \hline
-WordVector+TfIdf(Our Method) & 89.03\\ \hline
-WordVector Averaging+TfIdf+Document Vector & \textbf{93.91}\\ \hline
-
-\end{tabular}
-\caption {Results on IMDB Movie Review Dataset}
-\label{table:IMDB}
-\end{table}
-
-Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best(\cite{Le:14}) by a margin of 1.33\% using enhanced document vector.
-
-\begin {table}[H]
-\centering
-\small
-\begin{tabular}{ | c | c | }
-\hline
-\textbf{Method} & \textbf{Accuracy} \\ \hline
-WordVector Averaging+TfIdf+Document Vector & 93.91\\ \hline
-WordVector+TfIdf+Document Vector+RNNLM(Our Method) & \textbf{94.19}\\ \hline
-\end{tabular}
-\caption {Results on IMDB Movie Review Dataset}
-\label{table:IMDB_rnnlm}
-\end{table}
-
-The main contributor for improvement in results is our enhanced document vector which overcomes the weaknesses of BOW and document vectors taken separately.\\
-Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and enhanced document vector model together(voting ensemble).
-
-\begin {table}[H]
-\centering
-\small
-\begin{tabular}{ | c | c | }
-\hline
-\textbf{Method} & \textbf{Accuracy} \\ \hline
-WordVector Averaging & 88.42\\ \hline
-Weighted WordVector Average & 88.41\\ \hline
-WordVector Averaging+Wiki & 88.60\\ \hline
-WordVector Averaging+TfIdf & 89.03\\ \hline
-WordVector Averaging+Document Vector & 93.24\\ \hline
-WordVector Averaging+Wiki+Document Vector & 93.18\\ \hline
-WordVector Averaging+Document Vector+RNNLM & 93.70\\ \hline
-WordVector Averaging+Wiki+Document Vector+RNNLM & 93.57\\ \hline
-WordVector Averaging+TfIdf+Document Vector & 93.91\\ \hline
-WordVector Averaging+Wiki+Document Vector+TfIdf & 93.55\\ \hline
-WordVector Averaging+TfIdf+Document Vector+RNNLM & \textbf{94.19}\\ \hline
-\end{tabular}
-\caption {Comparison of results on IMDB Movie Review Dataset with Various Features}
-\label{table:IMDB_features}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\small
-\includegraphics[width=40mm, height=60mm]{img/accuracy_wordvectors.eps}
-\caption{Accuracies of Different Classifiers with Average Word Vectors(IMDB). \label{fig:accuracy_wordvectors}}
-\end{figure}
-
-Table \ref{table:IMDB_features} gives an overview of the results obtained with various experiments that we conducted on IMDB dataset. We have tried various vector composition models and feature composition models to obtain good results. Even a simple feature composition of word and document vector yield an improvement over the existing state-of-the-art suggesting that feature composition is a vital area when it comes to NLP tasks such as sentiment analysis.
-
-Figure \ref{fig:accuracy_wordvectors} gives an overview of accuracies of various classifiers using word vector averaging method on IMDB dataset. This clearly gives a green signal to us for using Linear SVM as our classier in all experiments.
-
-
-
-Table \ref{table:amazon} presents result of another experiment conducted on famous Amazon electronics review dataset(refer \ref{data:amazon}). Our vector averaging method alone has beaten previous best by 3.3\% which was based on maximum entropy method.
-\begin {table}[H]
-\centering
-\small
-\begin{tabular}{ | c | c | }
-\hline
-\textbf{Features} & \textbf{Accuracy} \\ \hline
-Dredze et al.(2008) & 85.90\\ \hline
-Max Entropy & 83.79\\ \hline
-WordVector Averaging (Our Method) & 89.41\\ \hline
-WordVector Averaging+Document Vector(Our Method) & \textbf{92.17}\\ \hline
-\end{tabular}
-\caption {Results on Amazon Electronics Review Dataset}
-\label{table:amazon}
-\end{table}
-
-
-\section{Results on Hindi Datasets}
-\label{sec:hindi_results}
-\begin {table}[h!]
-\centering
-\small
-\begin{tabular}{ | c | c | c | }
-\hline
-\textbf{Features} & \textbf{Accuracy(1)} & \textbf{Accuracy(2)} \\ \hline
-WordVector Averaging & 78.0 & 79.62\\ \hline
-WordVector+tf-idf & 90.73 & 89.52\\ \hline
-WordVector+tf-idf without stop words & 91.14 & 89.97\\ \hline
-Weighted WordVector & 89.71 & 85.90\\ \hline
-Weighted WordVector+tf-idf & \textbf{92.89} & \textbf{90.30}\\ \hline
-\end{tabular}
-\caption {Accuracies for Product Review and Movie Review Datasets.}
-\label{table:hindi_ourmethods}
-\end{table}
-
-Table \ref{table:hindi_ourmethods} represents the results using five different techniques for feature set construction. We see that there is a slight improvement in accuracy on both datasets once we remove stop-words but the major breakthrough occurs once we used weighted averaging technique for construction of document vectors from word vectors.
-
-\begin {table}[h!]
-\centering
-\small
-\begin{tabular}{ | c | c | c | }
-\hline
-\textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-Subjective Lexicon (Bakliwal et al.(2012)) & Simple Scoring & 79.03\\ \hline
-Hindi-SWN Baseline (Arora et al.(2013)) & Adjective and Adverb presence & 69.30\\ \hline
-Word Vector with SVM (Our method) & tf-idf with word vector & 91.14\\ \hline
-Weighted Word Vector with SVM (Our method) & tf-idf+weighted word vector & \textbf{92.89}\\ \hline
-\end{tabular}
-\caption {Comparison of Approaches: Product Review Dataset}
-\label{table:hindi_product}
-\end{table}
-Table \ref{table:hindi_product} and \ref{table:hindi_movie} compares our best method with various other methods which have performed well using techniques such as \emph{tf-idf}, subjective lexicon, etc.
-
-\begin {table}[h!]
-\centering
-\small
-\begin{tabular}{ | c | c | c | }
-\hline
-\textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-In language using SVM (Joshi et al.(2010)) & tf-idf & 78.14\\ \hline
-MT Based using SVM (Joshi et al.(2010)) & tf-idf & 65.96\\ \hline
-Improved Hindi-SWN  (Bakliwal et al.(2012)) & Adj. and Adv. presence & 79.0\\ \hline
-WordVector Averaging & word vector & 78.0\\ \hline
-Word Vector with SVM (Our method) & tf-idf; word vector & 89.97\\ \hline
-Weighted Word Vector with SVM (Our method) & tf-idf+weighted word vector & \textbf{90.30}\\ \hline
-\end{tabular}
-\caption {Comparison of Approaches: Movie Review Dataset}
-\label{table:hindi_movie}
-\end{table}
-
-Table \ref{table:hindi_neighbors} shows the top few similar words for certain words from the corpus with cosine similarity as a distance metric. The words which have higher cosine similarity tend to be semantically and syntactically related.
-\begin {table}[ht!]
-\centering
-\small
-\begin{tabular}{ | c | c | c | }
-\hline
-\textbf{{\dn aQCA}} & \textbf{{\dn{KrAb}}} & \textbf{{\dn ByAnk}} \\ \hline
-{\dn b\7{h}t} & {\dn EnrAsAjnk} & {\dn By\306wkr}\\ \hline
-{\dn \7{s}pr} & {\dn kM)or} & {\dn BFqZ}\\ \hline
-{\dn k\?vl} & {\dn nA\7{)}k} & {\dn ByAvh}\\ \hline
-{\dn itnA} & {\dn bdtr} & {\dn avsAd}\\ \hline
-\end{tabular}
-\caption {Some sentiment words and their neighbors}
-\label{table:hindi_neighbors}
-\end{table}
-
-\section{Odd One Out}
-We trained Skip-Gram model on latest English and Hindi Wikipedia dump and tried to analyze the quality of embeddings by finding the odd word amongst a list of words. For this task, we took found cosine similarity between each pair and found the word with lowest cosine similarity with every other. The results are highlighted below-
-
-\begin{table}[ht!]
-\centering
-\small
-\begin{tabular}{|l|l|l|l|}
-\hline
-breakfast         & \textbf{cereal} & lunch        & dinner  \\ \hline 
-eight             & seven           & \textbf{owe} & nine    \\ \hline 
-\textbf{shopping} & math            & reading      & science \\ \hline
-\end{tabular}
-\caption{Odd One Out in English}
-\label{fig:english_odd}
-\end{table}
-
-\begin{table}[ht!]
-\centering
-\small
-\begin{tabular}{|l|l|l|l|}
-\hline
-{\dn BArt} & \textbf{{\dn \7{m}MbI}} & {\dn !s} & {\dn cFn}  \\ \hline 
-{\dn lwkF}  & {\dn b\?hn} & \textbf{{\dn md\0}} & {\dn mEhlA}    \\ \hline 
-\textbf{{\dn u\38Dwog}} & {\dn n\?tA}  & {\dn m\2/F} & {\dn srkAr} \\ \hline
-\end{tabular}
-\caption{Odd One Out in Hindi}
-\label{fig:hindi_odd}
-\end{table}
-
-\section{Similar Words}
-The trained skip-gram model was used for this task as well. We found the top few words which were closer in terms of cosine distance to the give word. The results are highlighted below-
-\begin{table}[ht!]
-\centering
-\small
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\textbf{Father} & \textbf{France} & \textbf{XBOX} & \textbf{scratched} & \textbf{megabits} \\ \hline
-grandfather & Germany & XBLA  & scraped & gigabits  \\ \hline 
-uncle & French & Xbox360  & rubbed & kilobits  \\ \hline 
-mother & Greece & SmartGlass  & bruised & megabit  \\ \hline 
-father-in-law & Netherlands & 360/PS3  & cracked & terabits  \\ \hline 
-brother & Scotland & XBLA   & discarded & MB/s  \\ \hline 
-- & - & Qubed  & shoved & Tbit/s  \\ \hline 
-- & - & Kinect  & tripped & -  \\ \hline 
-\end{tabular}
-\caption{Top Few Similar words in English}
-\label{fig:english_similar}
-\end{table}
-
-\begin{table}[ht!]
-\centering
-\small
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{{\dn BArt}} & \textbf{{\dn \326wyApAr}} & \textbf{{\dn aobAmA}} \\ \hline
-{\dn \3FEwd\?f} & {\dn \326wyvsAy} & {\dn E\3CAw\2Vn}  \\ \hline 
-{\dn Et\3A9wt} & {\dn \7{p}nbF{\qvb}mA} & {\dn brAk} \\ \hline 
-{\dn d\?f} & {\dn vAEZ>y} & {\dn sFn\?Vr} \\ \hline 
-{\dn aA\1D\5\3FEwd\?f} & {\dn b\4{\qva}Ek\2g} & {\dn rA\6{\3A3w}pEt} \\ \hline 
-{\dn l\38CwAK} & {\dn u\38Dwog} & {\dn uMmFdvAr} \\ \hline 
-\end{tabular}
-\caption{Top Few Similar words in Hindi}
-\label{fig:hindi_similar}
-\end{table}
 
 \section{Conclusion}
 \label{sec:conclusion}

@@ -17,50 +17,43 @@ from sklearn.lda import LDA
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.datasets import load_svmlight_file
-from sklearn.datasets import dump_svmlight_file
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import Normalizer
-from sklearn.feature_extraction.text import TfidfVectorizer,HashingVectorizer
+from sklearn.preprocessing import MinMaxScaler
 
 def drange(start, stop, step):
 	r = start
 	while r < stop:
 		yield r
 		r += step
-
-def makeTfidfFeatures(traindata, testdata):
-    print('vectorizing... ')    
-    tfv=TfidfVectorizer(min_df=5,max_features=15000,strip_accents='unicode',analyzer='word',token_pattern=r'\w{1,}',ngram_range=(1,2),use_idf=1,smooth_idf=1,sublinear_tf=1,dtype=np.float32)
-    X_all = traindata + testdata
-    lentrain = len(traindata)
-    tfv.fit(X_all)
-    X_all = tfv.transform(X_all)
-    trainfeatures = X_all[:lentrain]
-    testfeatures = X_all[lentrain:]
-    return trainfeatures, testfeatures
-    
-def makeFeatureVec(words, model, num_features):
-    featureVec = np.zeros((num_features,),dtype="float32")
+		
+def makeFeatureVec(words, model,index2word_set,num_features):
+    featureVec = np.ones((num_features))
     #
     nwords = 0.
     #
-    index2word_set = set(model.index2word)
+    
     #
     for word in words:
         if word in index2word_set:
             nwords = nwords + 1.
-            featureVec = np.add(featureVec,model[word])
+            print featureVec
+            print "----------------------------------------"
+            print model[word]
+            featureVec = np.multiply(featureVec,model[word])
+            print "###########################################"
+            print featureVec
     #
-    featureVec = np.divide(featureVec,nwords)
+    #featureVec = np.divide(featureVec,nwords)
     return featureVec
 
 
 def getAvgFeatureVecs(reviews, model, num_features):
     counter = 0.
     #
-    reviewFeatureVecs = np.zeros((len(reviews),num_features),dtype="float32")
+    reviewFeatureVecs = np.ones((len(reviews),num_features))
+    index2word_set = set(model.index2word)
     #
     for review in reviews:
        #
@@ -68,7 +61,7 @@ def getAvgFeatureVecs(reviews, model, num_features):
            print "Review %d of %d" % (counter, len(reviews))
        #
        # Call the function (defined above) that makes average feature vectors
-       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model, num_features)
+       reviewFeatureVecs[int(counter)] = makeFeatureVec(review,model,index2word_set,num_features)
        counter = counter + 1.
     return reviewFeatureVecs
 
@@ -110,58 +103,40 @@ if __name__ == '__main__':
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
     model = word2vec.Word2Vec.load("200features_10minwords_10context")
-    '''
-    traindata = []
-    for i in range( 0, len(train["review"])):
-    		traindata.append(" ".join(KaggleWord2VecUtility.review_to_wordlist(train["review"][i], False)))
-    testdata = []
-    for i in range(0,len(test["review"])):
-    		testdata.append(" ".join(KaggleWord2VecUtility.review_to_wordlist(test["review"][i], False)))
-    cPickle.dump(traindata, open('traindata.p', 'wb'))
-    cPickle.dump(testdata, open('testdata.p', 'wb'))
-    '''
-    #traindata=cPickle.load(open('traindata.p', 'rb'))
-    #testdata=cPickle.load(open('testdata.p', 'rb'))
-    #trainTfidfData, testTfidfData = makeTfidfFeatures(traindata, testdata)
-    #cPickle.dump(trainTfidfData, open('tfidf_train.p', 'wb'))
-    #cPickle.dump(testTfidfData, open ('tfidf_test.p', 'wb'))
-    trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
-    testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
-    print trainTfidfData.shape,testTfidfData.shape
+    #
     print "Creating average feature vecs for training reviews"
     trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features )
-    #cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
-    #trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
-    
+    #cPickle.dump(trainDataVecs, open('save_train_mult.p', 'wb'))
+    #trainDataVecs = cPickle.load(open('save_train_mult.p', 'rb'))
+
     print "Creating average feature vecs for test reviews"
     testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features )
-    #cPickle.dump(testDataVecs, open('save_test.p', 'wb'))
-    #testDataVecs = cPickle.load(open('save_test.p', 'rb'))
+    #cPickle.dump(testDataVecs, open('save_test_mult.p', 'wb'))
+    #testDataVecs = cPickle.load(open('save_test_mult.p', 'rb'))
    
     X_train, y_train = load_svmlight_file("data/train.txt")
     X_test, y_test = load_svmlight_file("data/test.txt")
-    newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
-    newTest2 = np.hstack((testDataVecs, X_test.toarray()))
-    newTrain=np.hstack((newTrain2, trainTfidfData.toarray()))
-    print "1st Loaded!!!"
-    newTest=np.hstack((newTest2, testTfidfData.toarray()))
-    print "2nd Loaded!!!"
-    print newTrain.shape,newTest.shape
-    
-    #cPickle.dump(newTrain, open('newTrain_worddoctfidf.p', 'wb'))
-    #cPickle.dump(newTest, open('newTest_worddoctfidf.p', 'wb'))
-    #newTrain=cPickle.load(open('newTrain_worddoctfidf.p', 'rb'))
-    #newTest=cPickle.load(open('newTest_worddoctfidf.p', 'rb'))
-    import gc
-    gc.collect()
+    #newTrain = np.hstack((trainDataVecs, X_train.toarray()))
+    #newTest = np.hstack((testDataVecs, X_test.toarray()))
+    newTrain=trainDataVecs
+    newTest=testDataVecs
     ######################              LogisticRegression				####################
-    print "Fitting a LogisticRegression classifier to labeled training data..."
-    clf=LogisticRegression(penalty='l2',C=4.3)
-    clf.fit(newTrain, y_train)
-    print clf.score(newTest,y_test)
+    print "Fitting a LogisticRegression classifier l1 to labeled training data..."
+    for i in drange(0.1,10.0,0.3):
+    		clf=LogisticRegression(penalty='l1',C=i)
+    		clf.fit(newTrain, y_train)
+    		print i,"------------",clf.score(newTest,y_test)
+    print "Fitting a LogisticRegression classifier l2 to labeled training data..."
+    for i in drange(0.1,10.0,0.3):
+    		clf=LogisticRegression(penalty='l2',C=i)
+    		clf.fit(newTrain, y_train)
+    		print i,"------------",clf.score(newTest,y_test)
+    #------------------------------------------------------------------------------------------
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
-    clf=svm.LinearSVC(C=0.33)
-    clf.fit(newTrain, y_train)
-    print clf.score(newTest,y_test)
+    for i in drange(0.1,10.0,0.3):
+    		#clf = svm.SVC(kernel='rbf',C=i)
+    		clf=svm.LinearSVC(C=i)
+    		clf.fit(newTrain, y_train)
+    		print i,"------------",clf.score(newTest,y_test)
     #------------------------------------------------------------------------------------------

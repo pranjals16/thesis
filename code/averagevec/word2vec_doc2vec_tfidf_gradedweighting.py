@@ -14,61 +14,55 @@ from sklearn import naive_bayes
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.lda import LDA
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import f_classif
 from sklearn.datasets import load_svmlight_file
-from sklearn.datasets import dump_svmlight_file
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import Normalizer
-from sklearn.feature_extraction.text import TfidfVectorizer,HashingVectorizer
 
 def drange(start, stop, step):
 	r = start
 	while r < stop:
 		yield r
 		r += step
-
-def makeTfidfFeatures(traindata, testdata):
-    print('vectorizing... ')    
-    tfv=TfidfVectorizer(min_df=5,max_features=15000,strip_accents='unicode',analyzer='word',token_pattern=r'\w{1,}',ngram_range=(1,2),use_idf=1,smooth_idf=1,sublinear_tf=1,dtype=np.float32)
-    X_all = traindata + testdata
-    lentrain = len(traindata)
-    tfv.fit(X_all)
-    X_all = tfv.transform(X_all)
-    trainfeatures = X_all[:lentrain]
-    testfeatures = X_all[lentrain:]
-    return trainfeatures, testfeatures
-    
-def makeFeatureVec(words, model, num_features):
-    featureVec = np.zeros((num_features,),dtype="float32")
-    #
-    nwords = 0.
-    #
-    index2word_set = set(model.index2word)
-    #
-    for word in words:
-        if word in index2word_set:
-            nwords = nwords + 1.
-            featureVec = np.add(featureVec,model[word])
-    #
-    featureVec = np.divide(featureVec,nwords)
-    return featureVec
+		
+def makeFeatureVec(words, model, num_features,index2word_set,feature_names,idf_score):
+	featureVec = np.zeros((num_features,),dtype="float32")
+	nwords = 0.
+	
+	#
+	for word in words:
+		if word in index2word_set:
+			temp = np.zeros((num_features),dtype="float32")
+			if word in feature_names.keys():
+				score=idf_score[feature_names[word]]
+				if score>0.4:
+					temp[0:num_features]=np.multiply(model[word],score)
+					temp[0:num_features]=np.multiply(temp[0:num_features],score)
+				else:
+					continue
+			else:
+				temp[0:num_features]=model[word]
+			nwords = nwords + 1.
+			featureVec = np.add(featureVec,model[word])
+	#
+	featureVec = np.divide(featureVec,nwords)
+	return featureVec
 
 
-def getAvgFeatureVecs(reviews, model, num_features):
+def getAvgFeatureVecs(reviews, model, num_features,feature_names,idf_score):
     counter = 0.
     #
     reviewFeatureVecs = np.zeros((len(reviews),num_features),dtype="float32")
+    index2word_set = set(model.index2word)
     #
     for review in reviews:
        #
-       if counter%1000. == 0.:
+       if counter%100. == 0.:
            print "Review %d of %d" % (counter, len(reviews))
-       #
        # Call the function (defined above) that makes average feature vectors
-       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model, num_features)
+       reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model, num_features,index2word_set,feature_names,idf_score)
        counter = counter + 1.
     return reviewFeatureVecs
 
@@ -76,7 +70,7 @@ def getAvgFeatureVecs(reviews, model, num_features):
 def getCleanReviews(reviews):
     clean_reviews = []
     for review in reviews["review"]:
-        clean_reviews.append( KaggleWord2VecUtility.review_to_wordlist( review, remove_stopwords=True ))
+        clean_reviews.append( KaggleWord2VecUtility.review_to_wordlist( review, remove_stopwords=False ))
     return clean_reviews
 
 
@@ -92,11 +86,9 @@ if __name__ == '__main__':
 
     # Load the punkt tokenizer
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-    # ****** Split the labeled and unlabeled training sets into clean sentences
-    #
     #sentences=cPickle.load(open('sentences.p', 'rb'))
-    sentences = word2vec.Text8Corpus('data/alldata.txt')
-    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
+    #sentences = word2vec.Text8Corpus('data/alldata.txt')
+    #logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
     # Set values for various parameters
     num_features = 200    # Word vector dimensionality
     min_word_count = 10   # Minimum word count
@@ -110,34 +102,30 @@ if __name__ == '__main__':
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
     model = word2vec.Word2Vec.load("200features_10minwords_10context")
-    '''
-    traindata = []
-    for i in range( 0, len(train["review"])):
-    		traindata.append(" ".join(KaggleWord2VecUtility.review_to_wordlist(train["review"][i], False)))
-    testdata = []
-    for i in range(0,len(test["review"])):
-    		testdata.append(" ".join(KaggleWord2VecUtility.review_to_wordlist(test["review"][i], False)))
-    cPickle.dump(traindata, open('traindata.p', 'wb'))
-    cPickle.dump(testdata, open('testdata.p', 'wb'))
-    '''
-    #traindata=cPickle.load(open('traindata.p', 'rb'))
-    #testdata=cPickle.load(open('testdata.p', 'rb'))
-    #trainTfidfData, testTfidfData = makeTfidfFeatures(traindata, testdata)
-    #cPickle.dump(trainTfidfData, open('tfidf_train.p', 'wb'))
-    #cPickle.dump(testTfidfData, open ('tfidf_test.p', 'wb'))
-    trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
-    testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
-    print trainTfidfData.shape,testTfidfData.shape
+    #
+    f=open('data/alldata.txt','r')
+    print('vectorizing... ')    
+    vectorizer=TfidfVectorizer(min_df=2)
+    X = vectorizer.fit_transform(f)
+    idf_score = vectorizer._tfidf.idf_
+    temp= vectorizer.get_feature_names()
+    feature_names={}
+    i=0
+    for word in temp:
+    		feature_names[word]=i
+    		i=i+1
     print "Creating average feature vecs for training reviews"
-    trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features )
-    #cPickle.dump(trainDataVecs, open('save_train.p', 'wb'))
-    #trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
+    trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
+    #cPickle.dump(trainDataVecs, open('save_train_weighted.p', 'wb'))
+    #trainDataVecs = cPickle.load(open('save_train_weighted.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
-    testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features )
-    #cPickle.dump(testDataVecs, open('save_test.p', 'wb'))
-    #testDataVecs = cPickle.load(open('save_test.p', 'rb'))
-   
+    testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
+    #cPickle.dump(testDataVecs, open('save_test_weighted.p', 'wb'))
+    #testDataVecs = cPickle.load(open('save_test_weighted.p', 'rb'))
+    
+    trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
+    testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
     X_train, y_train = load_svmlight_file("data/train.txt")
     X_test, y_test = load_svmlight_file("data/test.txt")
     newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
@@ -147,13 +135,6 @@ if __name__ == '__main__':
     newTest=np.hstack((newTest2, testTfidfData.toarray()))
     print "2nd Loaded!!!"
     print newTrain.shape,newTest.shape
-    
-    #cPickle.dump(newTrain, open('newTrain_worddoctfidf.p', 'wb'))
-    #cPickle.dump(newTest, open('newTest_worddoctfidf.p', 'wb'))
-    #newTrain=cPickle.load(open('newTrain_worddoctfidf.p', 'rb'))
-    #newTest=cPickle.load(open('newTest_worddoctfidf.p', 'rb'))
-    import gc
-    gc.collect()
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
     clf=LogisticRegression(penalty='l2',C=4.3)

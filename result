@@ -159,4 +159,28 @@ weighted word: 88.42
 weighted word+ doc: 93.19 linear svm
 ------------------
 
-presentation bmg
+Graded+docvec
+-----
+with stopwords
+logistic l1:3.5, 88.14
+logistic l2:9.1, 87.52
+svm: 6.5, 88.21
+
+without stopwords
+logistic l1:3.5, 88.27
+logistic l2:9.1, 88.42
+svm: 1.2, 88.42
+
+Graded+docvec
+-----
+with stopwords
+93.84
+
+without stopwords
+93.91
+
+1:0.5
+2:0.1
+3:0.2
+4:0.3
+5:0.4
