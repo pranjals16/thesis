@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import pandas as pd
-import os
+import os,math
 from nltk.corpus import stopwords
 import nltk.data
 import logging
@@ -20,6 +20,7 @@ from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import Normalizer
+from numpy import ndarray
 
 def drange(start, stop, step):
 	r = start
@@ -37,7 +38,7 @@ def makeFeatureVec(words, model, num_features,index2word_set,feature_names,idf_s
 			temp = np.zeros((num_features),dtype="float32")
 			if word in feature_names.keys():
 				score=idf_score[feature_names[word]]
-				if score>0.4:
+				if score>6.0:
 					temp[0:num_features]=np.multiply(model[word],score)
 					temp[0:num_features]=np.multiply(temp[0:num_features],score)
 				else:
@@ -116,13 +117,13 @@ if __name__ == '__main__':
     		i=i+1
     print "Creating average feature vecs for training reviews"
     trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
-    #cPickle.dump(trainDataVecs, open('save_train_weighted.p', 'wb'))
-    #trainDataVecs = cPickle.load(open('save_train_weighted.p', 'rb'))
+    cPickle.dump(trainDataVecs, open('save_train_weighted_graded6.p', 'wb'))
+    #trainDataVecs = cPickle.load(open('save_train_weighted_graded3.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
     testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
-    #cPickle.dump(testDataVecs, open('save_test_weighted.p', 'wb'))
-    #testDataVecs = cPickle.load(open('save_test_weighted.p', 'rb'))
+    cPickle.dump(testDataVecs, open('save_test_weighted_graded6.p', 'wb'))
+    #testDataVecs = cPickle.load(open('save_test_weighted_graded3.p', 'rb'))
     
     trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
     testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
