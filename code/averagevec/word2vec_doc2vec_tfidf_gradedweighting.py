@@ -19,7 +19,7 @@ from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
 from sklearn.decomposition import PCA
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import Normalizer,Imputer
 from numpy import ndarray
 
 def drange(start, stop, step):
@@ -38,7 +38,7 @@ def makeFeatureVec(words, model, num_features,index2word_set,feature_names,idf_s
 			temp = np.zeros((num_features),dtype="float32")
 			if word in feature_names.keys():
 				score=idf_score[feature_names[word]]
-				if score>6.0:
+				if score>3.0:
 					temp[0:num_features]=np.multiply(model[word],score)
 					temp[0:num_features]=np.multiply(temp[0:num_features],score)
 				else:
@@ -103,7 +103,6 @@ if __name__ == '__main__':
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
     model = word2vec.Word2Vec.load("200features_10minwords_10context")
-    #
     f=open('data/alldata.txt','r')
     print('vectorizing... ')    
     vectorizer=TfidfVectorizer(min_df=2)
@@ -117,13 +116,13 @@ if __name__ == '__main__':
     		i=i+1
     print "Creating average feature vecs for training reviews"
     trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
-    cPickle.dump(trainDataVecs, open('save_train_weighted_graded6.p', 'wb'))
-    #trainDataVecs = cPickle.load(open('save_train_weighted_graded3.p', 'rb'))
+    cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.8.p', 'wb'))
+    #trainDataVecs = cPickle.load(open('save_train_weighted_graded6.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
     testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
-    cPickle.dump(testDataVecs, open('save_test_weighted_graded6.p', 'wb'))
-    #testDataVecs = cPickle.load(open('save_test_weighted_graded3.p', 'rb'))
+    cPickle.dump(testDataVecs, open('save_test_weighted_graded2.8.p', 'wb'))
+    #testDataVecs = cPickle.load(open('save_test_weighted_graded6.p', 'rb'))
     
     trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
     testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
@@ -131,6 +130,8 @@ if __name__ == '__main__':
     X_test, y_test = load_svmlight_file("data/test.txt")
     newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
     newTest2 = np.hstack((testDataVecs, X_test.toarray()))
+    #newTrain=Imputer().fit_transform(newTrain2,y_train)
+    #newTest=Imputer().fit_transform(newTest2,y_test)
     newTrain=np.hstack((newTrain2, trainTfidfData.toarray()))
     print "1st Loaded!!!"
     newTest=np.hstack((newTest2, testTfidfData.toarray()))
@@ -138,12 +139,14 @@ if __name__ == '__main__':
     print newTrain.shape,newTest.shape
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
-    clf=LogisticRegression(penalty='l2',C=4.3)
-    clf.fit(newTrain, y_train)
-    print clf.score(newTest,y_test)
+    for i in drange(0.1,6.0,0.2):
+    		clf=LogisticRegression(penalty='l2',C=i)
+    		clf.fit(newTrain, y_train)
+    		print i,"------------",clf.score(newTest,y_test)
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
-    clf=svm.LinearSVC(C=0.33)
-    clf.fit(newTrain, y_train)
-    print clf.score(newTest,y_test)
+    for i in drange(0.1,10.0,0.2):
+    		clf=svm.LinearSVC(C=i)
+    		clf.fit(newTrain, y_train)
+    		print i,"------------",clf.score(newTest,y_test)
     #------------------------------------------------------------------------------------------
