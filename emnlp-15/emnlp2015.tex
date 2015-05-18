@@ -55,7 +55,7 @@ In recent years, distributional semantics and neural language models for words a
 \end{abstract}
 
 \section{Introduction}
-Language representation is a very crucial aspect to perform various NLP tasks and has been looked into great detail in recent times. Languag representation models have fallen into broadly two categories: ones which are language dependent models(e.g.,\cite{Socher:13}) and ones which are language independent models(e.g., LDA, BOW, SkipGram, NLM, etc.). 
+Language representation is a very crucial aspect to perform various NLP tasks and has been looked into great detail in recent times. Language representation models have fallen into broadly two categories: ones which are language dependent models(e.g.,\cite{Socher:13}) and ones which are language independent models(e.g., LDA, BOW, SkipGram, NLM, etc.). 
 
 Language independent models such as LDA  and BOW have been quite effective since long time. Variants of BOW such as tf-idf had changed the perception of researchers towards these models when they were proved effective in various NLP tasks. LDA was able to model inter and intra documental statistical and relational structure quite well overcoming the drawbacks of BOW. But the semantic and syntactical dependencies were still ignored. After the introduction of neural language vector models, NLP saw a huge diversion in representation of words and documents.
 
@@ -70,7 +70,7 @@ The world class results in English clearly indicate the efficacy of our approach
 
 \section{Related Work}
 \subsection{Neural Language Model}
-Language modeling problem invloved using frequency counts of n-grams for so many years but it ignores a large number of n-grams which are not seen while training leading to data sparsity and over-fitting of training data. Also these n-gram models along with BOW suffers from the curse of dimensionality. Neural Networks tend to overcome the drawbacks of n-gram models because they can model continuous variables or distributed representation, which is a necessity if we would like to find better generalizations over the highly discrete word sequences~\cite{Bengio:03}. 
+Language modeling problem involved using frequency counts of n-grams for so many years but it ignores a large number of n-grams which are not seen while training leading to data sparsity and over-fitting of training data. Also these n-gram models along with BOW suffers from the curse of dimensionality. Neural Networks tend to overcome the drawbacks of n-gram models because they can model continuous variables or distributed representation, which is a necessity if we would like to find better generalizations over the highly discrete word sequences~\cite{Bengio:03}. 
 Neural language models were introduced by Bengio et al., 2001(revised in 2003\cite{Bengio:03}). They build a mapping $C$ from each word $i$ of the vocabulary $V$ to a feature vector $C(i) \in \mathbb{R}^m$, $m$ is the number of features; a probability function $g$ over words expressed with $C$; and finally learn the word vector and parameters of probability function.
 \cite{Morin:05} proposed a hierarchical model to speed up the training cost by clustering similar words before computing their probability in order to only have to do one computation per word cluster
 at the output layer of the NN.
@@ -82,7 +82,7 @@ The problem that still remains in hand is that either these models are computati
 
 \subsection{Sentiment Analysis}
 Majority of the existing work in this field is in English~\cite{Liu:12}. \cite{Medagoda:13} surveys sentiment analysis in non-English languages while \cite{Sharma:14} give a summary of work done in Hindi in the field of opinion mining.
-There have been heuristic based and machine larning based models used in this domain. Heuristic based methods, in general, classify text sentiments on the basis of total number of derived positive or negative sentiment oriented features. But these models rely heavily on human engineered features which, in general, is a domain and language dependent task. Several groups have attempted to improve the situation by modeling the composition of words into larger contexts \cite{Le:14,Socher:13,Johnson:14,Baroni:14}.
+There have been heuristic based and machine learning based models used in this domain. Heuristic based methods, in general, classify text sentiments on the basis of total number of derived positive or negative sentiment oriented features. But these models rely heavily on human engineered features which, in general, is a domain and language dependent task. Several groups have attempted to improve the situation by modeling the composition of words into larger contexts \cite{Le:14,Socher:13,Johnson:14,Baroni:14}.
 
 \cite{Pang:04} achieved an accuracy of 87.2\% (Pang et al. 2004) on a dataset that discarded objective sentences and used text categorization techniques on the subjective sentences. Le and Mikolov (2014) use word vector models and obtain 92.6\% accuracy on IMDB movie review dataset.  More difficult challenges involve short texts with nonstandard vocabularies,as in twitter.  Here, some authors focus on building extensive feature sets (e.g. Mohammad et al.(2013); F-score 89.14).
 
@@ -107,15 +107,15 @@ The paragraph vector is shared across all contexts generated from the same parag
 
 Our model incorporates property of document vector as well as property of word vectors to build an enhanced representation of documents without ignoring the properties of tf-idf representation.
 
-\subsection{tf-idf}
-\label{subsec:tfidf}
-Let $D=d_1, d_2, d_3....d_N$ be $N$ documents under study and $T=t_1, t_2, t_3,....t_M$ be the $M$ unique terms in these documents, then each document can be represented as a $M$-dimensional vector:\\
-$t_d=\{tf_1,tf_2,tf_3,...tf_M\}$\\
-$tf-idf$ weights discounts the frequency of terms based on their importance to a particular document in the entire document set collection under consideration. This is done as follows:
-\begin{center}
-$tfidf(t,d)=tf(t,d) \times \log(\frac{|D|}{df(t)})$ 
-\end{center}
-Here $df(t)$ is the number of documents in which term $t$ appears and the other term is the \emph{inverse document frequency} which we later use to give weights to each word.
+%\subsection{tf-idf}
+%\label{subsec:tfidf}
+%Let $D=d_1, d_2, d_3....d_N$ be $N$ documents under study and $T=t_1, t_2, t_3,....t_M$ be the $M$ unique terms in these documents, then each document can be represented as a $M$-dimensional vector:\\
+%$t_d=\{tf_1,tf_2,tf_3,...tf_M\}$\\
+%$tf-idf$ weights discounts the frequency of terms based on their importance to a particular document in the entire document set collection under consideration. This is done as follows:
+%\begin{center}
+%$tfidf(t,d)=tf(t,d) \times \log(\frac{|D|}{df(t)})$ 
+%\end{center}
+%Here $df(t)$ is the number of documents in which term $t$ appears and the other term is the \emph{inverse document frequency} which we later use to give weights to each word.
 
 
 \subsection{Semantic Composition}
@@ -144,7 +144,7 @@ We, therefore, adopt both simple and idf weighted average methods in our work. T
 \emph{queen - king $\approx$ woman - man}
 \end{center}
 \cite{Blacoe:12} clearly show that vectors of Neural Language Model and Distributed Model when used with additive composition outperform those with multiplicative composition in Paraphrase Classification task. DM vectors outperform by nearly giving accuracy difference of 6\%. They also perform very well on Phrase similarity tasks.\\
-We, therefore, propose garded weighting schema for better composition of vectors which is described below.
+We, therefore, propose graded weighting schema for better composition of vectors which is described below.
 
 \subsubsection{Graded Weighting}
 \label{sec:graded_weighting}
@@ -167,20 +167,20 @@ v_{d_i} = \left\{
     \right.
 $$
 where $\delta$ is a pre-defined threshold below which the word has no importance and above which the \emph{idf} terms gives importance to that particular word.\\
-Till date, everyone has ignored how to effectively use vector composition techniques and as a result, this area has seen very less attention. But we have successfully used \emph{idf} values to give weights to word vectors and hence obtain much better sentence/document vectors. The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation.
+Till date, everyone has ignored how to effectively use vector composition techniques and as a result, this area has seen very less attention. But we have successfully used \emph{idf} values to give weights to word vectors and hence obtain much better sentence/document vectors. The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation. The results(see \ref{sec:results}) obtained by using this technique clearly demonstrate how effective it is for tasks such as sentiment analysis.
 
 \subsection{Enhanced Document Vector}
 This experiment redefined document representation in NLP used for sentiment classification. It has the property of including both syntactic and semantic properties of a piece of text. The limitations of skip-gram word vectors have been fulfilled by document vectors and hence we achieve state-of-the-art results on IMDB movie review dataset as well as amazon electronics review dataset.
 
 We first generated $n$-dimensional word vectors by training skip-gram model on the datasets. We then assigned weights to word vectors for each document to create document vectors. This now acts as a feature set for that particular document. We then created \emph{tf-idf} vectors for each document. This can be seen as a vector representation of that particular document. We then concatenated these document vectors with document vectors obtained after training the desired dataset separately with the model proposed in \cite{Le:14}.\\
-We claim that the document vectors in hand is a much better representation of each document than doing it separately. This can be justified by the fact that we now incorporate contribution of each word as per its importance as well as well as that of document without ignoring tf-idf representation which performs considerably well in taks such as retrieval. Hence, we call this as enhanced document vector representation.
+We claim that the document vectors in hand is a much better representation of each document than doing it separately. This can be justified by the fact that we now incorporate contribution of each word as per its importance as well as well as that of document without ignoring tf-idf representation which performs considerably well in tasks such as retrieval. Hence, we call this as enhanced document vector representation.
 
 \subsection{Dimensionality Reduction}
 \label{sec:dimensionality_reduction}
 Dimensionality Reduction is the process of reducing the number of random variables in such a way that the remaining variables effectively reproduce most of the variability of the dataset.
 The reason for using such techniques is because of the \emph{curse of dimensionality} which is a phenomena that occurs in high-dimension but doesn't occur in low-dimension.\\
-
-\begin{table}[h!]
+Table \ref{table:700_movie_features} summarizes how feature selection has improved classification accuracy on the 700 Movie review dataset. With ANOVA-F, we selected around 4k features but with PCA, this number was just 50. So, the low accuracy with PCA can be attributed to the fact that we may have lost some important features in low dimension. Also, PCA cannot work with size of dimension $d>$\emph{size of learning set}. This sharp decrease in accuracy in both cases happens because ANOVA-F selects features with larger variance across group and thus reduces noise to a larger extent whereas PCA reduces angular variance which is not effective in this case due to the distribution of data points in high-dimensional space.
+\begin{table}[H]
 \small
 \begin{tabular}{|p{3.6cm}|p{1.5cm}|p{1.4cm}|}
 \hline
@@ -196,7 +196,7 @@ The reason for using such techniques is because of the \emph{curse of dimensiona
 \label{table:700_movie_features}
 \end{table}
 
-Table \ref{table:700_movie_features} summarizes how feature selection has improved classification accuracy on the 700 Movie review dataset. With ANOVA-F, we selected around 4k features but with PCA, this number was just 50. So, the low accuracy with PCA can be attributed to the fact that we may have lost some important features in low dimension. Also, PCA cannot work with size of dimension $d>$\emph{size of learning set}. This sharp decrease in accuracy in both cases happens because ANOVA-F selects features with larger variance across group and thus reduces noise to a larger extent whereas PCA reduces angular variance which is not effective in this case due to the distribution of data points in high-dimensional space.
+
 
 With this we release a new dataset in Hindi on movie reviews which is much larger than previous standard dataset and very less focused towards sentiment of the review. The results obtained on this dataset are now a benchmark for further research.
 
@@ -208,7 +208,9 @@ In this section, we describe the experiments and analyze the results.
 We have used 3 datasets for experiments in Hindi and 5 for English. All the datasets including our self created Hindi dataset are described below.\\
 We experimented on two Hindi review datasets. One is the Product Review dataset (LTG, IIIT Hyderabad) containing 350 Positive reviews and 350 Negative reviews. The other is a Movie Review dataset (CFILT, IIT Bombay) containing 127 Positive reviews and 125 Negative reviews. Each review is around 1-2 sentences long and the sentences are mainly focused on sentiment, either positive or negative.\\
 Our 700-Movie Review Corpus in Hindi contains movie reviews from websites such as \emph{Dainik Jagran} and \emph{Navbharat Times}. The movie reviews are longer than the previous corpus and contains subjects other than sentiment. There are in total 697 movie reviews from both the websites. The statistics compiled is described below.
-\begin {table}[h!]
+
+For experiments in English, we trained on IMDB movie review dataset (Maas et al.(2013)) which consists of 25,000 positive and 25,000 negative reviews. It also contains an additional 50,000 unlabeled documents for unsupervised learning.
+\begin {table}[H]
 \centering
 \begin{tabular}{ |l|l| }
 \hline
@@ -224,23 +226,24 @@ Total Reviews & 697\\ \hline
 \caption {Statistics of Movie Reviews from Jagran and Navbharat}
 \end{table}
 
-For experiments in English, we trained on IMDB movie review dataset (Maas et al.(2013)) which consists of 25,000 positive and 25,000 negative reviews. It also contains an additional 50,000 unlabeled documents for unsupervised learning.
-
 The Trip Advisor Review dataset contains around 240K reviews(206MB) from hotel domain. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose.
 
-We also took amazon reviews for our eperiments. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose. There were 3 review datasets: Watches, Electronics and MP3 each of size 30.8MB, 728.4MB and 27.7MB respectively. Electronics dataset consists of 1,241,778 reviews, Watches Dataset consists of 68,356 reviews and MP3 Dataset consists of 31,000 reviews.
+We also took amazon reviews for our experiments. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose. There were 3 review datasets: Electronics dataset consists of 1,241,778 reviews, Watches Dataset consists of 68,356 reviews and MP3 Dataset consists of 31,000 reviews.
 
 \subsection{SkipGram or CBOW}
-We present an interesting experiment to demonstrate that skipgram indeed performs better than CBOW.\\
-SkipGram model tends to predict a context given a word whereas CBOW model predicts a word given a context. It seems intuitive and also from observation~\cite{Mikolov:13b} that SkipGram will perform better on semantic tasks and CBOW on syntactic tasks. We now try to evaluate how they differ on classification accuracies on the two datasets: \emph{Watches} and \emph{MP3}.
-\begin{figure}[ht!]
+\begin{figure}[h]
 \centering
 \includegraphics[width=80mm, height=60mm]{img/accuracy_sgcbow.eps}
 \caption{Variation of Accuracy with skipgram and cbow on Watches and MP3 Datasets. \label{fig:accuracy_sgcbow}}
 \end{figure}
+We present an interesting experiment to demonstrate that skipgram indeed performs better than CBOW.\\
+SkipGram model tends to predict a context given a word whereas CBOW model predicts a word given a context. It seems intuitive and also from observation~\cite{Mikolov:13b} that SkipGram will perform better on semantic tasks and CBOW on syntactic tasks. We now try to evaluate how they differ on classification accuracies on the two datasets: \emph{Watches} and \emph{MP3}.
+
+
 Figure \ref{fig:accuracy_sgcbow} show that skipgram outperforms CBOW on sentiment classification task. It can be justified by the fact that sentiment inclination of a document is more oriented towards semantics of that document rather than just syntax and our results clearly demonstrate this fact.
 
 \subsection{Results}
+\label{sec:results}
 \begin {table}[H]
 \centering
 \small
@@ -262,8 +265,49 @@ Enhanced Document Vector & \textbf{93.91}\\ \hline
 \end{table}
 
 Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best~\cite{Le:14} by a margin of 1.33\% using enhanced document vector.
+The main contributor for improvement in results is our enhanced document vector which overcomes the weaknesses of BOW and document vectors taken separately.
 
-The main contributor for improvement in results is our enhanced document vector which overcomes the weaknesses of BOW and document vectors taken separately.\\
+Tables \ref{table:graded_weighting_tfidf} and \ref{table:graded_weighting} demonstrate the effectiveness of our proposed graded weighting technique. Without \emph{tf-idf} features, our proposed method performs better in the graded idf weighting case and when we include \emph{tf-idf} features, 0-1 weighting perform better than idf graded technique and both perform better than the previous state-of-the-art. We see that with larger weights there is a decrease in accuracy and that is because we are now filtering out more words which are important while building document vector.
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|c|l|l|}
+\hline
+\multicolumn{1}{|l|}{Method}      & Weight & Accuracy \\ \hline
+\multirow{2}{*}{0-1 Weighting}    & 0      & 93.84    \\ \cline{2-3} 
+                                  & 1      & \textbf{93.91}    \\ \hline
+\multirow{7}{*}{Graded idf Weighting} & 2      & \textbf{93.89}    \\ \cline{2-3} 
+                                  & 2.5    & 93.87    \\ \cline{2-3} 
+                                  & 2.8    & 93.86    \\ \cline{2-3} 
+                                  & 3      & 93.86    \\ \cline{2-3} 
+                                  & 4      & 93.83    \\ \cline{2-3} 
+                                  & 5      & 93.75    \\ \cline{2-3} 
+                                  & 6      & 93.68    \\ \hline
+\end{tabular}
+\caption {Results on IMDB Movie Review Dataset using Various Weighting Techniques(Enhanced Document Vector)}
+\label{table:graded_weighting_tfidf}
+\end{table}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|c|l|l|}
+\hline
+\multicolumn{1}{|l|}{Method}      & Weight & Accuracy \\ \hline
+\multirow{2}{*}{0-1 Weighting}    & 0      & 93.06    \\ \cline{2-3} 
+                                  & 1      & \textbf{93.18}    \\ \hline
+\multirow{7}{*}{Graded idf Weighting} & 2      & 93.17    \\ \cline{2-3} 
+                                  & 2.5    & 93.16    \\ \cline{2-3} 
+                                  & 2.8    & 93.16    \\ \cline{2-3} 
+                                  & 3      & \textbf{93.22}    \\ \cline{2-3} 
+                                  & 4      & 93.12    \\ \cline{2-3} 
+                                  & 5      & 93.03    \\ \cline{2-3} 
+                                  & 6      & 93.00    \\ \hline
+\end{tabular}
+\caption {Results on IMDB Movie Review Dataset using Various Weighting Techniques(without tf-idf feature)}
+\label{table:graded_weighting}
+\end{table}
+
 Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and enhanced document vector model together(voting ensemble). Here, we first trained a \emph{recursive neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using Enhanced Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic to obtain final classification. This led to a tremendous increase in classification accuracy.
 
 
@@ -351,28 +395,26 @@ Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textb
 \section{Conclusion}
 \label{sec:conclusion}
 In this work we present an early experiment on the possibilities of distributional semantic models (word vectors) for low-resource, highly inflected languages such as Hindi.  What is interesting is that our word vector averaging method along with tf-idf results in improvements of accuracy compared to existing state-of-the art methods for sentiment analysis in Hindi (from 80.2\% to 90.3\% on IITB Movie Review Dataset).
+We observe that pruning high-frequency stop words improves the accuracy by around 0.45\%. This is most likely  because such words tend to occur in most of the documents and don't contribute to sentiment. Similarly, words with very low frequency are noisy and can be pruned. For example, the word {\dn EPSm} occurs in 139/252 documents in Movie Reviews(55.16\%) and has little effect on sentiment. Similarly words such as {\dn Es\388wAT\0} occur in 2/252 documents in Movie Reviews(0.79\%). These words don't provide much information.
 
-We observe that pruning high-frequency stop words improves the accuracy by around 0.45\%. This is most likely  because such words tend to occur in most of the documents and don't contribute to sentiment.  Similarly, words with very low frequency are noisy and can be pruned. For example, the word {\dn EPSm} occurs in 139/252 documents in Movie Review Dataset(55.16\%) and has little effect on sentiment.
-Similarly words such as {\dn Es\388wAT\0} occur in 2/252 documents in Movie Review Dataset(0.79\%). These words don't provide much information.
-
-We also observe that giving weights to word vectors while adding has resulted in a significant increase of accuracy. This seems much in accordance with expectation as pure addition ignores the importance of word which is directly related to its ratio of frequency in whole corpus and its frequency in a particular document. We have successfully tapped this area which most of the works have ignored.
-We also see that when number of features accumulate to a large number than there are few redundant features present also. This brings a noise in the representation of the text in high dimension. We tried to reduce this noise by using feature variance technique called ANOVA-F and PCA and have succeeded as well. There is a large increase in accuracy(around 11\%).
+%We also observe that giving weights to word vectors while adding has resulted in a significant increase of accuracy. This seems much in accordance with expectation as pure addition ignores the importance of word which is directly related to its ratio of frequency in whole corpus and its frequency in a particular document. We have successfully tapped this area which most of the works have ignored.
+We also see that when number of features accumulate to a large number than there are few redundant features creating noise in the representation of the text. We tried to reduce this noise by using feature variance techniques. The large increase in accuracy(around 11\%) justifies our claim.
 
 Before concluding, we return to the unexpectedly high improvement in accuracy achieved. One possibility we considered is that when the skip-grams are learned from the entire review corpus, it incorporates some knowledge of the test data.  But this seems unlikely since the difference in including this vs not including it, is not too significant.  The best explanation may be that the earlier methods, which were all in some sense based on a sentiWordnet, and at that one that was initially translated from English, were essentially very weak.  This is also clear in an analysis from
 ~\cite{Bakliwal:12}, which shows intern-annotator agreement on sentiment words are very poor (70\%) - i.e. about 30\% of these words have poor human agreement. Compared to this, the word vector model  
-provides considerable power, especially as amplified by the tf-idf process. Thus, this also seems to underline the claim that distributional semantics is a topic worth exploring for Indian languages.
+provides considerable power underlining the claim that distributional semantics is a topic worth exploring for Indian languages.
 
 Our experiments on new dataset and existing datasets show that our method is competitive with existing methods including state-of-the-art. This concept of Enhanced Document Vectors can overcome the weaknesses of existing models which were either deficient in capturing syntactic or semantic properties of text. These models failed to incorporate contribution of each word while we have tapped this area and hence achieved state-of-the art results. The ensemble of RNNLM and Enhanced Document Vector has beaten state-of-the-art by a significant margin and has opened this area for future research. These models have the advantage that they don't require parsing at any step neither do they require a lot of heavy pre-processing. These tasks require a lot of extra effort and they slow the progress a lot.
 
 \section{Future Work}
 \label{sec:future_work}
 Distributional semantics approaches remain relatively under-explored for Indian languages, and our results suggest that there may be substantial benefits to exploring these approaches for Indian languages.  While this work has focused on sentiment classification, it may also improve a range of tasks from verbal analogy tests to ontology learning, as has been reported for other languages.
-For future work, we can explore various compositional models - a) weighted average - where weights are determined based on cosine distances in vector space;  b) weighted multiplicative models. Identifying morphological variants would be another direction to explore for better accuracy. With regard to sentiment analysis, the idea of aspect-based models (or part-based sentiment analysis), which looks into constituents in a document and classify their sentiment polarity separately, remains to be explored in Hindi. Another point to note is that we are re-computing the word vectors for the two review corpora, which are extremely small.  We may expect better performance  with a larger sentiment corpus.
+For future work, we can explore various compositional models - a) weighted average - where weights are determined based on cosine distances in vector space;  b) weighted multiplicative models. Identifying morphological variants would be another direction to explore for better accuracy. With regard to sentiment analysis, the idea of aspect-based models (or part-based sentiment analysis), which looks into constituents in a document and classify their sentiment polarity separately, remains to be explored in Hindi.
 
 In English, our enhanced document vectors has led open a new area to look at where there can be many possible ensembles which may improve our work. Also, we could incorporate multiple word vectors here as well to distinguish between polysemous words. Another interesting and open area is to look at \emph{Region of Importance} in NLP where we filter out sentiment oriented sentences and phrases from a unfocused corpus which contains text from various domains.
 
 \section*{Acknowledgments}
-I would like to express my sincere gratitude towards my supervisor, Dr. Amitabha Mukerjee, for his  constant support and encouragement. I am grateful for his patient guidance and advice in giving a proper direction to my efforts. I thank the Department of Computer Science and Engineering, IIT Kanpur, for providing the necessary infrastructure and a congenial environment for research work. I thank Tomas Mikolov for making the code of word2vec and sentence2vec publicly available.
+I would like to express my sincere gratitude towards Dr. Amitabha Mukerjee, for his  constant support and encouragement. I thank the Department of Computer Science and Engineering, IIT Kanpur, for providing the necessary infrastructure and a congenial environment for research work. I thank Tomas Mikolov for making the code of word2vec and sentence2vec publicly available.
 
 % include your own bib file like this:
 \bibliographystyle{acl}

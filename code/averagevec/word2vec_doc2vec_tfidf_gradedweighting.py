@@ -102,7 +102,8 @@ if __name__ == '__main__':
     #model.init_sims(replace=True)
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
-    model = word2vec.Word2Vec.load("200features_10minwords_10context")
+    #model = word2vec.Word2Vec.load("200features_10minwords_10context")
+    '''
     f=open('data/alldata.txt','r')
     print('vectorizing... ')    
     vectorizer=TfidfVectorizer(min_df=2)
@@ -114,15 +115,16 @@ if __name__ == '__main__':
     for word in temp:
     		feature_names[word]=i
     		i=i+1
+    '''
     print "Creating average feature vecs for training reviews"
-    trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
-    cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.8.p', 'wb'))
-    #trainDataVecs = cPickle.load(open('save_train_weighted_graded6.p', 'rb'))
+    #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
+    #cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.8.p', 'wb'))
+    trainDataVecs = cPickle.load(open('save_train_weighted_graded3_stopwordsremoved.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
-    testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
-    cPickle.dump(testDataVecs, open('save_test_weighted_graded2.8.p', 'wb'))
-    #testDataVecs = cPickle.load(open('save_test_weighted_graded6.p', 'rb'))
+    #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
+    #cPickle.dump(testDataVecs, open('save_test_weighted_graded2.8.p', 'wb'))
+    testDataVecs = cPickle.load(open('save_train_weighted_graded3_stopwordsremoved.p', 'rb'))
     
     trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
     testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
@@ -140,7 +142,7 @@ if __name__ == '__main__':
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
     for i in drange(0.1,6.0,0.2):
-    		clf=LogisticRegression(penalty='l2',C=i)
+    		clf=LogisticRegression(penalty='l1',C=i)
     		clf.fit(newTrain, y_train)
     		print i,"------------",clf.score(newTest,y_test)
     ######################              SVM				####################

@@ -130,10 +130,13 @@ docvec+word2vec
 1) 93.09 logistic 100features_10minwords_10context
 2) 92.98 svm 100features_10minwords_10context
 3) 93.18 svm 200features_10minwords_10context linear
-4) 93.22     svm with graded idf at 3.0
-5) 93.12     logistic with graded idf at 4.0
-6) 93.03     logistic with graded idf at 5.0 l2
-7) 93.00     logistic with graded idf at 6.0 l2
+4) 93.17 graded idf 2.0 logistic 
+5) 93.16 graded idf 2.5 logistic 
+6) 93.16 graded idf 2.8 logistic 
+7) 93.22     svm with graded idf at 3.0
+8) 93.12     logistic with graded idf at 4.0
+9) 93.03     logistic with graded idf at 5.0 l2
+10) 93.00     logistic with graded idf at 6.0 l2
 
 docvec+word2vec+wiki
 1) 93.09 logistic wiki context old 200features_10minwords_10context
@@ -155,6 +158,9 @@ word+doc+tfidf
 93.64 ngram=1,2;features=15000 (C=0.2 LinearSVC)
 93.91 ngram=1,2;features=15000 stop_words=false svm C=0.33
 93.83 ngram=1,2;features=15000 stop_words=false logistic l2 c=4.3
+93.89 graded idf 2.0 svm c=0.36
+93.87 graded idf 2.5 svm c=0.36
+93.86 graded idf 2.8 svm c=0.36
 93.86 graded idf 3.0 logistic l2 c=4.1
 93.83 graded idf 4.0 logistic l2 c=3.9
 93.75 graded idf 5.0 logistic l2 c=0.3
@@ -207,3 +213,11 @@ max=11.4143
 24853
 
 2,2.5,2.8,3.0(with stop words removed)
+
+updates in thesis:
+
+skipgram cbow image
+result of 93.24 to 93.18
+
+
+Updates in 
