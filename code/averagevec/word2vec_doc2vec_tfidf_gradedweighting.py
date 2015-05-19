@@ -119,32 +119,32 @@ if __name__ == '__main__':
     print "Creating average feature vecs for training reviews"
     #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
     #cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.8.p', 'wb'))
-    trainDataVecs = cPickle.load(open('save_train_weighted_graded3_stopwordsremoved.p', 'rb'))
+    trainDataVecs = cPickle.load(open('save_train_weighted_graded4.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
     #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
     #cPickle.dump(testDataVecs, open('save_test_weighted_graded2.8.p', 'wb'))
-    testDataVecs = cPickle.load(open('save_train_weighted_graded3_stopwordsremoved.p', 'rb'))
+    testDataVecs = cPickle.load(open('save_train_weighted_graded4.p', 'rb'))
     
-    trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
-    testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
+    #trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
+    #testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
     X_train, y_train = load_svmlight_file("data/train.txt")
     X_test, y_test = load_svmlight_file("data/test.txt")
-    newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
-    newTest2 = np.hstack((testDataVecs, X_test.toarray()))
-    #newTrain=Imputer().fit_transform(newTrain2,y_train)
-    #newTest=Imputer().fit_transform(newTest2,y_test)
-    newTrain=np.hstack((newTrain2, trainTfidfData.toarray()))
+    #newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
+    #newTest2 = np.hstack((testDataVecs, X_test.toarray()))
+    newTrain=Imputer().fit_transform(trainDataVecs,y_train)
+    newTest=Imputer().fit_transform(testDataVecs,y_test)
+    #newTrain=np.hstack((newTrain2, trainTfidfData.toarray()))
     print "1st Loaded!!!"
-    newTest=np.hstack((newTest2, testTfidfData.toarray()))
+    #newTest=np.hstack((newTest2, testTfidfData.toarray()))
     print "2nd Loaded!!!"
     print newTrain.shape,newTest.shape
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
-    for i in drange(0.1,6.0,0.2):
-    		clf=LogisticRegression(penalty='l1',C=i)
-    		clf.fit(newTrain, y_train)
-    		print i,"------------",clf.score(newTest,y_test)
+    #for i in drange(0.1,6.0,0.2):
+    #		clf=LogisticRegression(penalty='l1',C=i)
+    #		clf.fit(newTrain, y_train)
+    #		print i,"------------",clf.score(newTest,y_test)
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
     for i in drange(0.1,10.0,0.2):

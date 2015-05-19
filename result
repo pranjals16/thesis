@@ -171,7 +171,8 @@ word+doc+tfidf
 word+doc+wiki+tfidf
 93.55 linear svm c=0.3
 
-weighted word: 88.42
+normal weighted word: 88.42
+graded weighted 2.0 : 89.56 svm
 weighted word+ doc: 93.19 linear svm
 ------------------
 
