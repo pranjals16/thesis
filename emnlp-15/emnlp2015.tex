@@ -51,7 +51,9 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-In recent years, distributional semantics and neural language models for words and documents have been proposed to perform various NLP tasks ignoring earlier models such as tf-idf. Since both word vector model and document vector models are built separately, there combined efficacy as well as using word vectors to build document vectors have been ignored. We propose a graded weighting scheme for building document vectors which can be combined with document vectors trained separately as well as tf-idf representation used earlier to achieve state-of-the art results in sentiment classification on classical IMDB movie review dataset achieving an accuracy of 94.19\%(improvement of 1.61\% over previous best) and on Amazon electronics reviews dataset. We also implement an ensemble model which boosts our accuracy by about 0.5\% using recursive neural network. Since these are language free models and can be obtained in an unsupervised manner, they are of interest for under-resourced languages such as Hindi as well and many more languages. We demonstrate the language free aspects by developing a huge increment on results for Hindi with an impressive accuracy gain on state of the art by 12\% (from 80\%) for two review datasets.
+Despite the success of distributional semantics, composing phrases from word vectors remains an important challenge.  A number of models have been proposed for combining words, which usually omit stop words from the composition.  Several methods have been tried for benchmark tasks such as sentiment classification, including, word vector averaging, matrix-vector approaches based on parsing, and on-the-fly learning of paragraph vectors. In this work, we consider a modification in the modeling of the document whose sentiment is to be analyzed, by incorporating traditional tf-idf methods with word vector models into the composed vector.  This approach is seen to result in an 1.33\% improvement in performance over baseline.
+Two other improvements proposed are a) a weighted average composition, based on idf [normal averaging approaches ignore stop words], and b) a ensemble approach baseed on alternate classifiers such as the RNN model. Combining these methods results in an 1.6\% the standard IMDB movie review dataset, and a 7.01\% improvement on the amazon product reviews. Since these are language free models and can
+be obtained in an unsupervised manner, they are of interest for under-resourced languages such as Hindi as well and many more languages.  We demonstrate the language free aspects by showing a gain of 12\% for two review datasets over earlier results.
 \end{abstract}
 
 \section{Introduction}
@@ -64,8 +66,8 @@ For individual words, vectors are obtained via distributional learning, the mech
 Some grammarians have been trying to find whether sentence meaning accrues by combining word meanings, or whether words gain their meanings based on the context they appear in \cite{Matilal:90}. 
 \cite{Turney:10} give a detailed overview of various vector space models and their composition. A surprising event in Information Theory has higher information content than an expected event (Shanon, 1948). The same happens when we give weights to word vectors. We give more weights to events which occur by surprise and less weight to events which are expected. The most popular weighting concept in this domain is the idea of tf-idf which is explained later.
 
-We develop on this idea and propose a graded weighting scheme to build document vectors from word vectors. This idea is merged with obtaining document vectors separately in the form of distributed learning as well as tf-idf. This combined model is language independent and is enriched with vital properties of other models. This ensures that our model is effective as well as accurate in various languages. 
-We then go a step ahead to build an ensemble of our model and recurrent neural network, which essentially has the properties of a generative model, to achieve state-of-the-art result on IMDB movie review dataset(94.19\%) and on Amazon electronics reviews dataset with a significant improvement over previous best.
+We claim that the document vectors in hand is a much better representation of each document than doing it separately. This can be justified by the fact that we now incorporate contribution of each
+word as per its importance as well as well as that of document without ignoring tf-idf representation which performs considerably well in tasks such as retrieval. Hence, we call this as enhanced document vector representation. We then go a step ahead to build an ensemble of our model and recurrent neural network, which essentially has the properties of a generative model, to achieve state-of-the-art result on IMDB movie review dataset(94.19\%) and on Amazon electronics reviews dataset with a significant improvement over previous best.
 The world class results in English clearly indicate the efficacy of our approach and improvements in Hindi depict the deficiency in other models which were used earlier.
 
 \section{Related Work}
@@ -172,8 +174,9 @@ Till date, everyone has ignored how to effectively use vector composition techni
 \subsection{Enhanced Document Vector}
 This experiment redefined document representation in NLP used for sentiment classification. It has the property of including both syntactic and semantic properties of a piece of text. The limitations of skip-gram word vectors have been fulfilled by document vectors and hence we achieve state-of-the-art results on IMDB movie review dataset as well as amazon electronics review dataset.
 
-We first generated $n$-dimensional word vectors by training skip-gram model on the datasets. We then assigned weights to word vectors for each document to create document vectors. This now acts as a feature set for that particular document. We then created \emph{tf-idf} vectors for each document. This can be seen as a vector representation of that particular document. We then concatenated these document vectors with document vectors obtained after training the desired dataset separately with the model proposed in \cite{Le:14}.\\
-We claim that the document vectors in hand is a much better representation of each document than doing it separately. This can be justified by the fact that we now incorporate contribution of each word as per its importance as well as well as that of document without ignoring tf-idf representation which performs considerably well in tasks such as retrieval. Hence, we call this as enhanced document vector representation.
+We first generated $n$-dimensional word vectors by training skip-gram model on the datasets. We then assigned weights to word vectors for each document to create document vectors. This now acts as a feature set for that particular document. We then created \emph{tf-idf} vectors for each document. This can be seen as a vector representation of that particular document. We then concatenated these document vectors with document vectors obtained after training the desired dataset separately with the model proposed in \cite{Le:14}. 
+
+The concept of enhanced document vectors give a great boost to classification accuracies on various datasets and hence justifies our claim.
 
 \subsection{Dimensionality Reduction}
 \label{sec:dimensionality_reduction}
@@ -192,7 +195,7 @@ Table \ref{table:700_movie_features} summarizes how feature selection has improv
                                               & ANOVA-F   & 90.37 \\ \cline{2-3} 
                                               & PCA(n=50) & 78.61 \\ \hline
 \end{tabular}
-\caption {Accuracies on 700-Movie Review Dataset}
+\caption {Accuracies on our newly released 700-Movie Review Dataset}
 \label{table:700_movie_features}
 \end{table}
 
@@ -223,7 +226,7 @@ Total Reviews & 697\\ \hline
 \multicolumn{2}{|c|}{494.6 words per document} \\
 \hline
 \end{tabular}
-\caption {Statistics of Movie Reviews from Jagran and Navbharat}
+\caption {Statistics of Movie Reviews of the 700-Movie Reviews Dataset}
 \end{table}
 
 The Trip Advisor Review dataset contains around 240K reviews(206MB) from hotel domain. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose.
@@ -264,16 +267,15 @@ Enhanced Document Vector & \textbf{93.91}\\ \hline
 \label{table:IMDB}
 \end{table}
 
-Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best~\cite{Le:14} by a margin of 1.33\% using enhanced document vector.
-The main contributor for improvement in results is our enhanced document vector which overcomes the weaknesses of BOW and document vectors taken separately.
+Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best~\cite{Le:14} by a margin of 1.33\% using Enhanced document vector. The main contributor for improvement in results is our Enhanced document vector which overcomes the weaknesses of BOW and document vectors taken separately.
 
 Tables \ref{table:graded_weighting_tfidf} and \ref{table:graded_weighting} demonstrate the effectiveness of our proposed graded weighting technique. Without \emph{tf-idf} features, our proposed method performs better in the graded idf weighting case and when we include \emph{tf-idf} features, 0-1 weighting perform better than idf graded technique and both perform better than the previous state-of-the-art. We see that with larger weights there is a decrease in accuracy and that is because we are now filtering out more words which are important while building document vector.
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|c|l|l|}
 \hline
-\multicolumn{1}{|l|}{Method}      & Weight & Accuracy \\ \hline
+\multicolumn{1}{|l|}{\textbf{Method}}      & \textbf{Weight} & \textbf{Accuracy} \\ \hline
 \multirow{2}{*}{0-1 Weighting}    & 0      & 93.84    \\ \cline{2-3} 
                                   & 1      & \textbf{93.91}    \\ \hline
 \multirow{7}{*}{Graded idf Weighting} & 2      & \textbf{93.89}    \\ \cline{2-3} 
@@ -288,12 +290,12 @@ Tables \ref{table:graded_weighting_tfidf} and \ref{table:graded_weighting} demon
 \label{table:graded_weighting_tfidf}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|c|l|l|}
 \hline
-\multicolumn{1}{|l|}{Method}      & Weight & Accuracy \\ \hline
+\multicolumn{1}{|l|}{\textbf{Method}}      & \textbf{Weight} & \textbf{Accuracy} \\ \hline
 \multirow{2}{*}{0-1 Weighting}    & 0      & 93.06    \\ \cline{2-3} 
                                   & 1      & \textbf{93.18}    \\ \hline
 \multirow{7}{*}{Graded idf Weighting} & 2      & 93.17    \\ \cline{2-3} 
@@ -307,9 +309,7 @@ Tables \ref{table:graded_weighting_tfidf} and \ref{table:graded_weighting} demon
 \caption {Results on IMDB Movie Review Dataset using Various Weighting Techniques(without tf-idf feature)}
 \label{table:graded_weighting}
 \end{table}
-
-Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and enhanced document vector model together(voting ensemble). Here, we first trained a \emph{recursive neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using Enhanced Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic to obtain final classification. This led to a tremendous increase in classification accuracy.
-
+Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and Enhanced document vector model together(voting ensemble). Here, we first trained a \emph{recursive neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using Enhanced Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic to obtain final classification. This led to a tremendous increase in classification accuracy.
 
 \begin {table}[H]
 \centering
@@ -317,7 +317,7 @@ Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorpo
 \begin{tabular}{ | p{5.5cm} | p{1.2cm} | }
 \hline
 \textbf{Method} & \textbf{Accuracy} \\ \hline
-WordVector Averaging + TfIdf + Document Vector & 93.91\\ \hline
+Enhanced Document Vector & 93.91\\ \hline
 Enhanced Document Vector + RNNLM (Our Method) & \textbf{94.19}\\ \hline
 \end{tabular}
 \caption {Results on IMDB Movie Review Dataset}
@@ -334,8 +334,8 @@ Table \ref{table:amazon} presents result of another experiment conducted on famo
 Dredze et al.(2008) & 85.90\\ \hline
 Max Entropy & 83.79\\ \hline
 WordVector Averaging(Our Method) & 89.41\\ \hline
-WordVector Averaging + Document Vector (Our Method) & 92.17\\ \hline
-WordVector Averaging + Document Vector + RNNLM (Our Method) & \textbf{92.91}\\ \hline
+Enhanced Document Vector (Our Method) & 92.17\\ \hline
+Enhanced Document Vector + RNNLM (Our Method) & \textbf{92.91}\\ \hline
 \end{tabular}
 \caption {Results on Amazon Electronics Review Dataset}
 \label{table:amazon}
@@ -344,14 +344,14 @@ WordVector Averaging + Document Vector + RNNLM (Our Method) & \textbf{92.91}\\ \
 \begin {table}[h!]
 \centering
 \small
-\begin{tabular}{ | p{3.5cm} | p{1.5cm} | p{1.5cm} | }
+\begin{tabular}{ | p{3.6cm} | p{1.5cm} | p{1.5cm} | }
 \hline
 \textbf{Features} & \textbf{Accuracy(1)} & \textbf{Accuracy(2)} \\ \hline
 WordVector Averaging & 78.0 & 79.62\\ \hline
 WordVector+tf-idf & 90.73 & 89.52\\ \hline
 WordVector+tf-idf without stop words & 91.14 & 89.97\\ \hline
 Weighted WordVector & 89.71 & 85.90\\ \hline
-Weighted WordVector + tfidf & \textbf{92.89} & \textbf{90.30}\\ \hline
+Weighted WordVector+tfidf & \textbf{92.89} & \textbf{90.30}\\ \hline
 \end{tabular}
 \caption {Accuracies for Product Review and Movie Review Datasets.}
 \label{table:hindi_ourmethods}
@@ -359,31 +359,15 @@ Weighted WordVector + tfidf & \textbf{92.89} & \textbf{90.30}\\ \hline
 
 Table \ref{table:hindi_ourmethods} represents the results using five different techniques for feature set construction. We see that there is a slight improvement in accuracy on both datasets once we remove stop-words but the major breakthrough occurs once we used weighted averaging technique for construction of document vectors from word vectors.
 
-\begin {table}[h!]
+\begin {table}[H]
 \centering
 \small
-\begin{tabular}{ | p{3.5cm} | p{1.5cm} | p{1.5cm} | }
+\begin{tabular}{ | p{3.5cm} | p{1.7cm} | p{1.3cm} | }
 \hline
 \textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-Subjective Lexicon (Bakliwal et al.(2012)) & Simple Scoring & 79.03\\ \hline
-Hindi-SWN Baseline (Arora et al.(2013)) & Adjective and Adverb presence & 69.30\\ \hline
-Word Vector with SVM (Our method) & tfidf with word vector & 91.14\\ \hline
-Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textbf{92.89}\\ \hline
-\end{tabular}
-\caption {Comparison of Approaches: Product Review Dataset}
-\label{table:hindi_product}
-\end{table}
-Table \ref{table:hindi_product} and \ref{table:hindi_movie} compares our best method with various other methods which have performed well using techniques such as \emph{tf-idf}, subjective lexicon, etc.
-
-\begin {table}[h!]
-\centering
-\small
-\begin{tabular}{ | p{3.5cm} | p{1.5cm} | p{1.5cm} | }
-\hline
-\textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-In language using SVM (Joshi et al.(2010)) & tfidf & 78.14\\ \hline
-MT Based using SVM (Joshi et al.(2010)) & tfidf & 65.96\\ \hline
-Improved Hindi-SWN  (Bakliwal et al.(2012)) & Adj. and Adv. presence & 79.0\\ \hline
+In language using SVM~\cite{Joshi:10} & tfidf & 78.14\\ \hline
+MT Based using SVM~\cite{Joshi:10} & tfidf & 65.96\\ \hline
+Improved HindiSWN \cite{Bakliwal:12} & Adj. \& Adv. presence & 79.0\\ \hline
 WordVector Averaging & word vector & 78.0\\ \hline
 Word Vector with SVM (Our method) & tfidf; word vector & 89.97\\ \hline
 Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textbf{90.30}\\ \hline
@@ -391,6 +375,22 @@ Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textb
 \caption {Comparison of Approaches: Movie Review Dataset}
 \label{table:hindi_movie}
 \end{table}
+
+\begin {table}[H]
+\centering
+\small
+\begin{tabular}{ | p{3.5cm} | p{1.8cm} | p{1.2cm} | }
+\hline
+\textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
+Subjective Lexicon~\cite{Bakliwal:12} & Simple Scoring & 79.03\\ \hline
+Hindi-SWN Baseline (Arora et al., 2013) & Adj. \& Adv. presence & 69.30\\ \hline
+Word Vector with SVM (Our method) & tfidf with word vector & 91.14\\ \hline
+Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textbf{92.89}\\ \hline
+\end{tabular}
+\caption {Comparison of Approaches: Product Review Dataset}
+\label{table:hindi_product}
+\end{table}
+Table \ref{table:hindi_movie} and \ref{table:hindi_product} compares our best method with various other methods which have performed well using techniques such as \emph{tf-idf}, subjective lexicon, etc.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -411,7 +411,7 @@ Our experiments on new dataset and existing datasets show that our method is com
 Distributional semantics approaches remain relatively under-explored for Indian languages, and our results suggest that there may be substantial benefits to exploring these approaches for Indian languages.  While this work has focused on sentiment classification, it may also improve a range of tasks from verbal analogy tests to ontology learning, as has been reported for other languages.
 For future work, we can explore various compositional models - a) weighted average - where weights are determined based on cosine distances in vector space;  b) weighted multiplicative models. Identifying morphological variants would be another direction to explore for better accuracy. With regard to sentiment analysis, the idea of aspect-based models (or part-based sentiment analysis), which looks into constituents in a document and classify their sentiment polarity separately, remains to be explored in Hindi.
 
-In English, our enhanced document vectors has led open a new area to look at where there can be many possible ensembles which may improve our work. Also, we could incorporate multiple word vectors here as well to distinguish between polysemous words. Another interesting and open area is to look at \emph{Region of Importance} in NLP where we filter out sentiment oriented sentences and phrases from a unfocused corpus which contains text from various domains.
+In English, our Enhanced document vectors has led open a new area to look at where there can be many possible ensembles which may improve our work. Also, we could incorporate multiple word vectors here as well to distinguish between polysemous words. Another interesting and open area is to look at \emph{Region of Importance} in NLP where we filter out sentiment oriented sentences and phrases from a unfocused corpus which contains text from various domains.
 
 \section*{Acknowledgments}
 I would like to express my sincere gratitude towards Dr. Amitabha Mukerjee, for his  constant support and encouragement. I thank the Department of Computer Science and Engineering, IIT Kanpur, for providing the necessary infrastructure and a congenial environment for research work. I thank Tomas Mikolov for making the code of word2vec and sentence2vec publicly available.
