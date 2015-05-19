@@ -245,6 +245,20 @@ Figure \ref{fig:accuracy_sgcbow} show that skipgram outperforms CBOW on sentimen
 
 \subsection{Results}
 \label{sec:results}
+\begin{table}[h]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Method}                                                             & \textbf{IMDB}  & \textbf{Amazon} & \textbf{Hindi} \\ \hline
+Document Vector                                                             & 92.58          & 91.30           & 74.57          \\ \hline
+Averaged Vector                                                             & 88.42          & 89.41           & 79.62          \\ \hline
+Weighted Average                                                            & 89.56          & -               & 85.90          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Weighted Average\\ +Document Vector\end{tabular} & 93.22          & 91.40           & -              \\ \hline
+\begin{tabular}[c]{@{}l@{}}Weighted Average\\ +Document+tfidf\end{tabular}  & \textbf{93.91} & \textbf{92.17}  & \textbf{90.30} \\ \hline
+\end{tabular}
+\caption {Comparison of accuracies on 3 Datasets against various types of document vectors: IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)}
+\label{table:IMDB}
+\end{table}
+
 \begin {table}[H]
 \centering
 \small
@@ -267,46 +281,25 @@ Discrimination Weighted Document Vector & \textbf{93.91}\\ \hline
 
 Table \ref{table:IMDB} summarizes the results obtained by others and by us on the IMDB movie review dataset. We have gone above the previous best~\cite{Le:14} by a margin of 1.33\% using discrimination weighting. The main contributor for improvement in results is our new document vector which overcomes the weaknesses of BOW and document vectors taken separately.
 
-Tables \ref{table:graded_weighting_tfidf} and \ref{table:graded_weighting} demonstrate the effectiveness of our proposed graded weighting technique. Without \emph{tf-idf} features, our proposed method performs better in the graded idf weighting case and when we include \emph{tf-idf} features, 0-1 weighting perform better than idf graded technique and both perform better than the previous state-of-the-art. We see that with larger weights there is a decrease in accuracy and that is because we are now filtering out more words which are important while building document vector.
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \small
-\begin{tabular}{|c|l|l|}
+\begin{tabular}{|l|l|l|l|}
 \hline
-\multicolumn{1}{|l|}{\textbf{Method}}      & \textbf{Weight} & \textbf{Accuracy} \\ \hline
-\multirow{2}{*}{0-1 Weighting}    & 0      & 93.84    \\ \cline{2-3} 
-                                  & 1      & \textbf{93.91}    \\ \hline
-\multirow{7}{*}{Graded idf Weighting} & 2      & \textbf{93.89}    \\ \cline{2-3} 
-                                  & 2.5    & 93.87    \\ \cline{2-3} 
-                                  & 2.8    & 93.86    \\ \cline{2-3} 
-                                  & 3      & 93.86    \\ \cline{2-3} 
-                                  & 4      & 93.83    \\ \cline{2-3} 
-                                  & 5      & 93.75    \\ \cline{2-3} 
-                                  & 6      & 93.68    \\ \hline
+\textbf{Method}                                                                 & \textbf{Weight} & \textbf{Accuracy(1)} & \textbf{Accuracy(2)} \\ \hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}0-1 \\ Weighting\end{tabular}}       & 0               & 93.84                & 93.06                \\ \cline{2-4} 
+                                                                                & 1               & \textbf{93.91}       & \textbf{93.18}       \\ \hline
+\multirow{6}{*}{\begin{tabular}[c]{@{}l@{}}Graded idf \\ Weigting\end{tabular}} & 2               & \textbf{93.89}       & 93.17                \\ \cline{2-4} 
+                                                                                & 2.5             & 93.87                & 93.16                \\ \cline{2-4} 
+                                                                                & 2.8             & 93.86                & 93.16                \\ \cline{2-4} 
+                                                                                & 3               & 93.86                & \textbf{93.22}       \\ \cline{2-4} 
+                                                                                & 4               & 93.83                & 93.12                \\ \cline{2-4} 
+                                                                                & 5               & 93.75                & 93.03                \\ \hline
 \end{tabular}
-\caption {Results on IMDB Movie Reviews using Various Weighting Techniques(Discrimination Weighted Document Vector)}
+\caption {Results on IMDB Movie Reviews using Various Weighting Techniques(Discrimination Weighted Document Vector);Accuracy(2) is when we exclude tf-idf features}
 \label{table:graded_weighting_tfidf}
 \end{table}
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|c|l|l|}
-\hline
-\multicolumn{1}{|l|}{\textbf{Method}}      & \textbf{Weight} & \textbf{Accuracy} \\ \hline
-\multirow{2}{*}{0-1 Weighting}    & 0      & 93.06    \\ \cline{2-3} 
-                                  & 1      & \textbf{93.18}    \\ \hline
-\multirow{7}{*}{Graded idf Weighting} & 2      & 93.17    \\ \cline{2-3} 
-                                  & 2.5    & 93.16    \\ \cline{2-3} 
-                                  & 2.8    & 93.16    \\ \cline{2-3} 
-                                  & 3      & \textbf{93.22}    \\ \cline{2-3} 
-                                  & 4      & 93.12    \\ \cline{2-3} 
-                                  & 5      & 93.03    \\ \cline{2-3} 
-                                  & 6      & 93.00    \\ \hline
-\end{tabular}
-\caption {Results on IMDB Movie Review Dataset using Various Weighting Techniques(without tf-idf feature)}
-\label{table:graded_weighting}
-\end{table}
+Tables \ref{table:graded_weighting_tfidf} demonstrate the effectiveness of our proposed graded weighting technique. Without \emph{tf-idf} features, our proposed method performs better in the graded idf weighting case and when we include \emph{tf-idf} features, 0-1 weighting perform better than idf graded technique and both perform better than the previous state-of-the-art. We see that with larger weights there is a decrease in accuracy and that is because we are now filtering out more words which are important while building document vector.
 Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and Discrimination Weighted document vector model together(voting ensemble). Here, we first trained a \emph{recursive neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using new Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic to obtain final classification. This led to a tremendous increase in classification accuracy.
 
 \begin {table}[H]
