@@ -68,8 +68,8 @@ Language independent models such as LDA  and BOW have been quite effective since
 \textbf{Method}                                                             & \textbf{IMDB}  & \textbf{Amazon} & \textbf{Hindi} \\ \hline
 RNNLM (Baseline)                                               & 86.45          & 90.03           & 78.84          \\ \hline
 Paragraph Vector \cite{Le:14}                                               & 92.58          & 91.30           & 74.57          \\ \hline
-Averaged Vector                                                             & 88.42          & 89.41           & 79.62          \\ \hline
-Weighted Average Vector                                                            & 89.56          & -               & 85.90          \\ \hline
+Averaged Vector                                                             & 88.42          & 88.52           & 79.62          \\ \hline
+Weighted Average Vector                                                            & 89.56          & 88.63               & 85.90          \\ \hline
 Discriminative Weighted Document Vector                                     & 93.91          & 92.17               & 90.30         \\ \hline
 \end{tabular}
 \caption {Comparison of accuracies on 3 Datasets(IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)) against various types of document representation models}
@@ -325,7 +325,7 @@ Table \ref{table:amazon} presents result of another experiment conducted on famo
 \textbf{Features} & \textbf{Accuracy} \\ \hline
 Dredze et al.(2008) & 85.90\\ \hline
 Max Entropy & 83.79\\ \hline
-WordVector Averaging(Our Method) & 89.41\\ \hline
+WordVector Averaging(Our Method) & 88.63\\ \hline
 Discrimination Weighted Document Vector (Our Method) & 92.17\\ \hline
 Discrimination Weighted Document Vector + RNNLM (Our Method) & \textbf{92.91}\\ \hline
 \end{tabular}

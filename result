@@ -74,6 +74,8 @@ Average Word Vectors
 88.74: MP3  500 features context=8 (NE=10) sg
 89.02: MP3  500 features context=9 (NE=10) sg
 89.41: Electronics  500 features context=10 sg
+88.52: Electronics  200 features context=10 sg
+88.63 Electronics graded idf 2.0 svm logistic
 91.40  Electronics with docvec linear svm c=0.1
 92.17  Electronics with docvec+word2vec svm c=0.1
 92.91 with docvec and RNNLM
