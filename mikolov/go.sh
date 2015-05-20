@@ -30,7 +30,7 @@ wget http://www.fit.vutbr.cz/~imikolov/rnnlm/rnnlm-0.3e.tgz
 tar -xvf rnnlm-0.3e.tgz
 g++ -lm -O3 -march=native -Wall -funroll-loops -ffast-math -c rnnlmlib.cpp
 g++ -lm -O3 -march=native -Wall -funroll-loops -ffast-math rnnlm.cpp rnnlmlib.o -o rnnlm
-comment1
+
 
 cd rnnlm
 tar -xvf rnnlm-0.3e.tgz
@@ -49,7 +49,7 @@ awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
 ./rnnlm -rnnlm model-pos -test test-id.txt -debug 0 -nbest > model-pos-score
 ./rnnlm -rnnlm model-neg -test test-id.txt -debug 0 -nbest > model-neg-score
 paste model-pos-score model-neg-score | awk '{print $1 " " $2 " " $1/$2;}' > ../RNNLM-SCORE
-
+comment1
 << comment2
 cd ..
 mkdir word2vec
@@ -73,9 +73,9 @@ head sentence_vectors.txt -n 50000 | tail -n 25000 | awk 'BEGIN{a=0;}{if (a<1250
 ./liblinear-1.94/train -s 0 train.txt model.logreg
 ./liblinear-1.94/predict -b 1 test.txt model.logreg out.logreg
 tail -n 25000 out.logreg > ../SENTENCE-VECTOR.LOGREG
-
+comment2
 #cd ..
-cat RNNLM-SCORE | awk ' \
+cat RNNLM-SCORE_50 | awk ' \
 BEGIN{cn=0; corr=0;} \
 { \
   if ($3<1) if (cn<12500) corr++; \
@@ -101,4 +101,4 @@ BEGIN{cn=0; corr=0;} \
   cn++; \
 } \
 END{print "FINAL accuracy: " corr/cn*100 "%";}'
-comment2
+

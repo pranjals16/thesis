@@ -60,8 +60,22 @@ be obtained in an unsupervised manner, they are of interest for under-resourced 
 Language representation is a very crucial aspect to perform various NLP tasks and has been looked into great detail in recent times. Language representation models have fallen into broadly two categories: ones which are language dependent models(e.g.,\cite{Socher:13}) and ones which are language independent models(e.g., LDA, BOW, SkipGram, NLM, etc.). 
 
 Language independent models such as LDA  and BOW have been quite effective since long time. Variants of BOW such as tf-idf had changed the perception of researchers towards these models when they were proved effective in various NLP tasks. LDA was able to model inter and intra documental statistical and relational structure quite well overcoming the drawbacks of BOW. But the semantic and syntactical dependencies were still ignored. After the introduction of neural language vector models, NLP saw a huge diversion in representation of words and documents.
-
-For individual words, vectors are obtained via distributional learning, the mechanisms for which varies from document-term matrix factorization~\cite{Landauer:97}, various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, optimizing models to explain co-occurrence constraints ~\cite{Mikolov:13a,Pennington:14},etc. Once the word vectors have been assigned, similarity between words can be captured via cosine distances. The same models have been extended(\cite{Le:14}) with new variables to build vector models for sentences and documents. These models include the essence of individual words as well as their relative order in terms of sentence vector which was earlier absent in word vectors. The advantage of these approaches is that they can capture both the syntactic and the semantic similarity between words/documents in terms of their projections onto a high-dimensional vector space; further, it seems that one can tune the privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}.
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|p{3.2cm}|l|l|l|}
+\hline
+\textbf{Method}                                                             & \textbf{IMDB}  & \textbf{Amazon} & \textbf{Hindi} \\ \hline
+RNNLM (Baseline)                                               & 86.45          & 90.03           & 78.84          \\ \hline
+Paragraph Vector \cite{Le:14}                                               & 92.58          & 91.30           & 74.57          \\ \hline
+Averaged Vector                                                             & 88.42          & 89.41           & 79.62          \\ \hline
+Weighted Average Vector                                                            & 89.56          & -               & 85.90          \\ \hline
+Discriminative Weighted Document Vector                                     & 93.91          & 92.17               & 90.30         \\ \hline
+\end{tabular}
+\caption {Comparison of accuracies on 3 Datasets against various types of document vectors: IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)}
+\label{table:IMDB}
+\end{table}
+For individual words, vectors are obtained via distributional learning, the mechanisms for which varies from document-term matrix factorization~\cite{Landauer:97}, various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, optimizing models to explain co-occurrence constraints ~\cite{Mikolov:13a,Pennington:14}, etc. Once the word vectors have been assigned, similarity between words can be captured via cosine distances. The same models have been extended(\cite{Le:14}) with new variables to build vector models for sentences and documents. These models include the essence of individual words as well as their relative order in terms of sentence vector which was earlier absent in word vectors. The advantage of these approaches is that they can capture both the syntactic and the semantic similarity between words/documents in terms of their projections onto a high-dimensional vector space; further, it seems that one can tune the privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}.
 
 Some grammarians have been trying to find whether sentence meaning accrues by combining word meanings, or whether words gain their meanings based on the context they appear in \cite{Matilal:90}. 
 \cite{Turney:10} give a detailed overview of various vector space models and their composition. A surprising event in Information Theory has higher information content than an expected event (Shanon, 1948). The same happens when we give weights to word vectors. We give more weights to events which occur by surprise and less weight to events which are expected. The most popular weighting concept in this domain is the idea of tf-idf which is explained later.
@@ -245,19 +259,6 @@ Figure \ref{fig:accuracy_sgcbow} show that skipgram outperforms CBOW on sentimen
 
 \subsection{Results}
 \label{sec:results}
-\begin{table}[h]
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Method}                                                             & \textbf{IMDB}  & \textbf{Amazon} & \textbf{Hindi} \\ \hline
-Document Vector                                                             & 92.58          & 91.30           & 74.57          \\ \hline
-Averaged Vector                                                             & 88.42          & 89.41           & 79.62          \\ \hline
-Weighted Average                                                            & 89.56          & -               & 85.90          \\ \hline
-\begin{tabular}[c]{@{}l@{}}Weighted Average\\ +Document Vector\end{tabular} & 93.22          & 91.40           & -              \\ \hline
-\begin{tabular}[c]{@{}l@{}}Weighted Average\\ +Document+tfidf\end{tabular}  & \textbf{93.91} & \textbf{92.17}  & \textbf{90.30} \\ \hline
-\end{tabular}
-\caption {Comparison of accuracies on 3 Datasets against various types of document vectors: IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)}
-\label{table:IMDB}
-\end{table}
 
 \begin {table}[H]
 \centering
