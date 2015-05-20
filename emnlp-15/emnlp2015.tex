@@ -72,8 +72,8 @@ Averaged Vector                                                             & 88
 Weighted Average Vector                                                            & 89.56          & -               & 85.90          \\ \hline
 Discriminative Weighted Document Vector                                     & 93.91          & 92.17               & 90.30         \\ \hline
 \end{tabular}
-\caption {Comparison of accuracies on 3 Datasets against various types of document vectors: IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)}
-\label{table:IMDB}
+\caption {Comparison of accuracies on 3 Datasets(IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)) against various types of document representation models}
+\label{table:3Datasets}
 \end{table}
 For individual words, vectors are obtained via distributional learning, the mechanisms for which varies from document-term matrix factorization~\cite{Landauer:97}, various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, optimizing models to explain co-occurrence constraints ~\cite{Mikolov:13a,Pennington:14}, etc. Once the word vectors have been assigned, similarity between words can be captured via cosine distances. The same models have been extended(\cite{Le:14}) with new variables to build vector models for sentences and documents. These models include the essence of individual words as well as their relative order in terms of sentence vector which was earlier absent in word vectors. The advantage of these approaches is that they can capture both the syntactic and the semantic similarity between words/documents in terms of their projections onto a high-dimensional vector space; further, it seems that one can tune the privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}.
 
@@ -271,8 +271,8 @@ NBSVM-bi (Wang \& Manning, 2012) & 91.22\\ \hline
 NBSVM-uni (Wang \& Manning, 2012) & 88.29\\ \hline
 SVM-uni (Wang \& Manning, 2012) & 89.16\\ \hline
 Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
-WordVector+Wiki(Our Method) & 88.60\\ \hline
-WordVector+TfIdf(Our Method) & 89.03\\ \hline
+Weighted WordVector+Wiki(Our Method) & 88.60\\ \hline
+Weighted WordVector+TfIdf(Our Method) & 90.67\\ \hline
 Discrimination Weighted Document Vector & \textbf{93.91}\\ \hline
 
 \end{tabular}
@@ -386,8 +386,8 @@ Table \ref{table:hindi_movie} and \ref{table:hindi_product} compares our best me
 
 \section{Conclusion}
 \label{sec:conclusion}
-In this work we present an early experiment on the possibilities of distributional semantic models (word vectors) for low-resource, highly inflected languages such as Hindi.  What is interesting is that our word vector averaging method along with tf-idf results in improvements of accuracy compared to existing state-of-the art methods for sentiment analysis in Hindi (from 80.2\% to 90.3\% on IITB Movie Review Dataset).
-We observe that pruning high-frequency stop words improves the accuracy by around 0.45\%. This is most likely  because such words tend to occur in most of the documents and don't contribute to sentiment. Similarly, words with very low frequency are noisy and can be pruned. For example, the word {\dn EPSm} occurs in 139/252 documents in Movie Reviews(55.16\%) and has little effect on sentiment. Similarly words such as {\dn Es\388wAT\0} occur in 2/252 documents in Movie Reviews(0.79\%). These words don't provide much information.
+In this work we present an early experiment on the possibilities of distributional semantic models (word vectors) for low-resource, highly inflected languages such as Hindi.  What is interesting is that our word vector averaging method along with tf-idf results in improvements of accuracy compared to existing state-of-the art methods for sentiment analysis in Hindi (from 80.2\% to 90.3\% on IITB Movie Review Dataset). Also from Table \ref{table:3Datasets}, we can see that paragraph vector proposed by \cite{Le:14} doesn't perform well owing to the fact that the Hindi dataset just contains single sentences highlighting the weakness of this model. The size of the corpus is also small to learn paragraph vectors. Thus, our model overcomes these weaknesses with a better document representation.
+We observe that pruning high-frequency stop words improves the accuracy by around 0.45\%. This is most likely  because such words tend to occur in most of the documents and don't contribute to sentiment. For example, the word {\dn EPSm} occurs in 139/252 documents in Movie Reviews(55.16\%) and has little effect on sentiment. Similarly words such as {\dn Es\388wAT\0} occur in 2/252 documents in Movie Reviews(0.79\%). These words don't provide much information.
 
 %We also observe that giving weights to word vectors while adding has resulted in a significant increase of accuracy. This seems much in accordance with expectation as pure addition ignores the importance of word which is directly related to its ratio of frequency in whole corpus and its frequency in a particular document. We have successfully tapped this area which most of the works have ignored.
 We also see that when number of features accumulate to a large number than there are few redundant features creating noise in the representation of the text. We tried to reduce this noise by using feature variance techniques. The large increase in accuracy(around 11\%) justifies our claim.

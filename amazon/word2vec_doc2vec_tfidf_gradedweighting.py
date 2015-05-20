@@ -38,7 +38,7 @@ def makeFeatureVec(words, model, num_features,index2word_set,feature_names,idf_s
 			temp = np.zeros((num_features),dtype="float32")
 			if word in feature_names:
 				score=idf_score[feature_names[word]]
-				if score>3.0:
+				if score>2.0:
 					temp[0:num_features]=np.multiply(model[word],score)
 					temp[0:num_features]=np.multiply(temp[0:num_features],score)
 				else:
@@ -58,10 +58,15 @@ def getAvgFeatureVecs(reviews, model, num_features,feature_names,idf_score):
     reviewFeatureVecs = np.zeros((len(reviews),num_features),dtype="float32")
     index2word_set = set(model.index2word)
     #
+    
     for review in reviews:
        #
-       if counter%100. == 0.:
+       if counter%10. == 0.:
            print "Review %d of %d" % (counter, len(reviews))
+           #g=open("iteration.txt","a")
+           #g.write(str(counter)+" of "+str(len(reviews))+"\n")
+           #g.close()
+           
        # Call the function (defined above) that makes average feature vectors
        reviewFeatureVecs[int(counter)] = makeFeatureVec(review, model, num_features,index2word_set,feature_names,idf_score)
        counter = counter + 1.
@@ -78,12 +83,11 @@ def getCleanReviews(reviews):
 
 if __name__ == '__main__':
     # Read data from files
-    train = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', 'trainData.tsv'), header=0, delimiter="\t", quoting=3 )
-    test = pd.read_csv(os.path.join(os.path.dirname(__file__), 'data', 'testData.tsv'), header=0, delimiter="\t", quoting=3 )
-    unlabeled_train = pd.read_csv( os.path.join(os.path.dirname(__file__), 'data', "unlabeledTrainData.tsv"), header=0,  delimiter="\t", quoting=3 )
+    train = pd.read_csv( os.path.join(os.path.dirname(__file__), 'electronics', 'trainData.tsv'), header=0, delimiter="\t", quoting=3 )
+    test = pd.read_csv(os.path.join(os.path.dirname(__file__), 'electronics', 'testData.tsv'), header=0, delimiter="\t", quoting=3 )
     
     # Verify the number of reviews that were read (100,000 in total)
-    print "Read %d labeled train reviews, %d labeled test reviews, ""and %d unlabeled reviews\n" % (train["review"].size,test["review"].size, unlabeled_train["review"].size )
+    print "Read %d labeled train reviews, %d labeled test reviews, " % (train["review"].size,test["review"].size )
 
     # Load the punkt tokenizer
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
@@ -102,8 +106,8 @@ if __name__ == '__main__':
     #model.init_sims(replace=True)
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
-    model = word2vec.Word2Vec.load("200features_10minwords_10context")
-    f=open('data/alldata.txt','r')
+    model = word2vec.Word2Vec.load("200features_10minwords_10context_electronics")
+    f=open('electronics/alldata.txt','r')
     print('vectorizing... ')    
     vectorizer=TfidfVectorizer(min_df=2)
     X = vectorizer.fit_transform(f)
@@ -115,23 +119,23 @@ if __name__ == '__main__':
     		feature_names[word]=i
     		i=i+1
     print "Creating average feature vecs for training reviews"
-    #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
-    #cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.8.p', 'wb'))
-    trainDataVecs = cPickle.load(open('save_train_weighted_graded3.p', 'rb'))
+    trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
+    cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.p', 'wb'))
+    #trainDataVecs = cPickle.load(open('save_train_weighted_graded4.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
-    #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
-    #cPickle.dump(testDataVecs, open('save_test_weighted_graded2.8.p', 'wb'))
-    testDataVecs = cPickle.load(open('save_train_weighted_graded3.p', 'rb'))
+    testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
+    cPickle.dump(testDataVecs, open('save_test_weighted_graded2.p', 'wb'))
+    #testDataVecs = cPickle.load(open('save_train_weighted_graded4.p', 'rb'))
     
-    trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
-    testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
-    X_train, y_train = load_svmlight_file("data/train.txt")
-    X_test, y_test = load_svmlight_file("data/test.txt")
+    #trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
+    #testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
+    X_train, y_train = load_svmlight_file("electronics/train.txt")
+    X_test, y_test = load_svmlight_file("electronics/test.txt")
     #newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
     #newTest2 = np.hstack((testDataVecs, X_test.toarray()))
-    #newTrain=Imputer().fit_transform(trainDataVecs,y_train)
-    #newTest=Imputer().fit_transform(testDataVecs,y_test)
+    newTrain=Imputer().fit_transform(trainDataVecs,y_train)
+    newTest=Imputer().fit_transform(testDataVecs,y_test)
     #newTrain=np.hstack((trainDataVecs, trainTfidfData.toarray()))
     print "1st Loaded!!!"
     #newTest=np.hstack((testDataVecs, testTfidfData.toarray()))
@@ -144,9 +148,11 @@ if __name__ == '__main__':
     #		clf.fit(newTrain, y_train)
     #		print i,"------------",clf.score(newTest,y_test)
     ######################              SVM				####################
+    f = open("score.txt",'a')
     print "Fitting a SVM classifier to labeled training data..."
     for i in drange(0.1,10.0,0.2):
     		clf=svm.LinearSVC(C=i)
     		clf.fit(newTrain, y_train)
     		print i,"------------",clf.score(newTest,y_test)
+    		f.write(str(i)+"------------"+str(clf.score(newTest,y_test))+"\n")
     #------------------------------------------------------------------------------------------

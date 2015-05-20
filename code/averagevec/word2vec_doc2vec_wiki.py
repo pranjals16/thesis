@@ -95,26 +95,26 @@ if __name__ == '__main__':
     #model.init_sims(replace=True)
     #model_name = "200features_10minwords_10context"
     #model.save(model_name)
-    model = word2vec.Word2Vec.load("200features_10minwords_10context")
+    #model = word2vec.Word2Vec.load("200features_10minwords_10context")
     #
     print "Creating average feature vecs for training reviews"
     #trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features )
     #cPickle.dump(trainDataVecs, open('save_train_100.p', 'wb'))
-    trainDataVecs = cPickle.load(open('save_train.p', 'rb'))
+    trainDataVecs = cPickle.load(open('save_train_weighted_graded2.p', 'rb'))
     trainDataVecs2 = cPickle.load(open('save_train_mix_context10.p', 'rb'))
 
     print "Creating average feature vecs for test reviews"
     #testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features )
     #cPickle.dump(testDataVecs, open('save_test_100.p', 'wb'))
-    testDataVecs = cPickle.load(open('save_test.p', 'rb'))
+    testDataVecs = cPickle.load(open('save_test_weighted_graded2.p', 'rb'))
     testDataVecs2 = cPickle.load(open('save_test_mix_context10.p', 'rb'))
     
     X_train, y_train = load_svmlight_file("data/train.txt")
     X_test, y_test = load_svmlight_file("data/test.txt")
-    newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
-    newTest2 = np.hstack((testDataVecs, X_test.toarray()))
-    newTrain = np.hstack((trainDataVecs2, newTrain2))
-    newTest = np.hstack((testDataVecs2, newTest2))
+    #newTrain2 = np.hstack((trainDataVecs, X_train.toarray()))
+    #newTest2 = np.hstack((testDataVecs, X_test.toarray()))
+    newTrain = np.hstack((trainDataVecs2, trainDataVecs))
+    newTest = np.hstack((testDataVecs2, testDataVecs))
     
     print newTrain.shape, newTest.shape
     ######################              LogisticRegression				####################
@@ -126,7 +126,8 @@ if __name__ == '__main__':
     #------------------------------------------------------------------------------------------
     ######################              SVM				####################
     print "Fitting a SVM classifier to labeled training data..."
-    clf = svm.LinearSVC()
-    clf.fit(newTrain, y_train)
-    print clf.score(newTest,y_test)
+    for i in drange(0.1,10.0,0.2):
+    		clf=svm.LinearSVC(C=i)
+    		clf.fit(newTrain, y_train)
+    		print i,"------------",clf.score(newTest,y_test)
     #------------------------------------------------------------------------------------------
