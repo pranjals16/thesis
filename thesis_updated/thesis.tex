@@ -1,0 +1,122 @@
+\def\DevnagVersion{2.15}\documentclass[12pt,a4paper]{book}
+%\makeatletter\@openrightfalse\makeatother
+% margins
+\usepackage[left=35mm,top=25mm,right=25mm,bottom=25mm]{geometry}
+
+% centering captions
+\usepackage[justification=centering]{caption}
+% mathematical expressions
+\usepackage{mathtools}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{pdfpages}
+\usepackage{subcaption}
+\usepackage{devanagari}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{float}
+\everymath{\displaystyle}
+
+\usepackage{algorithm2e}
+\usepackage{pdfpages}
+
+% to write the date in the desired format
+\usepackage{datetime}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+\usepackage{hyperref}
+
+% for doublespacing singlespacing etc.
+\usepackage{setspace}
+
+\graphicspath{{img/}}
+
+\newdateformat{monthyear}{\monthname[\THEMONTH], \THEYEAR}
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\def\title{Domain Driven Decompositional Semantics}
+\def\degree{Master of Technology}
+\def\author{Pranjal Singh}
+\def\rollno{10327511}
+\def\advisor{Dr. Amitabha Mukerjee}
+\def\department{Department of Computer Science and Engineering}
+\def\institute{Indian Institute of Technology Kanpur}
+
+\hypersetup{
+	bookmarks=true,
+	bookmarksopen=true,
+	bookmarksopenlevel=0,
+	bookmarksnumbered=true,
+	hypertexnames=false,
+	colorlinks=true,
+	linkcolor={black},
+	citecolor={black},
+	urlcolor={black},
+	breaklinks=true,
+	pdfauthor={\author},
+	pdftitle={\title}
+}
+
+\begin{document}
+	\frontmatter
+	\include{title}
+	
+	\thispagestyle{empty}
+	\pagestyle{plain}
+	\cleardoublepage
+	\include{certificate2}
+%	\includepdf{certificate_signed.pdf}
+
+	\pagenumbering{roman}
+	\pagestyle{plain}
+	\setcounter{page}{4}
+	\addcontentsline{toc}{chapter}{Abstract}
+	
+	\onehalfspace
+	%\doublespacing
+	\include{abstract}
+	\include{dedication}
+	\include{acknowledgement}
+	
+	\doublespacing
+	\setcounter{secnumdepth}{3}
+	\setcounter{tocdepth}{1}
+	\tableofcontents
+	\listoftables
+	\addcontentsline{toc}{chapter}{List of Tables}
+	\listoffigures
+	\addcontentsline{toc}{chapter}{List of Figures}
+	\listofalgorithms
+	\addcontentsline{toc}{chapter}{List of Algorithms}
+	
+	\mainmatter
+	\doublespacing
+	\pagenumbering{arabic}
+	%\pagestyle{myheadings}
+	\pagestyle{fancy}
+	\fancyhf{}
+	\fancyhead[LE,RO]{\thepage}
+	\fancyhead[RE,LO]{\leftmark}
+	%\fancyfoot[CE,CO]{\leftmark}
+	%\fancyfoot[LE,RO]{\thepage}
+	\include{introduction}
+	\include{related}
+%	\include{background}
+	\include{dataorg}
+	\include{dimensionality_reduction}
+	\include{implementation}
+	\include{results}
+	\include{conclusions}
+	
+%	\appendix 
+%	\include{appendix}
+	
+	\backmatter
+	\singlespacing
+	
+	\addcontentsline{toc}{chapter}{Bibliography}
+	\bibliographystyle{plain}
+	\bibliography{references}
+\end{document}

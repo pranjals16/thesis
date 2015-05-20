@@ -38,7 +38,7 @@ def makeFeatureVec(words, model, num_features,index2word_set,feature_names,idf_s
 			temp = np.zeros((num_features),dtype="float32")
 			if word in feature_names:
 				score=idf_score[feature_names[word]]
-				if score>2.0:
+				if score>2.5:
 					temp[0:num_features]=np.multiply(model[word],score)
 					temp[0:num_features]=np.multiply(temp[0:num_features],score)
 				else:
@@ -118,15 +118,16 @@ if __name__ == '__main__':
     for word in temp:
     		feature_names[word]=i
     		i=i+1
+    		
     print "Creating average feature vecs for training reviews"
     trainDataVecs = getAvgFeatureVecs( getCleanReviews(train), model, num_features,feature_names,idf_score)
-    cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.p', 'wb'))
-    #trainDataVecs = cPickle.load(open('save_train_weighted_graded4.p', 'rb'))
+    cPickle.dump(trainDataVecs, open('save_train_weighted_graded2.5.p', 'wb'))
+    #trainDataVecs = cPickle.load(open('save_train_weighted_graded2.p', 'rb'))
     
     print "Creating average feature vecs for test reviews"
     testDataVecs = getAvgFeatureVecs( getCleanReviews(test), model, num_features,feature_names,idf_score)
-    cPickle.dump(testDataVecs, open('save_test_weighted_graded2.p', 'wb'))
-    #testDataVecs = cPickle.load(open('save_train_weighted_graded4.p', 'rb'))
+    cPickle.dump(testDataVecs, open('save_test_weighted_graded2.5.p', 'wb'))
+    #testDataVecs = cPickle.load(open('save_test_weighted_graded2.p', 'rb'))
     
     #trainTfidfData = cPickle.load(open('tfidf_train.p', 'rb'))
     #testTfidfData = cPickle.load(open('tfidf_test.p', 'rb'))
@@ -143,16 +144,16 @@ if __name__ == '__main__':
     print newTrain.shape,newTest.shape
     ######################              LogisticRegression				####################
     print "Fitting a LogisticRegression classifier to labeled training data..."
-    #for i in drange(0.1,6.0,0.2):
-    #		clf=LogisticRegression(penalty='l1',C=i)
+    #for i in drange(0.1,6.0,0.5):
+    #		clf=LogisticRegression(penalty='l2',C=i)
     #		clf.fit(newTrain, y_train)
     #		print i,"------------",clf.score(newTest,y_test)
     ######################              SVM				####################
-    f = open("score.txt",'a')
+    #f = open("score.txt",'a')
     print "Fitting a SVM classifier to labeled training data..."
-    for i in drange(0.1,10.0,0.2):
+    for i in drange(0.1,10.0,0.5):
     		clf=svm.LinearSVC(C=i)
     		clf.fit(newTrain, y_train)
     		print i,"------------",clf.score(newTest,y_test)
-    		f.write(str(i)+"------------"+str(clf.score(newTest,y_test))+"\n")
+    		#f.write(str(i)+"------------"+str(clf.score(newTest,y_test))+"\n")
     #------------------------------------------------------------------------------------------
