@@ -43,18 +43,17 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Despite the success of distributional semantics, composing phrases from word vectors remains an important challenge.  A number of models have been proposed for combining words, which usually omit stop words from the composition.  Several methods have been tried for benchmark tasks such as sentiment classification, including, word vector averaging, matrix-vector approaches based on parsing, and on-the-fly learning of paragraph vectors. In this work, we consider a modification in the modeling of the document whose sentiment is to be analyzed, by incorporating traditional tf-idf methods with word vector models into the composed vector.  This approach is seen to result in an 1.33\% improvement in performance over baseline.
-Two other improvements proposed are a) a weighted average composition, based on idf [normal averaging approaches ignore stop words], and b) an ensemble approach based on alternate classifiers such as the RNN model. Combining these methods results in an 1.6\% the standard IMDB movie review dataset, and a 7.01\% improvement on the amazon electronics reviews. Since these are language free models and can be obtained in an unsupervised manner, they are of interest for under-resourced languages such as Hindi as well and many more languages.  We demonstrate the language free aspects by showing a gain of 12\% for two review datasets over earlier results.
+Despite the success of distributional semantics, composing phrases from word vectors remains an important challenge.  Several methods have been tried for benchmark tasks such as sentiment classification, including word vector averaging, matrix-vector approaches based on parsing, and on-the-fly learning of paragraph vectors. Most models usually omit stop words from the composition.  Instead of such an yes-no decision, we consider several graded schemes where words are weighted according to their discriminatory relevance with respect to its use in the document (e.g., idf). Some of these methods (particularly tf-idf) are seen to result in a significant improvement in performance over prior state of the art.  Further, combining such approaches into an ensemble based on alternate classifiers such as the RNN model, results in an 1.6\% performance improvement on the standard IMDB movie review dataset, and a 7.01\% improvement on Amazon product reviews. Since these are language free models and can be obtained in an unsupervised manner, they are of interest also for under-resourced languages such as Hindi as well and many more languages.  We demonstrate the language free aspects by showing a gain of 12\% for two review datasets over earlier results, and also release a new larger dataset for future testing.
 \end{abstract}
 
 \section{Introduction}
-Language representation is a very crucial aspect to perform various NLP tasks and has been looked into great detail in recent times. Language representation models have fallen into broadly two categories: ones which are language dependent models(e.g.,\cite{Socher:13}) and ones which are language independent models(e.g., LDA, BOW, SkipGram, NLM, etc.). 
+Language representation is a very crucial aspect to perform various NLP tasks and has been looked into great detail in recent times. Language representation models have fallen into broadly two categories: ones which require hand-trained language databases such as treebanks (e.g.,\cite{Socher:13}) and ones which are language agnostic and work on raw corpora (e.g., LDA, BOW, SkipGram, NLM, etc.). Liu \shortcite{Liu:15} compare various language agnostic models for topic modeling.
 
 Language independent models such as LDA  and BOW have been quite effective since long time. Variants of BOW such as tf-idf had changed the perception of researchers towards these models when they were proved effective in various NLP tasks. LDA was able to model inter and intra documental statistical and relational structure quite well overcoming the drawbacks of BOW. But the semantic and syntactical dependencies were still ignored. After the introduction of neural language vector models, NLP saw a huge diversion in representation of words and documents.
 \begin{table}[h]
 \centering
 \small
-\begin{tabular}{|p{3.2cm}|l|l|l|}
+\begin{tabular}{|p{3.7cm}|p{0.7cm}|p{0.95cm}|p{0.6cm}|}
 \hline
 \textbf{Method}                                                             & \textbf{IMDB}  & \textbf{Amazon} & \textbf{Hindi} \\ \hline
 RNNLM (Baseline)                                               & 86.45          & 90.03           & 78.84          \\ \hline
@@ -63,13 +62,21 @@ Averaged Vector                                                             & 88
 Weighted Average Vector                                                            & 89.56          & 88.63               & 85.90          \\ \hline
 Composite Document Vector                                     & 93.91          & 92.17               & 90.30         \\ \hline
 \end{tabular}
-\caption {Comparison of accuracies on 3 Datasets(IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)) against various types of document representation models}
+\caption {Comparison of accuracies on 3 Datasets(IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)) for various types of document composition models. The state of the art for these tasks are: IMDB: 92.58\%~\cite{Le:14}; Amazon:85.90\%~\cite{Dredze:08}, Hindi:79.0\%~\cite{Bakliwal:12}.}
 \label{table:3Datasets}
 \end{table}
 For individual words, vectors are obtained via distributional learning, the mechanisms for which varies from document-term matrix factorization~\cite{Landauer:97}, various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, optimizing models to explain co-occurrence constraints ~\cite{Mikolov:13a,Pennington:14}, etc. Once the word vectors have been assigned, similarity between words can be captured via cosine distances. The same models have been extended(\cite{Le:14}) with new variables to build vector models for sentences and documents. These models include the essence of individual words as well as their relative order in terms of sentence vector which was earlier absent in word vectors. The advantage of these approaches is that they can capture both the syntactic and the semantic similarity between words/documents in terms of their projections onto a high-dimensional vector space; further, it seems that one can tune the privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}.
 
 Some grammarians have been trying to find whether sentence meaning accrues by combining word meanings, or whether words gain their meanings based on the context they appear in \cite{Matilal:90}. 
-\cite{Turney:10} give a detailed overview of various vector space models and their composition. A surprising event in Information Theory has higher information content than an expected event (Shanon, 1948). The same happens when we give weights to word vectors. We give more weights to events which occur by surprise and less weight to events which are expected. The most popular weighting concept in this domain is the idea of tf-idf which we have utilized in this work(Refer Table \ref{table:3Datasets}).
+\cite{Turney:10} give a detailed overview of various vector space models and their composition. A surprising event in Information Theory has higher information content than an expected event (Shanon, 1948). The same happens when we give weights to word vectors. We give more weight to events which evoke surprise and less weight to events which are expected. The most popular weighting concept in this domain is the idea of tf-idf which we have utilized in this work(Refer Table \ref{table:3Datasets}).
+
+In this work, we focus on a graded approach to assessing the importance of each word in a compositional models.  Graded models such as tf-idf have long been used in NLP, but they do not seem to have been used in word vector composition tasks yet.  The intuition is that in discrete cutoff functions, while simple, raise questions regarding threshold (what constitutes a stop word), and do not degrade performance gradually (Fig.~\ref{fig:step}).
+\begin{figure}[h]
+\centering
+\includegraphics[width=60mm, height=35mm]{img/step.eps}
+\caption{Intuition behind the proposed approach is that graded mechanisms for word combination may do better than discrete models that simply reject stop words and treat all other words equally(e.g. averaging methods).
+\label{fig:step}}
+\end{figure}
 
 We claim that the document vectors in hand is a much better representation of each document than doing it separately. This can be justified by the fact that we now incorporate contribution of each
 word as per its importance as well as well as that of document without ignoring tf-idf representation which performs considerably well in tasks such as retrieval. Hence, we call this as composite document vector representation. We then go a step ahead to build an ensemble of our model and recurrent neural network, which essentially has the properties of a generative model, to achieve state-of-the-art result on IMDB movie review dataset(94.19\%) and on Amazon electronics reviews dataset with a significant improvement over previous best.
@@ -202,9 +209,7 @@ Table \ref{table:700_movie_features} summarizes how feature selection has improv
 \label{table:700_movie_features}
 \end{table}
 
-
-
-With this we release a new dataset in Hindi on movie reviews which is much larger than previous standard dataset and very less focused towards sentiment of the review. The results obtained on this dataset are now a benchmark for further research.
+This newly released dataset is much larger than previous standard dataset and very less focused towards sentiment of the review.
 
 \section{Experiment}
 \label{sec:experiment}
@@ -216,11 +221,9 @@ We experimented on two Hindi review datasets. One is the Product Review dataset 
 Our 700-Movie Review Corpus in Hindi contains movie reviews from websites such as \emph{Dainik Jagran} and \emph{Navbharat Times}. The movie reviews are longer than the previous corpus and contains subjects other than sentiment. There are in total 697 movie reviews from both the websites. The statistics compiled is described below.
 
 For experiments in English, we trained on IMDB movie review dataset (Maas et al.(2013)) which consists of 25,000 positive and 25,000 negative reviews. It also contains an additional 50,000 unlabeled documents for unsupervised learning.
-\begin {table}[H]
+\begin {table}[h]
 \centering
 \begin{tabular}{ |l|l| }
-\hline
-\multicolumn{2}{|c|}{\textbf{Overall}} \\
 \hline
 Positive Reviews & 356 \\ 
 Negative Reviews & 341 \\
@@ -237,16 +240,13 @@ The Trip Advisor Review dataset contains around 240K reviews(206MB) from hotel d
 We also took amazon reviews for our experiments. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose. There were 3 review datasets: Electronics dataset consists of 1,241,778 reviews, Watches Dataset consists of 68,356 reviews and MP3 Dataset consists of 31,000 reviews.
 
 \subsection{SkipGram or CBOW}
-\begin{figure}[h]
+We present an interesting experiment to demonstrate that skipgram indeed performs better than CBOW. SkipGram model tends to predict a context given a word whereas CBOW model predicts a word given a context. It seems intuitive and also from observation~\cite{Mikolov:13b} that SkipGram will perform better on semantic tasks and CBOW on syntactic tasks. We now try to evaluate how they differ on classification accuracies on the two datasets: \emph{Watches} and \emph{MP3}. Figure \ref{fig:accuracy_sgcbow} show that skipgram outperforms CBOW on sentiment classification task. It can be justified by the fact that sentiment inclination of a document is more oriented towards semantics of that document rather than just syntax and our results clearly demonstrate this fact.
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=80mm, height=60mm]{img/accuracy_sgcbow.eps}
 \caption{Variation of Accuracy with skipgram and cbow on Watches and MP3 Datasets. \label{fig:accuracy_sgcbow}}
 \end{figure}
-We present an interesting experiment to demonstrate that skipgram indeed performs better than CBOW.\\
-SkipGram model tends to predict a context given a word whereas CBOW model predicts a word given a context. It seems intuitive and also from observation~\cite{Mikolov:13b} that SkipGram will perform better on semantic tasks and CBOW on syntactic tasks. We now try to evaluate how they differ on classification accuracies on the two datasets: \emph{Watches} and \emph{MP3}.
 
-
-Figure \ref{fig:accuracy_sgcbow} show that skipgram outperforms CBOW on sentiment classification task. It can be justified by the fact that sentiment inclination of a document is more oriented towards semantics of that document rather than just syntax and our results clearly demonstrate this fact.
 
 \subsection{Results}
 \label{sec:results}
@@ -292,7 +292,7 @@ Table \ref{table:IMDB} summarizes the results obtained by others and by us on th
 \label{table:graded_weighting_tfidf}
 \end{table}
 Tables \ref{table:graded_weighting_tfidf} demonstrate the effectiveness of our proposed graded weighting technique. Without \emph{tf-idf} features, our proposed method performs better in the graded idf weighting case and when we include \emph{tf-idf} features, 0-1 weighting perform better than idf graded technique and both perform better than the previous state-of-the-art. We see that with larger weights there is a decrease in accuracy and that is because we are now filtering out more words which are important while building document vector.
-Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and Composite document vector model together(voting ensemble). Here, we first trained a \emph{recursive neural network} and then obtained predictions on test reviews in terms of probability. We trained another classier(Linear SVM) using new Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic to obtain final classification. This led to a tremendous increase in classification accuracy.
+Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and Composite document vector model together(voting ensemble). Here, we first trained a \emph{RNNLM} and then obtained predictions on test reviews in terms of probability. We trained another classifier(Linear SVM) using new Document Vectors and then obtained predictions on test reviews. We then merged these two predictions using a simple heuristic to obtain final classification.
 
 \begin {table}[H]
 \centering
@@ -307,18 +307,18 @@ Composite Document Vector + RNNLM (Our Method) & \textbf{94.19}\\ \hline
 \label{table:IMDB_rnnlm}
 \end{table}
 
-Table \ref{table:amazon} presents result of another experiment conducted on famous Amazon electronics review dataset. Our vector averaging method alone has beaten previous best by 3.3\% which was based on maximum entropy method.
+Table \ref{table:amazon} presents result of experiment conducted on famous Amazon electronics review dataset~\cite{snapnets}. Our vector averaging method alone has beaten previous best by 3.3\%.
 \begin {table}[H]
 \centering
 \small
 \begin{tabular}{ | p{5.5cm} | p{1.2cm} | }
 \hline
 \textbf{Features} & \textbf{Accuracy} \\ \hline
-Dredze et al.(2008) & 85.90\\ \hline
-Max Entropy & 83.79\\ \hline
+\cite{Dredze:08} & 85.90\\ \hline
+Max Entropy~\cite{Dredze:08} & 83.79\\ \hline
 WordVector Averaging(Our Method) & 88.63\\ \hline
 Composite Document Vector (Our Method) & 92.17\\ \hline
-Composite Document Vector + RNNLM (Our Method) & \textbf{92.91}\\ \hline
+Composite Document Vector + RNNLM & \textbf{92.91}\\ \hline
 \end{tabular}
 \caption {Results on Amazon Electronics Review Dataset}
 \label{table:amazon}
@@ -345,14 +345,14 @@ Table \ref{table:hindi_ourmethods} represents the results using five different t
 \begin {table}[H]
 \centering
 \small
-\begin{tabular}{ | p{3.5cm} | p{1.7cm} | p{1.3cm} | }
+\begin{tabular}{ | p{3.3cm} | p{2.2cm} | p{1.15cm} | }
 \hline
 \textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-In language using SVM~\cite{Joshi:10} & tfidf & 78.14\\ \hline
-MT Based using SVM~\cite{Joshi:10} & tfidf & 65.96\\ \hline
+In-language with SVM \cite{Joshi:10} & tfidf & 78.14\\ \hline
+MT Based with SVM \cite{Joshi:10} & tfidf & 65.96\\ \hline
 Improved HindiSWN \cite{Bakliwal:12} & Adj. \& Adv. presence & 79.0\\ \hline
 WordVector Averaging & word vector & 78.0\\ \hline
-Word Vector with SVM (Our method) & tfidf; word vector & 89.97\\ \hline
+Word Vector Averaging & word vector+tfidf & 89.97\\ \hline
 Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textbf{90.30}\\ \hline
 \end{tabular}
 \caption {Comparison of Approaches: Movie Review Dataset}
@@ -362,18 +362,18 @@ Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textb
 \begin {table}[H]
 \centering
 \small
-\begin{tabular}{ | p{3.5cm} | p{1.8cm} | p{1.2cm} | }
+\begin{tabular}{ | p{3.3cm} | p{2.2cm} | p{1.15cm} | }
 \hline
 \textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
 Subjective Lexicon~\cite{Bakliwal:12} & Simple Scoring & 79.03\\ \hline
 Hindi-SWN Baseline (Arora et al., 2013) & Adj. \& Adv. presence & 69.30\\ \hline
-Word Vector with SVM (Our method) & tfidf with word vector & 91.14\\ \hline
+Word Vector with SVM & word vector+tfidf & 91.14\\ \hline
 Weighted Word Vector with SVM (Our method) & tfidf+weighted word vector & \textbf{92.89}\\ \hline
 \end{tabular}
 \caption {Comparison of Approaches: Product Review Dataset}
 \label{table:hindi_product}
 \end{table}
-Table \ref{table:hindi_movie} and \ref{table:hindi_product} compares our best method with various other methods which have performed well using techniques such as \emph{tf-idf}, subjective lexicon, etc.
+Table \ref{table:hindi_movie} and \ref{table:hindi_product} compares our best method with other methods which have performed well using techniques such as tf-idf, subjective lexicon, etc.
 
 \section{Conclusion}
 \label{sec:conclusion}
