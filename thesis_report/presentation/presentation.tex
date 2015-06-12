@@ -13,6 +13,7 @@
 \usepackage{booktabs}
 \usepackage{amsfonts}
 \usepackage{hyperref}
+\usepackage{ulem}
 \usepackage{graphics} % for including figures
 \usepackage{graphicx} % for including figures
 \usepackage[update,prepend]{epstopdf} % for including eps in pdf
@@ -165,6 +166,7 @@ Using $\traindata$, $D$ and $A$, the supervised classifier $\mathcal{C}$ learns 
 		\vfill\item<2-> Ignores word ordering
 		\vfill\item<2-> Ignores word context
 		\vfill\item<2-> Very sparse
+		\vfill\item<2-> No relative importance to words
 	\end{itemize}
 \end{itemize}
 \vfill
@@ -184,6 +186,7 @@ Using $\traindata$, $D$ and $A$, the supervised classifier $\mathcal{C}$ learns 
 		\vfill\item<2-> Ignores word ordering
 		\vfill\item<2-> Ignores word context
 		\vfill\item<2-> Very sparse
+		\vfill\item<2-> \sout{No relative importance to words}
 	\end{itemize}
 \end{itemize}
 \vfill
@@ -317,7 +320,7 @@ Total Reviews & 697\\ \hline
 %-------------------------------------slide---------------------------------
 \frame{\frametitle{Distributed Word Representation}
 \vfill
-\onslide<1->{Skipgram}
+\onslide<1->{\textbf{Skipgram}}
 \begin{itemize}
 	\vfill\item<1-> Each current word acts as an input to a log-linear classifier with continuous projection layer, and predict words within a certain range before and after the current word
 	\vfill\item<1-> The objective is to maximize the probability of the context given a word:
@@ -489,12 +492,14 @@ where $\delta$ is a pre-defined threshold below which the word has no importance
 }
 %-------------------------------------slide---------------------------------
 \frame{\frametitle{Work Flow}
+\vfill
      \begin{figure}
 	\centering
 	\includegraphics[scale=0.3]{../img/flow_chart.jpg}
 	\caption{Work Flow}
 	\label{fig:workflow}
     \end{figure}
+\vfill
 }
 
 %===========================================================================
@@ -588,7 +593,8 @@ where $\delta$ is a pre-defined threshold below which the word has no importance
 	Dredze et al.(2008) & 85.90\\ \hline
 	Max Entropy & 83.79\\ \hline
 	WordVector Averaging (Our Method) & 89.41\\ \hline
-	WordVector Averaging+Document Vector(Our Method) & \textbf{92.17}\\ \hline
+	Composite Document Vector(Our Method) & 92.17\\ \hline
+	Composite Document Vector+RNNLM & \textbf{92.91}\\ \hline
 	\end{tabular}
 	\caption {Results on Amazon Electronics Review Dataset}
 	\label{table:amazon}

@@ -60,6 +60,47 @@ Algorithm \ref{alg:weighted_average} presents a new approach to build document v
 \caption{Weighted Average for Vector Composition}\label{alg:weighted_average}
 \end{algorithm}
 The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation.
+\subsection{Graded Weighting}
+\label{sec:graded_weighting}
+We describe two approaches to incorporate graded weighting into word vectors for building document vectors. Let $v_{w_i}$ be the vector representation of the $i^{th}$ word. Then document vector $v_{d_i}$ for $i^{th}$ document is:
+$$
+v_{d_i} = \left\{
+        \begin{array}{ll}
+            0 & \quad w_k \in stopwords \\
+            \sum\limits_{w_k \in d_i} v_{w_k} & \quad w_k \notin stopwords
+        \end{array}
+    \right.
+$$
+The above equation is 0-1 step-function which ignores contribution of all stop words. Now we propose another schema which weighs the contribution of each word while building document vector with a graded approach. We define $idf(t,d)=\log(\frac{|D|}{df(t)})$ where $t$ is the term, $d$ is the document and other notations are same as in previous subsection. The new document vector representation considering this graded schema is:
+$$
+v_{d_i} = \left\{
+        \begin{array}{ll}
+            0 & \quad idf(w_k,d_i) \leq \delta \\
+            \sum\limits_{w_k \in d_i} idf(w_k,d_i).v_{w_k} & \quad otherwise
+        \end{array}
+    \right.
+$$
+where $\delta$ is a pre-defined threshold below which the word has no importance and above which the \emph{idf} terms gives importance to that particular word.\\
+Till date, everyone has ignored how to effectively use vector composition techniques and as a result, this area has seen very less attention. But we have successfully used \emph{idf} values to give weights to word vectors and hence obtain much better sentence/document vectors. The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation.
+
+Tables \ref{table:graded_weighting_tfidf} demonstrate the effectiveness of our proposed graded weighting technique. Without \emph{tf-idf} features, our proposed method performs better in the graded idf weighting case and when we include \emph{tf-idf} features, 0-1 weighting perform better than idf graded technique and both perform better than the previous state-of-the-art. We see that with larger weights there is a decrease in accuracy and that is because we are now filtering out more words which are important while building document vector.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Method}                                                                 & \textbf{Weight} & \textbf{Accuracy(1)} & \textbf{Accuracy(2)} \\ \hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}0-1 \\ Weighting\end{tabular}}       & 0               & 93.84                & 93.06                \\ \cline{2-4} 
+                                                                                & 1               & \textbf{93.91}       & \textbf{93.18}       \\ \hline
+\multirow{6}{*}{\begin{tabular}[c]{@{}l@{}}Graded idf \\ Weighting\end{tabular}} & 2               & \textbf{93.89}       & 93.17                \\ \cline{2-4} 
+                                                                                & 2.5             & 93.87                & 93.16                \\ \cline{2-4} 
+                                                                                & 2.8             & 93.86                & 93.16                \\ \cline{2-4} 
+                                                                                & 3               & 93.86                & \textbf{93.22}       \\ \cline{2-4} 
+                                                                                & 4               & 93.83                & 93.12                \\ \cline{2-4} 
+                                                                                & 5               & 93.75                & 93.03                \\ \hline
+\end{tabular}
+\caption {Results on IMDB Movie Reviews using Various Weighting Techniques(Composite Document Vector);Accuracy(2) is when we exclude tf-idf features}
+\label{table:graded_weighting_tfidf}
+\end{table}
 
 \section{Word and Document Vectors with tf-idf: Enhanced Document Vectors}
 This experiment redefined document representation in NLP used for sentiment classification. It has the property of including both syntactic and semantic properties of a piece of text. The limitations of skip-gram word vectors have been fulfilled by document vectors and hence we achieve state-of-the-art results on IMDB movie review dataset.
@@ -78,39 +119,35 @@ The quality of word vectors can be evaluated by comparing them with words which 
 similarity=cos(\theta)=\frac{A.B}{\|A\|\|B\|}=\frac{\sum_{i=1}^{n}A_i \times B_i}{\sqrt{\sum_{i=1}^{n}(A_i)^2}\times \sqrt{\sum_{i=1}^{n}(B_i)^2}}
 \end{align}
 
-Another evaluation can be done through tSNE~\cite{Maaten:08} which helps in visualization which maps each high-dimensional data point to a two or three-dimensional map. In our experiment, we took 5K words and plotted
-them with tSNE (fig.~\ref{fig:5K_hindi}). 
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=140mm, height=110mm]{tsne.ps}
 \caption{t-SNE visualization of the top 5000 Hindi Words in high dimensional space.  (Magnify to see details). \label{fig:5K_hindi}}
 \end{figure}
-
-Figure \ref{fig:5K_hindi_zoom} gives a closer look into few clusters which depicts the relation between words in high dimensional space. Figure \ref{fig:5K_hindi_zoom1} shows that words such as 
-{\dn mO\8{j}d} and {\dn uplND} are closer to each other but farther from words such as {\dn \31EwyAdA} and {\dn aEDk}.
+Another evaluation can be done through tSNE~\cite{Maaten:08} which helps in visualization which maps each high-dimensional data point to a two or three-dimensional map. In our experiment, we took 5K words and plotted them with tSNE (fig.~\ref{fig:5K_hindi}).
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}{.4\linewidth}
-        \includegraphics[scale=0.5]{5K_hindi_zoom1.eps}
+        \includegraphics[scale=0.4]{5K_hindi_zoom1.eps}
         \caption{}
         \label{fig:5K_hindi_zoom1}
     \end{subfigure}
     \newline
     \begin{subfigure}{.4\linewidth}
-        \includegraphics[scale=0.5]{5K_hindi_zoom2.eps}
+        \includegraphics[scale=0.4]{5K_hindi_zoom2.eps}
         \caption{}
     \end{subfigure}
     \newline
     \begin{subfigure}{.4\linewidth}
-        \includegraphics[scale=0.5]{5K_hindi_zoom3.eps}
+        \includegraphics[scale=0.4]{5K_hindi_zoom3.eps}
         \caption{}
     \end{subfigure}
     \caption{A closer look at two clusters in the visualization showing a) quantity relations, b) locations and c) diseases.}
     \label{fig:5K_hindi_zoom}
 \end{figure}
-
+Figure \ref{fig:5K_hindi_zoom} gives a closer look into few clusters which depicts the relation between words in high dimensional space. Figure \ref{fig:5K_hindi_zoom1} shows that words such as 
+{\dn mO\8{j}d} and {\dn uplND} are closer to each other but farther from words such as {\dn \31EwyAdA} and {\dn aEDk}.
 
 \section{Work Flow}
 This section summarizes our approach in brief with graphics. This is a general classification system and includes building of enhanced document vectors.

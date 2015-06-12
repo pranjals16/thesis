@@ -30,9 +30,9 @@
 
 % for doublespacing singlespacing etc.
 \usepackage{setspace}
-
+\usepackage{array}
 \graphicspath{{img/}}
-
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \newdateformat{monthyear}{\monthname[\THEMONTH], \THEYEAR}
 \newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
 
