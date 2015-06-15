@@ -27,7 +27,7 @@
 \setbeamertemplate{caption}[numbered]
 \setbeamercovered{transparent}
 
-\title{Domain Driven Decompositional Semantics}
+\title{Decompositional Semantics for Improved Language Models}
 
 \author[Pranjal Singh]
 {\textbf{Pranjal Singh}\\ {\small Supervisor: Dr. Amitabha Mukerjee}}
@@ -755,5 +755,43 @@ where $\delta$ is a pre-defined threshold below which the word has no importance
   \begin{beamerboxesrounded}[shadow=true]{}
    \centering{\Large{Thank you!}}
   \end{beamerboxesrounded}
+}
+
+%===========================================================================
+\section[Appendix]{Appendix}
+\subsection{}
+%-------------------------------------slide---------------------------------
+\frame{\frametitle{}
+\textbf{Ensemble of RNNLM and Enhanced Document Vectors}\\
+\begin{beamerboxesrounded}[shadow=true]{}
+	\begin{itemize}
+		 \item<1-> We first trained a \emph{recurrent neural network} and then obtained predictions on test reviews in terms of probability. 
+		 \vfill\item<1-> We trained another classier(Linear SVM) using Enhanced Document Vectors and then obtained predictions on test reviews.
+		 \vfill\item<1-> We then merged these two predictions using a simple heuristic, described below, to obtain final classification.
+	\end{itemize}
+  \end{beamerboxesrounded}
+Let $y*$ be actual output and $y$ is the predicted output. The heuristic used is:
+\begin{align*}
+((RNNLM_{pred}-1)*7+(0.5-SVM_{pred})).y<0 \text{  if } y*=1\\
+((RNNLM_{pred}-1)*7+(0.5-SVM_{pred})).y<0 \text{  otherwise}
+\end{align*}
+}
+%-------------------------------------slide---------------------------------
+\frame{\frametitle{}
+\textbf{SkipGram}\\
+$h=x^TW=v_{w_i}$\\
+$v_{w_i}$ is the vector representation of the input word $w_i$\\
+$u_j={v'}_{w_j}^T.h$\\
+$u_j$ is score of each word in vocabulary and ${v'}_{w_j}$ is the $j-th$ column of matrix $W'$\\
+$p(w_{c,j}=w_{O,c}|w_I)=y_{c,j}=\frac{exp(u_{c,j})}{\sum_{{j'}=1}^{V}exp(u_{j'})}$\\
+where $w_{c,j}$ is the $j$-th word on the $c$-th panel of the output layer; $w_{O,c}$ is the actual $c$-th word in the output context words; $w_I$ is the only input word; $y_{c,j}$ is the output of the $j$-th node on the $c$-th panel of the output layer; $u_{c,j}$ is the net input of the $j$-th node on the $c$-th panel of the output layer.
+}
+%-------------------------------------slide---------------------------------
+\frame{\frametitle{}
+\textbf{SkipGram}\\
+$u_{c,j}=u_j={v'}_{w_j}^T.h$, for $c=1,2,\dots,C$\\
+Loss functions is:\\
+$E=-log p(w_{O,1},w_{O,2},\dots,w_{O,C}|w_I)$\\
+$=-log\prod_{c=1}^C\frac{exp(u_{c,{j*}_{c}})}{\sum_{{j'}=1}^Vexp({{u}_{j'}})}$
 }
 \end{document}
