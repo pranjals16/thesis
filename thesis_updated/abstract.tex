@@ -1,9 +1,0 @@
-\cleardoublepage
-
-\begin{center}
-	\huge{\textbf{Abstract}}
-\end{center}
-
-In recent years, distributional semantics or vector models for words have been proposed to capture both the syntactic and semantic similarities between words.  Such vectors may be obtained for words as used in a large corpus, or in a given domain.  Since these are language free models and can be obtained in an unsupervised manner, they are of interest for under-resourced languages such as Hindi.  We start with an overview which shows that a reasonable measure of semantic similarity in Hindi seems to be captured by a word vector map.
-
-A difficulty with word vectors is that of mapping larger compositions. Several methods - additive, multiplicative, or tensor neural models, have been proposed. Other methods have exploited logarithmic time complexity to learn paragraph vectors on the fly.  In most such methods all words are treated equally (except for a few classes like stop words).  Here we propose a simple innovation based on graded weights for the words in compositional texts.  We experiment with different weighting schemes and find that using the well-known tf-idf weights outperforms most of the standard approaches.  On the extensively-researched benchmark task of sentiment analysis, our method achieves an accuracy of 94.19\% on the IMDB movie review dataset  (improvement of 1.6\% over previous best).  Even greater improvements are shown for the Amazon product review datasets. We also implement an ensemble model which boosts our accuracy by about 0.5\% using recurrent neural network.  Finally, we also consider the language free aspects by demonstrating an increment of over 12\% on existing results for Hindi.

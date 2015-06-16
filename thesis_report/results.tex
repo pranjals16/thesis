@@ -2,6 +2,22 @@
 \label{sec:result}
 \section{Results on English Datasets}
 
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Method}                                                             & \textbf{IMDB}  & \textbf{Amazon} & \textbf{Hindi} \\ \hline
+RNNLM (Baseline)                                               & 86.45          & 90.03           & 78.84          \\ \hline
+Paragraph Vector \cite{Le:14}                                               & 92.58          & 91.30           & 74.57          \\ \hline
+Averaged Vector                                                             & 88.42          & 88.52           & 79.62          \\ \hline
+Weighted Average Vector                                                            & 89.56          & 88.63               & 85.90          \\ \hline
+Composite Document Vector                                     & 93.91          & 92.17               & 90.30         \\ \hline
+\end{tabular}
+\caption {Comparison of accuracies on 3 Datasets(IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)) for various types of document composition models. The state of the art for these tasks are: IMDB: 92.58\%~\cite{Le:14}; Amazon:85.90\%~\cite{Dredze:08}, Hindi:79.0\%~\cite{Bakliwal:12}.}
+\label{table:3Datasets}
+\end{table}
+Table \ref{table:3Datasets} gives an overview of how our method compares against the earlier methods in sentiment analysis on3 different datasets. Even the word vector averaging seems to perform quite well when compared against complex baselines such as RNNLM.
+
 \begin {table}[H]
 \centering
 \begin{tabular}{ | c | c | }
@@ -15,6 +31,7 @@ Paragraph Vector (Le and Mikolov(2014)) & 92.58\\ \hline
 WordVector+Wiki(Our Method) & 88.60\\ \hline
 Weigted WordVector+TfIdf(Our Method) & 89.56\\ \hline
 Weighted WordVector+TfIdf+Document Vector & \textbf{93.91}\\ \hline
+
 \end{tabular}
 \caption {Results on IMDB Movie Review Dataset}
 \label{table:IMDB}
@@ -37,6 +54,7 @@ WordVector+TfIdf+Document Vector+RNNLM(Our Method) & \textbf{94.19}\\ \hline
 The main contributor for improvement in results is our enhanced document vector which overcomes the weaknesses of BOW and document vectors taken separately.\\
 Table \ref{table:IMDB_rnnlm} is a further improvement in results once we incorporate predictions of RNNLM and enhanced document vector model together(voting ensemble).
 
+Table \ref{table:IMDB_features} gives an overview of the results obtained with various experiments that we conducted on IMDB dataset. We have tried various vector composition models and feature composition models to obtain good results. Even a simple feature composition of word and document vector yield an improvement over the existing state-of-the-art suggesting that feature composition is a vital area when it comes to NLP tasks such as sentiment analysis.
 \begin {table}[H]
 \centering
 \begin{tabular}{ | c | c | }
@@ -63,12 +81,7 @@ WordVector Averaging+TfIdf+Document Vector+RNNLM & \textbf{94.19}\\ \hline
 \includegraphics[width=140mm, height=120mm]{accuracy_wordvectors.eps}
 \caption{Accuracies of Different Classifiers with Average Word Vectors(IMDB). \label{fig:accuracy_wordvectors}}
 \end{figure}
-
-Table \ref{table:IMDB_features} gives an overview of the results obtained with various experiments that we conducted on IMDB dataset. We have tried various vector composition models and feature composition models to obtain good results. Even a simple feature composition of word and document vector yield an improvement over the existing state-of-the-art suggesting that feature composition is a vital area when it comes to NLP tasks such as sentiment analysis.
-
 Figure \ref{fig:accuracy_wordvectors} gives an overview of accuracies of various classifiers using word vector averaging method on IMDB dataset. This clearly gives a green signal to us for using Linear SVM as our classier in all experiments.
-
-
 
 Table \ref{table:amazon} presents result of another experiment conducted on famous Amazon electronics review dataset(refer \ref{data:amazon}). Our vector averaging method alone has beaten previous best by 3.3\% which was based on maximum entropy method.
 \begin {table}[H]
@@ -79,7 +92,8 @@ Table \ref{table:amazon} presents result of another experiment conducted on famo
 Dredze et al.(2008) & 85.90\\ \hline
 Max Entropy & 83.79\\ \hline
 WordVector Averaging (Our Method) & 89.41\\ \hline
-WordVector Averaging+Document Vector(Our Method) & \textbf{92.17}\\ \hline
+Composite Document Vector (Our Method) & 92.17\\ \hline
+Composite Document Vector + RNNLM & \textbf{92.91}\\ \hline
 \end{tabular}
 \caption {Results on Amazon Electronics Review Dataset}
 \label{table:amazon}
@@ -90,7 +104,7 @@ WordVector Averaging+Document Vector(Our Method) & \textbf{92.17}\\ \hline
 \label{sec:hindi_results}
 \begin {table}[h!]
 \centering
-\begin{tabular}{ | c | c | c | }
+\begin{tabular}{ | c | c |c | }
 \hline
 \textbf{Features} & \textbf{Accuracy(1)} & \textbf{Accuracy(2)} \\ \hline
 WordVector Averaging & 78.0 & 79.62\\ \hline
@@ -107,11 +121,11 @@ Table \ref{table:hindi_ourmethods} represents the results using five different t
 
 \begin {table}[h!]
 \centering
-\begin{tabular}{ | c | c | c | }
+\begin{tabular}{ | c | P{3cm} | c | }
 \hline
 \textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-Subjective Lexicon (Bakliwal et al.(2012)) & Simple Scoring & 79.03\\ \hline
-Hindi-SWN Baseline (Arora et al.(2013)) & Adjective and Adverb presence & 69.30\\ \hline
+Subjective Lexicon (Bakliwal et al., 2012) & Simple Scoring & 79.03\\ \hline
+Hindi-SWN Baseline (Arora et al., 2013) & Adjective and Adverb presence & 69.30\\ \hline
 Word Vector with SVM (Our method) & tf-idf with word vector & 91.14\\ \hline
 Weighted Word Vector with SVM (Our method) & tf-idf+weighted word vector & \textbf{92.89}\\ \hline
 \end{tabular}
@@ -122,14 +136,14 @@ Table \ref{table:hindi_product} and \ref{table:hindi_movie} compares our best me
 
 \begin {table}[h!]
 \centering
-\begin{tabular}{ | c | c | c | }
+\begin{tabular}{ | c | P{3cm} | c | }
 \hline
 \textbf{Experiment} & \textbf{Features} & \textbf{Accuracy} \\ \hline
-In language using SVM (Joshi et al.(2010)) & tf-idf & 78.14\\ \hline
-MT Based using SVM (Joshi et al.(2010)) & tf-idf & 65.96\\ \hline
-Improved Hindi-SWN  (Bakliwal et al.(2012)) & Adj. and Adv. presence & 79.0\\ \hline
+In language using SVM (Joshi et al., 2010)) & tf-idf & 78.14\\ \hline
+MT Based using SVM (Joshi et al., 2010) & tf-idf & 65.96\\ \hline
+Improved Hindi-SWN  (Bakliwal et al., 2012) & Adjective and Adverb presence & 79.0\\ \hline
 WordVector Averaging & word vector & 78.0\\ \hline
-Word Vector with SVM (Our method) & tf-idf; word vector & 89.97\\ \hline
+Word Vector with SVM (Our method) & tf-idf with word vector & 89.97\\ \hline
 Weighted Word Vector with SVM (Our method) & tf-idf+weighted word vector & \textbf{90.30}\\ \hline
 \end{tabular}
 \caption {Comparison of Approaches: Movie Review Dataset}
