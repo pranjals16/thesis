@@ -1,0 +1,240 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citename{Bakliwal \bgroup et al.\egroup }2012]{Bakliwal:12}
+Akshat Bakliwal, Piyush Arora, and Vasudeva Varma.
+\newblock 2012.
+\newblock Hindi subjective lexicon: A lexical resource for hindi adjective
+  polarity classification.
+\newblock In {\em Proceedings of the Eighth International Conference on
+  Language Resources and Evaluation (LREC-2012)}. European Language Resources
+  Association (ELRA).
+
+\bibitem[\protect\citename{Baroni \bgroup et al.\egroup }2014]{Baroni:14}
+Marco Baroni, Raffaela Bernardi, and Roberto Zamparelli.
+\newblock 2014.
+\newblock Frege in space: A program of compositional distributional semantics.
+\newblock {\em Linguistic Issues in Language Technology}, 9.
+
+\bibitem[\protect\citename{Bengio \bgroup et al.\egroup }2003]{Bengio:03}
+Yoshua Bengio, R{\'e}jean Ducharme, Pascal Vincent, and Christian Janvin.
+\newblock 2003.
+\newblock A neural probabilistic language model.
+\newblock {\em The Journal of Machine Learning Research}, 3:1137--1155.
+
+\bibitem[\protect\citename{Blacoe and Lapata}2012]{Blacoe:12}
+William Blacoe and Mirella Lapata.
+\newblock 2012.
+\newblock A comparison of vector-based representations for semantic
+  composition.
+\newblock In {\em Proceedings of the 2012 Joint Conference on Empirical Methods
+  in Natural Language Processing and Computational Natural Language Learning},
+  pages 546--556. Association for Computational Linguistics.
+
+\bibitem[\protect\citename{Collobert \bgroup et al.\egroup }2011]{Collobert:08}
+Ronan Collobert, Jason Weston, L{\'e}on Bottou, Michael Karlen, Koray
+  Kavukcuoglu, and Pavel Kuksa.
+\newblock 2011.
+\newblock Natural language processing (almost) from scratch.
+\newblock {\em The Journal of Machine Learning Research}, 12:2493--2537.
+
+\bibitem[\protect\citename{Dredze \bgroup et al.\egroup }2008]{Dredze:08}
+Mark Dredze, Koby Crammer, and Fernando Pereira.
+\newblock 2008.
+\newblock Confidence-weighted linear classification.
+\newblock In {\em Proceedings of the 25th international conference on Machine
+  learning}, pages 264--271. ACM.
+
+\bibitem[\protect\citename{Huang \bgroup et al.\egroup }2012]{Huang:12}
+Eric~H. Huang, Richard Socher, Christopher~D. Manning, and Andrew~Y. Ng.
+\newblock 2012.
+\newblock {Improving Word Representations via Global Context and Multiple Word
+  Prototypes}.
+\newblock In {\em Annual Meeting of the Association for Computational
+  Linguistics (ACL)}.
+
+\bibitem[\protect\citename{Johnson and Zhang}2014]{Johnson:14}
+Rie Johnson and Tong Zhang.
+\newblock 2014.
+\newblock Effective use of word order for text categorization with
+  convolutional neural networks.
+\newblock {\em arXiv preprint arXiv:1412.1058}.
+
+\bibitem[\protect\citename{Joshi \bgroup et al.\egroup }2010]{Joshi:10}
+Aditya Joshi, AR~Balamurali, and Pushpak Bhattacharyya.
+\newblock 2010.
+\newblock A fall-back strategy for sentiment analysis in hindi: a case study.
+
+\bibitem[\protect\citename{Landauer and Dumais}1997]{Landauer:97}
+Thomas~K Landauer and Susan~T Dumais.
+\newblock 1997.
+\newblock A solution to plato's problem: The latent semantic analysis theory of
+  acquisition, induction, and representation of knowledge.
+\newblock {\em Psychological review}, 104(2):211.
+
+\bibitem[\protect\citename{Le and Mikolov}2014]{Le:14}
+Quoc~V Le and Tomas Mikolov.
+\newblock 2014.
+\newblock Distributed representations of sentences and documents.
+\newblock {\em arXiv preprint arXiv:1405.4053}.
+
+\bibitem[\protect\citename{Le \bgroup et al.\egroup }2011]{Le:11}
+Hai-Son Le, Ilya Oparin, Alexandre Allauzen, J~Gauvain, and Fran{\c{c}}ois
+  Yvon.
+\newblock 2011.
+\newblock Structured output layer neural network language model.
+\newblock In {\em Acoustics, Speech and Signal Processing (ICASSP), 2011 IEEE
+  International Conference on}, pages 5524--5527. IEEE.
+
+\bibitem[\protect\citename{Leskovec and Krevl}2014]{snapnets}
+Jure Leskovec and Andrej Krevl.
+\newblock 2014.
+\newblock {SNAP Datasets}: {Stanford} large network dataset collection.
+\newblock \url{http://snap.stanford.edu/data}.
+
+\bibitem[\protect\citename{Liu \bgroup et al.\egroup }2015]{Liu:15}
+Yang Liu, Zhiyuan Liu, Tat-Seng Chua, and Maosong Sun.
+\newblock 2015.
+\newblock Topical word embeddings.
+
+\bibitem[\protect\citename{Matilal}2001]{Matilal:90}
+B.~K. Matilal.
+\newblock 2001.
+\newblock {\em {The Word and The World India's contribution to the study of
+  language}}.
+\newblock Oxford Paperback, Delhi.
+
+\bibitem[\protect\citename{Medagoda \bgroup et al.\egroup }2013]{Medagoda:13}
+Nishantha Medagoda, Subana Shanmuganathan, and Jacqueline Whalley.
+\newblock 2013.
+\newblock A comparative analysis of opinion mining and sentiment classification
+  in non-english languages.
+\newblock In {\em Advances in ICT for Emerging Regions (ICTer), 2013
+  International Conference on}, pages 144--148. IEEE.
+
+\bibitem[\protect\citename{Mikolov \bgroup et al.\egroup }2010]{Mikolov:10}
+Tomas Mikolov, Martin Karafi{\'a}t, Lukas Burget, Jan Cernock{\`y}, and Sanjeev
+  Khudanpur.
+\newblock 2010.
+\newblock Recurrent neural network based language model.
+\newblock In {\em INTERSPEECH 2010, 11th Annual Conference of the International
+  Speech Communication Association, Makuhari, Chiba, Japan, September 26-30,
+  2010}, pages 1045--1048.
+
+\bibitem[\protect\citename{Mikolov \bgroup et al.\egroup }2011]{Mikolov:11}
+Tomas Mikolov, Stefan Kombrink, Lukas Burget, Jan~H Cernocky, and Sanjeev
+  Khudanpur.
+\newblock 2011.
+\newblock Extensions of recurrent neural network language model.
+\newblock In {\em Acoustics, Speech and Signal Processing (ICASSP), 2011 IEEE
+  International Conference on}, pages 5528--5531. IEEE.
+
+\bibitem[\protect\citename{Mikolov \bgroup et al.\egroup }2013a]{Mikolov:13b}
+Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean.
+\newblock 2013a.
+\newblock Efficient estimation of word representations in vector space.
+\newblock {\em arXiv preprint arXiv:1301.3781}.
+
+\bibitem[\protect\citename{Mikolov \bgroup et al.\egroup }2013b]{Mikolov:13a}
+Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg~S Corrado, and Jeff Dean.
+\newblock 2013b.
+\newblock Distributed representations of words and phrases and their
+  compositionality.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  3111--3119.
+
+\bibitem[\protect\citename{Mikolov \bgroup et al.\egroup }2013c]{Mikolov:13c}
+Tomas Mikolov, Wen-tau Yih, and Geoffrey Zweig.
+\newblock 2013c.
+\newblock Linguistic regularities in continuous space word representations.
+\newblock In {\em HLT-NAACL}, pages 746--751.
+
+\bibitem[\protect\citename{Mittal \bgroup et al.\egroup }2013]{Mittal:13}
+Namita Mittal, Basant Agarwal, Garvit Chouhan, Nitin Bania, and Prateek Pareek.
+\newblock 2013.
+\newblock Sentiment analysis of hindi review based on negation and discourse
+  relation.
+\newblock In {\em proceedings of International Joint Conference on Natural
+  Language Processing}, pages 45--50.
+
+\bibitem[\protect\citename{Morin and Bengio}2005]{Morin:05}
+Frederic Morin and Yoshua Bengio.
+\newblock 2005.
+\newblock Hierarchical probabilistic neural network language model.
+\newblock In {\em Proceedings of the international workshop on artificial
+  intelligence and statistics}, pages 246--252. Citeseer.
+
+\bibitem[\protect\citename{Neelakantan \bgroup et al.\egroup
+  }2014]{Neelakantan:14}
+Arvind Neelakantan, Jeevan Shankar, Alexandre Passos, and Andrew McCallum.
+\newblock 2014.
+\newblock Efficient nonparametric estimation of multiple embeddings per word in
+  vector space.
+\newblock In {\em Proceedings of EMNLP}.
+
+\bibitem[\protect\citename{Pang and Lee}2004]{Pang:04}
+Bo~Pang and Lillian Lee.
+\newblock 2004.
+\newblock A sentimental education: Sentiment analysis using subjectivity
+  summarization based on minimum cuts.
+\newblock In {\em Proceedings of the 42nd annual meeting on Association for
+  Computational Linguistics}, page 271. Association for Computational
+  Linguistics.
+
+\bibitem[\protect\citename{Pang and Lee}2008]{Liu:12}
+Bo~Pang and Lillian Lee.
+\newblock 2008.
+\newblock Opinion mining and sentiment analysis.
+\newblock {\em Found. Trends Inf. Retr.}, 2(1-2):1--135, January.
+
+\bibitem[\protect\citename{Pennington \bgroup et al.\egroup
+  }2014]{Pennington:14}
+Jeffrey Pennington, Richard Socher, and Christopher Manning.
+\newblock 2014.
+\newblock Glove: Global vectors for word representation.
+\newblock In {\em Proceedings of the 2014 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, pages 1532--1543. Association for
+  Computational Linguistics.
+
+\bibitem[\protect\citename{Sharma \bgroup et al.\egroup }2014]{Sharma:14}
+Richa Sharma, Shweta Nigam, and Rekha Jain.
+\newblock 2014.
+\newblock Opinion mining in hindi language: A survey.
+\newblock {\em arXiv preprint arXiv:1404.4935}.
+
+\bibitem[\protect\citename{Socher \bgroup et al.\egroup }2013]{Socher:13}
+Richard Socher, Alex Perelygin, Jean~Y Wu, Jason Chuang, Christopher~D Manning,
+  Andrew~Y Ng, and Christopher Potts.
+\newblock 2013.
+\newblock Recursive deep models for semantic compositionality over a sentiment
+  treebank.
+\newblock In {\em Proceedings of the conference on empirical methods in natural
+  language processing (EMNLP)}, volume 1631, page 1642. Citeseer.
+
+\bibitem[\protect\citename{Turian \bgroup et al.\egroup }2010]{Turian:10}
+Joseph Turian, Lev Ratinov, and Yoshua Bengio.
+\newblock 2010.
+\newblock Word representations: A simple and general method for semi-supervised
+  learning.
+\newblock In {\em Proceedings of the 48th Annual Meeting of the Association for
+  Computational Linguistics}, ACL '10, pages 384--394, Stroudsburg, PA, USA.
+  Association for Computational Linguistics.
+
+\bibitem[\protect\citename{Turney \bgroup et al.\egroup }2010]{Turney:10}
+Peter~D Turney, Patrick Pantel, et~al.
+\newblock 2010.
+\newblock From frequency to meaning: Vector space models of semantics.
+\newblock {\em Journal of artificial intelligence research}, 37(1):141--188.
+
+\bibitem[\protect\citename{Wang \bgroup et al.\egroup }2014]{Wang:14}
+Gang Wang, Jianshan Sun, Jian Ma, Kaiquan Xu, and Jibao Gu.
+\newblock 2014.
+\newblock Sentiment classification: The contribution of ensemble learning.
+\newblock {\em Decision support systems}, 57:77--93.
+
+\bibitem[\protect\citename{Zou \bgroup et al.\egroup }2013]{Zou:13}
+Will~Y Zou, Richard Socher, Daniel~M Cer, and Christopher~D Manning.
+\newblock 2013.
+\newblock Bilingual word embeddings for phrase-based machine translation.
+\newblock In {\em EMNLP}, pages 1393--1398.
+
+\end{thebibliography}

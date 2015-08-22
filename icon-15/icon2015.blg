@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: icon2015.aux
+The style file: acl.bst
+Database file #1: acl2015.bib
+Warning--string name "june" is undefined
+--line 831 of file acl2015.bib
+Warning--empty journal in Joshi:10
+Warning--empty journal in Liu:15
+You've used 33 entries,
+            2490 wiz_defined-function locations,
+            765 strings with 11354 characters,
+and the built_in function-call counts, 15652 in all, are:
+= -- 1662
+> -- 668
+< -- 16
++ -- 236
+- -- 228
+* -- 1117
+:= -- 2413
+add.period$ -- 141
+call.type$ -- 33
+change.case$ -- 244
+chr.to.int$ -- 31
+cite$ -- 35
+duplicate$ -- 682
+empty$ -- 1146
+format.name$ -- 269
+if$ -- 3370
+int.to.chr$ -- 3
+int.to.str$ -- 0
+missing$ -- 33
+newline$ -- 199
+num.names$ -- 99
+pop$ -- 294
+preamble$ -- 1
+purify$ -- 278
+quote$ -- 0
+skip$ -- 554
+stack$ -- 0
+substring$ -- 775
+swap$ -- 225
+text.length$ -- 16
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 260
+warning$ -- 2
+while$ -- 118
+width$ -- 39
+write$ -- 465
+(There were 3 warnings)
