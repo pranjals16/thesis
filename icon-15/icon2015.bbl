@@ -201,6 +201,12 @@ Richa Sharma, Shweta Nigam, and Rekha Jain.
 \newblock Opinion mining in hindi language: A survey.
 \newblock {\em arXiv preprint arXiv:1404.4935}.
 
+\bibitem[\protect\citename{Singh}2015]{singh-15}
+Pranjal Singh.
+\newblock 2015.
+\newblock Decompositional semantics for document embedding.
+\newblock \url{http://www.cse.iitk.ac.in/users/grounded-lang/spranjal/}.
+
 \bibitem[\protect\citename{Socher \bgroup et al.\egroup }2013]{Socher:13}
 Richard Socher, Alex Perelygin, Jean~Y Wu, Jason Chuang, Christopher~D Manning,
   Andrew~Y Ng, and Christopher Potts.

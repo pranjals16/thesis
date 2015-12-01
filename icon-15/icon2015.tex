@@ -1,53 +1,40 @@
-%
-% File emnlp2015.tex
-%
-% Contact: daniele.pighin@gmail.com
-%%
-%% Based on the style files for ACL-2015, which were, in turn,
-%% Based on the style files for ACL-2014, which were, in turn,
-%% Based on the style files for ACL-2013, which were, in turn,
-%% Based on the style files for ACL-2012, which were, in turn,
-%% based on the style files for ACL-2011, which were, in turn, 
-%% based on the style files for ACL-2010, which were, in turn, 
-%% based on the style files for ACL-IJCNLP-2009, which were, in turn,
-%% based on the style files for EACL-2009 and IJCNLP-2008...
-
-%% Based on the style files for EACL 2006 by 
-%%e.agirre@ehu.es or Sergi.Balari@uab.es
-%% and that of ACL 08 by Joakim Nivre and Noah Smith
-
-\documentclass[11pt,a4paper]{article}
-\usepackage{acl2015}
+\documentclass[11pt]{article}
+\usepackage{colacl06}
 \usepackage{times}
-\usepackage{url}
 \usepackage{latexsym}
+\usepackage{url}
 \usepackage{graphicx,subfigure}
 \usepackage{devanagari}
 \usepackage{amsmath}
 \usepackage{multirow}
 \usepackage{float}
 \usepackage{amssymb}
-
-%\setlength\titlebox{5cm}
-
-% You can expand the titlebox if you need extra space
-% to show all the authors. Please do not make the titlebox
-% smaller than 5cm (the original size); we will check this
-% in the camera-ready version and ask you to change it back.
-
+\setlength\titlebox{6.5cm}    % Expanding the titlebox
 
 \title{Words are not Equal: Graded Weighting Model for building Composite Document Vectors}
 
+\author{Pranjal Singh\\
+  B.Tech.-M.Tech. Dual Degree\\
+  Computer Science \& Engineering\\
+  Indian Institute of Technology Kanpur\\
+  {\tt pranjals16@gmail.com}  \And
+  Amitabha Mukerjee\\
+  Professor\\
+  Computer Science \& Engineering\\
+  Indian Institute of Technology Kanpur\\
+  {\tt amit@cse.iitk.ac.in}}
+
 \date{}
+
 
 \begin{document}
 \maketitle
 \begin{abstract}
-Despite the success of distributional semantics, composing phrases from word vectors remains an important challenge.  Several methods have been tried for benchmark tasks such as sentiment classification, including word vector averaging, matrix-vector approaches based on parsing, and on-the-fly learning of paragraph vectors. Most models usually omit stop words from the composition.  Instead of such an yes-no decision, we consider several graded schemes where words are weighted according to their discriminatory relevance with respect to its use in the document (e.g., idf). Some of these methods (particularly tf-idf) are seen to result in a significant improvement in performance over prior state of the art.  Further, combining such approaches into an ensemble based on alternate classifiers such as the RNN model, results in an 1.6\% performance improvement on the standard IMDB movie review dataset, and a 7.01\% improvement on Amazon product reviews. Since these are language free models and can be obtained in an unsupervised manner, they are of interest also for under-resourced languages such as Hindi as well and many more languages.  We demonstrate the language free aspects by showing a gain of 12\% for two review datasets over earlier results, and also release a new larger dataset for future testing.
+Despite the success of distributional semantics, composing phrases from word vectors remains an important challenge.  Several methods have been tried for benchmark tasks such as sentiment classification, including word vector averaging, matrix-vector approaches based on parsing, and on-the-fly learning of paragraph vectors. Most models usually omit stop words from the composition.  Instead of such an yes-no decision, we consider several graded schemes where words are weighted according to their discriminatory relevance with respect to its use in the document (e.g., idf). Some of these methods (particularly tf-idf) are seen to result in a significant improvement in performance over prior state of the art.  Further, combining such approaches into an ensemble based on alternate classifiers such as the RNN model, results in an 1.6\% performance improvement on the standard IMDB movie review dataset, and a 7.01\% improvement on Amazon product reviews. Since these are language free models and can be obtained in an unsupervised manner, they are of interest also for under-resourced languages such as Hindi as well and many more languages.  We demonstrate the language free aspects by showing a gain of 12\% for two review datasets over earlier results, and also release a new larger dataset for future testing~\cite{singh-15}.
 \end{abstract}
 
 \section{Introduction}
-Language representation is a very crucial aspect to perform various NLP tasks and has been looked into great detail in recent times. Language representation models have fallen into broadly two categories: ones which require hand-trained language databases such as treebanks (e.g.,\cite{Socher:13}) and ones which are language agnostic and work on raw corpora (e.g., LDA, BOW, SkipGram, NLM, etc.). Liu \shortcite{Liu:15} compare various language agnostic models for topic modeling.
+Language representation is a very crucial aspect to perform various NLP tasks and has been looked into great detail in recent times. Language representation models have fallen into broadly two categories: ones which require hand-trained language databases such as treebanks (e.g., \cite{Socher:13}) and ones which are language agnostic and work on raw corpora (e.g., LDA, BOW, SkipGram, NLM, etc.). Liu \shortcite{Liu:15} compare various language agnostic models for topic modeling.
 
 Language independent models such as LDA  and BOW have been quite effective since long time. Variants of BOW such as tf-idf had changed the perception of researchers towards these models when they were proved effective in various NLP tasks. LDA was able to model inter and intra documental statistical and relational structure quite well overcoming the drawbacks of BOW. But the semantic and syntactical dependencies were still ignored. After the introduction of neural language vector models, NLP saw a huge diversion in representation of words and documents.
 \begin{table}[h]
@@ -62,13 +49,13 @@ Averaged Vector                                                             & 88
 Weighted Average Vector                                                            & 89.56          & 88.63               & 85.90          \\ \hline
 Composite Document Vector                                     & 93.91          & 92.17               & 90.30         \\ \hline
 \end{tabular}
-\caption {Comparison of accuracies on 3 Datasets(IMDB, Amazon Electronics Review and Hindi Movie Reviews(IITB)) for various types of document composition models. The state of the art for these tasks are: IMDB: 92.58\%~\cite{Le:14}; Amazon:85.90\%~\cite{Dredze:08}, Hindi:79.0\%~\cite{Bakliwal:12}.}
+\caption {Comparison of accuracies on 3 Datasets (IMDB, Amazon Electronics Review and Hindi Movie Reviews (IITB)) for various types of document composition models. The state of the art for these tasks are: IMDB: 92.58\%~\cite{Le:14}; Amazon:85.90\%~\cite{Dredze:08}, Hindi:79.0\%~\cite{Bakliwal:12}.}
 \label{table:3Datasets}
 \end{table}
-For individual words, vectors are obtained via distributional learning, the mechanisms for which varies from document-term matrix factorization~\cite{Landauer:97}, various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, optimizing models to explain co-occurrence constraints ~\cite{Mikolov:13a,Pennington:14}, etc. Once the word vectors have been assigned, similarity between words can be captured via cosine distances. The same models have been extended(\cite{Le:14}) with new variables to build vector models for sentences and documents. These models include the essence of individual words as well as their relative order in terms of sentence vector which was earlier absent in word vectors. The advantage of these approaches is that they can capture both the syntactic and the semantic similarity between words/documents in terms of their projections onto a high-dimensional vector space; further, it seems that one can tune the privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}.
+For individual words, vectors are obtained via distributional learning, the mechanisms for which varies from document-term matrix factorization~\cite{Landauer:97}, various forms of deep learning~\cite{Collobert:08,Turian:10,Socher:13}, optimizing models to explain co-occurrence constraints ~\cite{Mikolov:13a,Pennington:14}, etc. Once the word vectors have been assigned, similarity between words can be captured via cosine distances. The same models have been extended (\cite{Le:14}) with new variables to build vector models for sentences and documents. These models include the essence of individual words as well as their relative order in terms of sentence vector which was earlier absent in word vectors. The advantage of these approaches is that they can capture both the syntactic and the semantic similarity between words/documents in terms of their projections onto a high-dimensional vector space; further, it seems that one can tune the privileging of syntax over semantics by using local as opposed to large contexts~\cite{Huang:12}.
 
 Some grammarians have been trying to find whether sentence meaning accrues by combining word meanings, or whether words gain their meanings based on the context they appear in \cite{Matilal:90}. 
-\cite{Turney:10} give a detailed overview of various vector space models and their composition. A surprising event in Information Theory has higher information content than an expected event (Shanon, 1948). The same happens when we give weights to word vectors. We give more weight to events which evoke surprise and less weight to events which are expected. The most popular weighting concept in this domain is the idea of tf-idf which we have utilized in this work(Refer Table \ref{table:3Datasets}).
+\cite{Turney:10} give a detailed overview of various vector space models and their composition. A surprising event in Information Theory has higher information content than an expected event (Shanon, 1948). The same happens when we give weights to word vectors. We give more weight to events which evoke surprise and less weight to events which are expected. The most popular weighting concept in this domain is the idea of tf-idf which we have utilized in this work (Refer Table \ref{table:3Datasets}).
 
 In this work, we focus on a graded approach to assessing the importance of each word in a compositional models.  Graded models such as tf-idf have long been used in NLP, but they do not seem to have been used in word vector composition tasks yet.  The intuition is that in discrete cutoff functions, while simple, raise questions regarding threshold (what constitutes a stop word), and do not degrade performance gradually (Fig.~\ref{fig:step}).
 \begin{figure}[h]
@@ -79,20 +66,20 @@ In this work, we focus on a graded approach to assessing the importance of each 
 \end{figure}
 
 We claim that the document vectors in hand is a much better representation of each document than doing it separately. This can be justified by the fact that we now incorporate contribution of each
-word as per its importance as well as well as that of document without ignoring tf-idf representation which performs considerably well in tasks such as retrieval. Hence, we call this as composite document vector representation. We then go a step ahead to build an ensemble of our model and recurrent neural network, which essentially has the properties of a generative model, to achieve state-of-the-art result on IMDB movie review dataset(94.19\%) and on Amazon electronics reviews dataset with a significant improvement over previous best.
+word as per its importance as well as well as that of document without ignoring tf-idf representation which performs considerably well in tasks such as retrieval. Hence, we call this as composite document vector representation. We then go a step ahead to build an ensemble of our model and recurrent neural network, which essentially has the properties of a generative model, to achieve state-of-the-art result on IMDB movie review dataset (94.19\%) and on Amazon electronics reviews dataset with a significant improvement over previous best.
 The world class results in English clearly indicate the efficacy of our approach and improvements in Hindi depict the deficiency in other models which were used earlier.
 
 \section{Related Work}
 \subsection{Neural Language Model}
 Language modeling problem involved using frequency counts of n-grams for so many years but it ignores a large number of n-grams which are not seen while training leading to data sparsity and over-fitting of training data. Also these n-gram models along with BOW suffers from the curse of dimensionality. Neural Networks tend to overcome the drawbacks of n-gram models because they can model continuous variables or distributed representation, which is a necessity if we would like to find better generalizations over the highly discrete word sequences~\cite{Bengio:03}. 
-Neural language models were introduced by Bengio et al., 2001(revised in 2003\cite{Bengio:03}). They build a mapping $C$ from each word $i$ of the vocabulary $V$ to a feature vector $C(i) \in \mathbb{R}^m$, $m$ is the number of features; a probability function $g$ over words expressed with $C$; and finally learn the word vector and parameters of probability function.
+Neural language models were introduced by Bengio et al., 2001 (revised in 2003\cite{Bengio:03}). They build a mapping $C$ from each word $i$ of the vocabulary $V$ to a feature vector $C(i) \in \mathbb{R}^m$, $m$ is the number of features; a probability function $g$ over words expressed with $C$; and finally learn the word vector and parameters of probability function.
 Morin\shortcite{Morin:05} proposed a hierarchical model to speed up the training cost by clustering similar words before computing their probability in order to only have to do one computation per word cluster
 at the output layer of the NN.
 Le\shortcite{Le:11} combined neural networks with n-gram language models in a unified approach. They cluster words to structure the output vocabulary. Mikolov\shortcite{Mikolov:10} achieved the best reduction in perplexity by using recurrent neural network which uses the the current input as well as the output of the previous iteration.
 Mikolov\shortcite{Mikolov:11} present several modifications of the original recurrent neural network language model (RNN LM). The present approaches that lead to more than 15 times speedup for both training and testing phases.
 Collobert\shortcite{Collobert:08} show the use of semi-supervised learning using deep neural networks to perform at the state-of-the-art of various NLP tasks. Wang\shortcite{Wang:14} propose a word vector neural-network model, which takes both sentiment and semantic information into account. This word vector expression model learns word semantics and sentiment at the same time as well as fuses unsupervised contextual information and sentence level supervised labels. Neelakantan\shortcite{Neelakantan:14} took word vector models to next level where they proposed multiple embeddings per word.
 %As humans we characterize a word by its semantics or morphosyntactical features and these depend on long-range context which brings in the idea of distributed representation.
-The problem that still remains in hand is that either these models are computationally expensive or they have failed to generalize properly. We, therefore, adopt skipgram model~\cite{Mikolov:13a}, details about which have been discussed in next section, because deep network model of Collobert et al.(2008) takes too much time for training(skipgram reduces computational complexity from O(log V) to O(V)).
+The problem that still remains in hand is that either these models are computationally expensive or they have failed to generalize properly. We, therefore, adopt skipgram model~\cite{Mikolov:13a}, details about which have been discussed in next section, because deep network model of Collobert et al.(2008) takes too much time for training (skipgram reduces computational complexity from O(V) to O(log V) \cite{Morin:05}).
 
 \subsection{Sentiment Analysis}
 Majority of the existing work in this field is in English~\cite{Liu:12}. Medagoda\shortcite{Medagoda:13} surveys sentiment analysis in non-English languages while \cite{Sharma:14} give a summary of work done in Hindi in the field of opinion mining.
@@ -114,7 +101,7 @@ Mikolov et al. (2013b) proposed two neural network models for building word vect
 
 Each current word acts as an input to a log-linear classifier with continuous projection layer, and predict words within a certain range before and after the current word. The objective is to maximize the probability of the context given a word within a language model:
 \begin{center} $p(c|w;\theta)=\frac{\exp^{v_c.v_w}}{\sum_{c' \in C}\exp^{v_c.v_w}}$ \end{center}
-where $v_c$ and $v_w$ $\in$ $R^d$ are vector representations for context $c$ and word $w$ respectively. $C$ is the set of all available contexts. The parameters $\theta$ are $v_ci$, $v_wi$ for $w \in V$, $c \in C$, $i \in 1,....,d$ (a total of $|C| \times |V| \times d$ parameters).
+where $v_c$ and $v_w$ $\in$ $R^d$ are vector representations for context $c$ and word $w$ respectively. $C$ is the set of all available contexts. The parameters $\theta$ are $v_{c_i}$, $v_{w_i}$ for $w \in V$, $c \in C$, $i \in 1,....,d$ (a total of $|C| \times |V| \times d$ parameters).
 
 This distributed representation of sentences and documents~\cite{Le:14} modifies word2vec (Skip-Gram) algorithm to unsupervised learning of continuous representations for larger blocks of text, such as sentences, paragraphs or entire documents. The algorithm represents each document by a dense vector which is later trained and tuned to predict words in the document. In this framework, every paragraph is mapped to a unique vector and id, represented by a matrix $D$, which is a column matrix. Every word is mapped to a unique vector and word vectors are concatenated or averaged to predict the context, i.e., the next word.\\
 The paragraph vector is shared across all contexts generated from the same paragraph but not across paragraphs. The word vector matrix W, however, is shared across paragraphs. i.e., the vector for "good" is the same for all paragraphs. The paragraph vector represents the missing information from the current context and can act as a memory of the topic of the paragraph. The advantage of using paragraph vectors is that they inherit the property of word vectors, i.e., the semantics of the words. In addition, they also take into consideration a small context around each word which is in close resemblance to the n-gram model with a large n. This property is crucial because the n-gram model preserves a lot of information of the sentence/paragraph, which includes the word order also. This model also performs better than the Bag-of-Words model which would create a very high-dimensional representation that has very poor generalization.
@@ -181,7 +168,7 @@ v_{d_i} = \left\{
     \right.
 $$
 where $\delta$ is a pre-defined threshold below which the word has no importance and above which the \emph{idf} terms gives importance to that particular word.\\
-Till date, everyone has ignored how to effectively use vector composition techniques and as a result, this area has seen very less attention. But we have successfully used \emph{idf} values to give weights to word vectors and hence obtain much better sentence/document vectors. The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation. The results(see \ref{sec:results}) obtained by using this technique clearly demonstrate how effective it is for tasks such as sentiment analysis.
+Till date, everyone has ignored how to effectively use vector composition techniques and as a result, this area has seen very less attention. But we have successfully used \emph{idf} values to give weights to word vectors and hence obtain much better sentence/document vectors. The advantage of this model is that once we obtain \emph{idf} values from training corpus, we can directly use it with test corpus without any additional computation. The results (see \ref{sec:results}) obtained by using this technique clearly demonstrate how effective it is for tasks such as sentiment analysis.
 
 \subsection{Composite Representation}
 This experiment redefined document representation in NLP used for sentiment classification. It has the property of including both syntactic and semantic properties of a piece of text. The limitations of skip-gram word vectors have been fulfilled by document vectors and hence we achieve state-of-the-art results on IMDB movie review dataset as well as amazon electronics review dataset.
@@ -235,7 +222,7 @@ Total Reviews & 697\\ \hline
 \caption {Statistics of Movie Reviews of the 700-Movie Reviews Dataset}
 \end{table}
 
-The Trip Advisor Review dataset contains around 240K reviews(206MB) from hotel domain. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose.
+The Trip Advisor Review dataset contains around 240K reviews (206MB) from hotel domain. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose.
 
 We also took amazon reviews for our experiments. Reviews with overall rating $>=$3 were annotated as positive and those with overall rating $<$3 were annotated as negative. The dataset was split into 80-20 ratio for training and testing purpose. There were 3 review datasets: Electronics dataset consists of 1,241,778 reviews, Watches Dataset consists of 68,356 reviews and MP3 Dataset consists of 31,000 reviews.
 
